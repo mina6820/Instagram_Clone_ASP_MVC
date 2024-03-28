@@ -15,10 +15,14 @@ namespace Instagram_Clone
         public Context() : base() { }
 
         public DbSet<Comment> Comments { get; set; }
-        public DbSet<UserRelationship> Connections { get; set; }
+        public DbSet<UserRelationship> UserRelationship { get; set; }
         public DbSet<Like> Likes { get; set; } 
         public DbSet<Message> Messages { get; set; }
-        public DbSet<Photo> Photos { get; set; }
+
+        public DbSet<messagePhoto> MessagePhoto { get; set; }
+        public DbSet<postPhoto> PostPhoto { get; set; }
+        public DbSet<profilePhoto> ProfilePhoto { get; set; }
+
         public DbSet<Post> Posts { get; set; }
         public DbSet<Story> Stories { get; set; }
         public DbSet<ApplicationUser> Users { get; set; }
