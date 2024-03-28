@@ -22,7 +22,7 @@ namespace Instagram_Clone
         public DbSet<messagePhoto> MessagePhoto { get; set; }
         public DbSet<postPhoto> PostPhoto { get; set; }
         public DbSet<profilePhoto> ProfilePhoto { get; set; }
-        public DbSet<storyPhoto> SrofilePhoto { get; set; }
+        public DbSet<storyPhoto> StoryPhoto { get; set; }
 
 
         public DbSet<Post> Posts { get; set; }
