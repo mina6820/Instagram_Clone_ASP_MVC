@@ -8,7 +8,7 @@ namespace Instagram_Clone.Models
         public int Id { get; set; }
         public bool IsDeleted { get; set; } = false;
 
-
+// mina
         [ForeignKey("User")]
         public string UserId { get; set; }
         public ApplicationUser User { get; set; }
