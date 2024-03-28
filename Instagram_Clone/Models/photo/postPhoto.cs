@@ -7,5 +7,6 @@ namespace Instagram_Clone.Models.photo
         [ForeignKey("Post")]
         public int PostId { get; set; }
         public Post Post { get; set; }
+        public string ayhaga { get; set; }
     }
 }
