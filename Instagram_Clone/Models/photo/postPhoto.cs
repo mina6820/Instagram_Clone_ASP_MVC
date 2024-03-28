@@ -8,5 +8,8 @@ namespace Instagram_Clone.Models.photo
         public int PostId { get; set; }
         public Post Post { get; set; }
         public string ayhaga { get; set; }
+        public string ayhaga2 { get; set; }
+        public string ayhaga22 { get; set; }
+
     }
 }
