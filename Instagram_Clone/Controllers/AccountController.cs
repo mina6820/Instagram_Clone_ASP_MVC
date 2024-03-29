@@ -19,7 +19,39 @@ namespace Instagram_Clone.Controllers
         {
             return View();
         }
+        //Register
+        public IActionResult Register()
+        {
+            return View("Register");
+        }
+        [HttpPost]
+        public async Task<IActionResult> SaveRegister(RegisterViewModel userVM)
+        {
+            if (ModelState.IsValid) {
+                ApplicationUser user = new ApplicationUser()
+                {
+                    UserName = userVM.UserName,
+                    Email = userVM.Email,
+                    FirstName = userVM.FirstName,
+                    LastName = userVM.LastName,
+                    PasswordHash = userVM.Password
+                };
+                //Save
+               IdentityResult result= await userManager.CreateAsync(user);
+                if (result.Succeeded)
+                {
+                    await signInManager.SignInAsync(user,false);
+                    return RedirectToAction("Login");
+                }
+                foreach (var item in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, item.Description);
+                }
+                //save db add
 
+            }
+            return View("Register", userVM);
+        }
         //Login
         public IActionResult Login()
         {
