@@ -31,7 +31,9 @@
                             <span class="ligne"></span>
                         </div>
                     </div>
-                    <form asp-action="Register" method="post">
+                    <form asp-action="SaveRegister" method="post">
+                        <div asp-validation-summary="All" class="text-danger"></div>
+
                         <div>
                             <input asp-for="Email" class="form-control" placeholder="Email Address">
                             <span asp-validation-for="Email" class="text-danger"></span>
@@ -72,7 +74,7 @@
                 <div class="sing-in border_insc">
                     <p>
                         Have an account?
-                        <a href="./login.html">Log in</a>
+                        <a asp-action="Login">Log in</a>
                     </p>
                 </div>
                 <div class="download">
@@ -90,3 +92,4 @@
  *@
 </body>
 </html>
+<partial name="_ValidationScriptsPartial"></partial>

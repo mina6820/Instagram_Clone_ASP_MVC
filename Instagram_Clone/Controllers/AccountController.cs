@@ -37,7 +37,7 @@ namespace Instagram_Clone.Controllers
                     PasswordHash = userVM.Password
                 };
                 //Save
-               IdentityResult result= await userManager.CreateAsync(user);
+               IdentityResult result= await userManager.CreateAsync(user ,userVM.Password);
                 if (result.Succeeded)
                 {
                     await signInManager.SignInAsync(user,false);

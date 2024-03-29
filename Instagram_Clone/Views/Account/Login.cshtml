@@ -55,14 +55,21 @@
                     <div class="logo">
                         <img src="/images/logo.png" alt="Instagram logo">
                     </div>
-                    <form asp-action="SaveLogin" asp-controller="Login" method="post">
+                    <form asp-action="SaveLogin">
                         <div asp-validation-summary="All" class="text-danger"></div>
-                        <div>
-                            <input asp-for="Username" class="form-control" placeholder="Username" />
+                       
+                        <div class="form-group">
+                            <label asp-for="Username"></label>
+                            <input asp-for="Username" class="form-control" />
+                            <span asp-validation-for="Username" class="text-danger"></span>
                         </div>
-                        <div>
-                            <input asp-for="Password" type="password" class="form-control" placeholder="Password" />
+
+                        <div class="form-group">
+                            <label asp-for="Password"></label>
+                            <input asp-for="Password" type="password" class="form-control" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
+
                         <div class="remember">
                             <input asp-for="RememberMe" type="checkbox" id="checking" />
                             <label asp-for="RememberMe"></label>
@@ -94,7 +101,7 @@
                 <div class="sing-up border_insc">
                     <p>
                         Don't have an account?
-                        <a href="#">Sign up</a>
+                        <a asp-action="Register">Sign up</a>
                     </p>
                 </div>
                 <div class="download">
