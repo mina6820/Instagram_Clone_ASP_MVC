@@ -1,6 +1,6 @@
 ﻿@model Instagram_Clone.ViewModels.LoginViewModel
 @{
- 
+    // Layout = null;
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -43,13 +43,13 @@
                     <div class="logo">
                         <img src="/images/logo.png" alt="Instagram logo">
                     </div>
-                    <form asp-action="Index" asp-controller="Login" method="post">
+                    <form asp-action="SaveLogin" asp-controller="Login" method="post">
                         <div asp-validation-summary="All" class="text-danger"></div>
                         <div>
                             <input asp-for="Username" class="form-control" placeholder="Username" />
                         </div>
                         <div>
-                            <input asp-for="Password" class="form-control" placeholder="Password" />
+                            <input asp-for="Password" type="password" class="form-control" placeholder="Password" />
                         </div>
                         <div>
                             <label asp-for="RememberMe"></label>
@@ -98,3 +98,4 @@
     <script src="/Scripts/bootstrap.min.js"></script>
 </body>
 </html>
+<partial name="_ValidationScriptsPartial"></partial>
