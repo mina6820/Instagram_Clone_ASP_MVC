@@ -22,8 +22,8 @@ namespace Instagram_Clone.Models
         public ApplicationUser Reciever { get; set; }
 
         [ForeignKey("Photo")]
-        public int photoId { get; set; }
-        public messagePhoto Photo { get; set; }
+        public int? photoId { get; set; }
+        public messagePhoto? Photo { get; set; }
 
     }
 }
