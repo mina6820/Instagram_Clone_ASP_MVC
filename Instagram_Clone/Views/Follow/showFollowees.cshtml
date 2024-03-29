@@ -1,0 +1,57 @@
+﻿@model List<ApplicationUser>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Followers List</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Followers List</h1>
+    <h1>Followers List</h1>
+    <li class="nav-item">
+        <form class="form-inline" method="post" asp-action="SearchFollower" asp-controller="follow">
+            <label for="Name" class="me-2">Name</label>
+            <input class="form-control me-2" id="Name" name="Name" type="text">
+            <input type="submit" class="btn btn-primary btn-sm mt-1" value="Search">
+        </form>
+    </li>
+    @if (Model != null && Model.Count > 0)
+    {
+        <table>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+            </tr>
+            @foreach (var follower in Model)
+            {
+                <tr>
+                    <td>@follower.FirstName</td>
+                    <td>@follower.LastName</td>
+                    <td>@follower.Email</td>
+                </tr>
+            }
+        </table>
+    }
+    else
+    {
+        <p>No followers found.</p>
+    }
+</body>
+</html>
