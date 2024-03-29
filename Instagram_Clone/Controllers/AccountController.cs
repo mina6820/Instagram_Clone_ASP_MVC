@@ -17,5 +17,11 @@ namespace Instagram_Clone.Controllers
         {
             return View();
         }
+
+        //Login
+        public IActionResult Login()
+        {
+            return View("Login");
+        }
     }
 }
