@@ -13,29 +13,24 @@ namespace Instagram_Clone.Repositories
         {
             context = _context;
         }
-        public void Delete(int id)
+        public void Delete(string id)
         {
             T t = GetById(id);
             Update(t);
         }
 
-        public List<T> GetAll(string? include =null)//(string include=null)
+        public List<T> GetAll()//(string include=null)
         {
-            if (include !=null)
-            {
-                return context.Set<T>().Include(include).ToList();
-            }
-            else
-            {
-                return context.Set<T>().ToList();
-            }
+            
+            return context.Set<T>().ToList();
+           
             //return context.Set<T>().Include(include).ToList();
             //return context.Courses.Where(c => c.isDeleted == false).Include(c => c.Department).ToList();
 
 
         }
 
-        public T GetById(int id)
+        public T GetById(string id)
         {
             return context.Set<T>().Find(id);
             // return context.Courses.Include(c => c.Department).FirstOrDefault(c => c.Id == id);
