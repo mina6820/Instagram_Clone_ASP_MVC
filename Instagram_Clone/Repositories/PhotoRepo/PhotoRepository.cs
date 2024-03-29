@@ -6,7 +6,8 @@ using NuGet.Protocol.Core.Types;
 
 namespace Instagram_Clone.Repositories.PhotoRepo
 {
-    public class PhotoRepository : Repository<Photo>, IPhotoRepository
+    //public class PhotoRepository : Repository<Photo>, IPhotoRepository
+    public class PhotoRepository<T> : Repository<T>, IPhotoRepository<T> where T : class
     {
         Context context;
         public PhotoRepository(Context context) : base(context)
