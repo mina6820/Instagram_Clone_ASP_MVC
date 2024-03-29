@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Instagram_Clone.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20240329184038_add_Inverse")]
-    partial class add_Inverse
+    [Migration("20240329194310_inProp")]
+    partial class inProp
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
