@@ -24,11 +24,14 @@ namespace Instagram_Clone.Authentication
         public profilePhoto? ProfilePicture { get; set; }
 
 
-        // public List<int> FollowerIds {get; set;}
-        // public List<int> FollowingIds {get; set;}
+        [InverseProperty("Follower")]
+        public List<UserRelationship> Followers { get; set; }
 
-        // public List<ApplicationUser> Followers {get; set;}
-        // public List<ApplicationUser> Following {get; set;}
+        [InverseProperty("Followee")]
+        public List<UserRelationship> Following { get; set; }
+
+
+
 
     }
 }
