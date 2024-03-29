@@ -19,10 +19,16 @@ namespace Instagram_Clone.Repositories
             Update(t);
         }
 
-        public List<T> GetAll()//string include=null)
+        public List<T> GetAll(string? include =null)//(string include=null)
         {
-            return context.Set<T>().ToList();
-
+            if (include !=null)
+            {
+                return context.Set<T>().Include(include).ToList();
+            }
+            else
+            {
+                return context.Set<T>().ToList();
+            }
             //return context.Set<T>().Include(include).ToList();
             //return context.Courses.Where(c => c.isDeleted == false).Include(c => c.Department).ToList();
 

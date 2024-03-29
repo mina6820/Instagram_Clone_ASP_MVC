@@ -1,5 +1,6 @@
 using Instagram_Clone.Authentication;
 using Instagram_Clone.Repositories.PhotoRepo;
+using Instagram_Clone.Repositories.UserFollowRepo;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -24,6 +25,9 @@ namespace Instagram_Clone
                             .AddEntityFrameworkStores<Context>();
 
             builder.Services.AddScoped<IPhotoRepository, PhotoRepository>();
+            builder.Services.AddScoped<IUserRelationshipRepository,UserRelationshipRepository>();
+
+
 
             //////////////////////////////==========buiild=================////////////////////////////////////////////////////////
             var app = builder.Build();
