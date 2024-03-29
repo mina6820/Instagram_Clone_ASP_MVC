@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewData["Title"] = "FollowersList";
+}
+
+<h1>FollowersList</h1>
+
+@model List<ApplicationUser>
+
+<h1>Followers</h1>
+
+@if (Model != null && Model.Count > 0)
+{
+    <ul>
+        @foreach (var follower in Model)
+        {
+            <li>
+                <strong>@follower.FirstName @follower.LastName</strong>
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>No followers found.</p>
+}
+
+<a href="@Url.Action("Index", "Home")">Back to Home</a>

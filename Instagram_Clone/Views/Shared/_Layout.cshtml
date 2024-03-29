@@ -16,7 +16,6 @@
 <body>
     <div class="nav_menu">
         <div class="fix_top">
-            @RenderSection("FixTop", required: false)
             <!-- nav for big->medium screen -->
             <div class="nav">
                 <div class="logo">
@@ -210,7 +209,6 @@
         </div>
         <!-- menu in the botton for smal screen  -->
         <div class="nav_bottom">
-            @RenderSection("NavBottom", required: false)
             <a href="./home.html"><img src="./images/accueil.png"></a>
             <a href="./explore.html"><img src="./images/compass.png"></a>
             <a href="./reels.html"><img src="./images/video.png"></a>
@@ -220,7 +218,6 @@
     </div>
     <!-- search  -->
     <div id="search" class="search_section">
-        @RenderSection("Search", required: false)
         <h2>Search</h2>
         <form method="post">
             <input type="text" placeholder="Search">
@@ -251,7 +248,6 @@
     <!-- search  -->
     <!-- notification -->
     <div id="notification" class="notification_section">
-        @RenderSection("Notification", required: false)
         <h2>Notifications</h2>
         <div class="notifications">
             <div class="notif follow_notif">
@@ -395,6 +391,5 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
