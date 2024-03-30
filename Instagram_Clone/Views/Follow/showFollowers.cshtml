@@ -35,16 +35,14 @@
     {
         <table>
             <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
+
+                <th>UseName</th>
             </tr>
             @foreach (var follower in Model)
             {
                 <tr>
-                    <td>@follower.FirstName</td>
-                    <td>@follower.LastName</td>
-                    <td>@follower.Email</td>
+
+                    <td>@follower.UserName</td>
                 </tr>
             }
         </table>
@@ -54,14 +52,6 @@
         <p>No followers found.</p>
     }
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var form = document.getElementById("searchForm");
-            var input = document.getElementById("Name");
-            input.addEventListener("input", function () {
-                form.submit();
-            });
-        });
-    </script>
+
 </body>
 </html>

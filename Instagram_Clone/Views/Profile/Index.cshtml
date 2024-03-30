@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model List<ApplicationUser>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -355,6 +356,83 @@
         </div>
 
     </div>
+
+
+   @*  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <!-- Modal content -->
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Search bar -->
+                    <input type="text" class="form-control" id="searchInput" placeholder="Search...">
+                    <!-- Search results will be displayed here -->
+                    <div id="searchResults"></div>
+                    <li class="nav-item">
+                        <form class="form-inline" id="searchForm" method="post" asp-action="SearchFollower" asp-controller="follow">
+                            <label for="Name" class="me-2">Name</label>
+                        </form>
+                    </li>
+
+                    @if (Model != null && Model.Count > 0)
+                    {
+                        <table>
+                            <tr>
+
+                                <th>UseName</th>
+                            </tr>
+                            @foreach (var follower in Model)
+                            {
+                                <tr>
+
+                                    <td>@follower.UserName</td>
+                                </tr>
+                            }
+                        </table>
+                    }
+                    else
+                    {
+                        <p>No followers found.</p>
+                    }
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div> *@
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-pz0r7Pz0cHpXkzF5q1z5byXPxJph0XaP7ADkiJviu9CSnBohR+K5f2GO/dAiS6+J" crossorigin="anonymous"></script>
+
+    <!-- Your other scripts -->
+
+    <script>
+        // Wait for the document to be fully loaded
+        document.addEventListener("DOMContentLoaded", function () {
+            // Find all elements with the class 'ClickFollowers'
+            var followersLinks = document.querySelectorAll('.ClickFollowers');
+
+            // Iterate over each element and add a click event listener
+            followersLinks.forEach(function (link) {
+                link.addEventListener('click', function (event) {
+                    // Prevent the default action of the anchor tag
+                    event.preventDefault();
+
+                    // Show the modal programmatically
+                    var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+                    modal.show();
+                });
+            });
+        });
+    </script>
+
 
     @* <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script> *@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>

@@ -40,33 +40,38 @@ namespace Instagram_Clone.Controllers
 
 
 
-        public ActionResult SearchFollower(string id , string name)
+        public ActionResult SearchFollower( string name)
         {
-            if (string.IsNullOrEmpty(name))
+            List<ApplicationUser> searchedUsers = userRelationshipRepository.searchFollowers(name);
+            if (name != null)
             {
-                return RedirectToAction("showFollowers", id);
+               
+                return View("showFollowers", searchedUsers);
             }
             else
             {
-                List<ApplicationUser> searched_Users = userRelationshipRepository.searchFollowers(id, name);
-
-                return View("SearchFollower", searched_Users);
+                //List<ApplicationUser> searchedUsers = userRelationshipRepository.searchFollowers(name);
+                //return View("showFollowers", searchedUsers);
+                //return RedirectToAction("Index","Home");
+                searchedUsers = new List<ApplicationUser>();
+                return View("showFollowers", searchedUsers);
 
             } 
         }
 
 
-        public ActionResult SearchFollowee(string id, string name)
+        public ActionResult SearchFollowee(string name)
         {
-            if (string.IsNullOrEmpty(name))
+            List<ApplicationUser> searchedUsers = userRelationshipRepository.searchFollowees(name);
+            if (name != null)
             {
-                return RedirectToAction("showFollowees", id);
+
+                return View("showFollowees", searchedUsers);
             }
             else
             {
-                List<ApplicationUser> searched_Users = userRelationshipRepository.searchFollowees(id, name);
-
-                return View("SearchFollowee", searched_Users);
+                searchedUsers = new List<ApplicationUser>();
+                return View("showFollowers", searchedUsers);
 
             }
 
