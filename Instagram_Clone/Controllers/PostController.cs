@@ -1,6 +1,7 @@
 ﻿using Instagram_Clone.Models.photo;
 using Instagram_Clone.Repositories.PhotoRepo;
 using Instagram_Clone.Repositories.PostRepo;
+using Instagram_Clone.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
