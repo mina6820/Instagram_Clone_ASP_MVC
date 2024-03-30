@@ -9,24 +9,25 @@ namespace Instagram_Clone.Models
 
         public Post()
         {
-            DateTime Date = DateTime.Now;
+             Date = DateTime.Now;
         }
+
         public int Id { get; set; }
         public DateTime Date { get; set; }
         public string? Caption { get; set; }
         public bool IsDeleted { get; set; } = false;
 
 
-        public List<postPhoto> Photos { get; set; }
+        public List<string> PhotosPathes { get; set; }
 
         public List<Like>? Likes { get; set; }
 
         public List<Comment>? Comments { get; set; }
 
-        //messi add this
+        //messi add this  and wessa update this 
         [ForeignKey("User")]
-        public string UserId { get; set; }
-        public ApplicationUser User { get; set; }
+        public string? UserId { get; set; }
+        public ApplicationUser? User { get; set; }
 
 
     }
