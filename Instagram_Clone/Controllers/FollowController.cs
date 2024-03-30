@@ -52,10 +52,10 @@ namespace Instagram_Clone.Controllers
 
                 return View("SearchFollower", searched_Users);
 
-            }
-         
-
+            } 
         }
+
+
         public ActionResult SearchFollowee(string id, string name)
         {
             if (string.IsNullOrEmpty(name))

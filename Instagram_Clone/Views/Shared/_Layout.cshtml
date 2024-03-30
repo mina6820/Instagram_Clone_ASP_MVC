@@ -14,7 +14,8 @@
 </head>
 
 <body>
-    @if (!Context.Request.Path.StartsWithSegments("/Account/Login"))
+    @if (!Context.Request.Path.StartsWithSegments("/Account/Login")&&
+    !Context.Request.Path.StartsWithSegments("/Follow/showFollowers"))
     {
         <div class="nav_menu">
             <div class="fix_top">
