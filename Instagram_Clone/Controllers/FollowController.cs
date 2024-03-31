@@ -97,7 +97,7 @@ namespace Instagram_Clone.Controllers
             } 
         }
 
-
+        //
         //public ActionResult SearchFollowee(string name)
         //{
         //    List<UserRelationship> searchedUsers = userRelationshipRepository.searchFollowees(name);
