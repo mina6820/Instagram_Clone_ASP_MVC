@@ -13,6 +13,7 @@ namespace Instagram_Clone.Controllers
         }
         public IActionResult Index()
         {
+            //comment
             string name = User.Identity.Name;
             Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
             ApplicationUser user = context.Users.FirstOrDefault(u => u.Id == claim.Value);
