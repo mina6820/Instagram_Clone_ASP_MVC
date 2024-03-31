@@ -1,5 +1,6 @@
 ﻿using Instagram_Clone.Models.photo;
 using Instagram_Clone.Repositories.PhotoRepo;
+using Instagram_Clone.Repositories.PhotoRepo.postPhotoContainer;
 using Instagram_Clone.Repositories.PostRepo;
 using Instagram_Clone.ViewModels;
 using Microsoft.AspNetCore.Hosting;
@@ -11,9 +12,9 @@ namespace Instagram_Clone.Controllers
     {
         private readonly IPostRepository postRepository;
         private readonly IWebHostEnvironment webHostEnvironment;
-        private readonly IPhotoRepository photoRepository;
+        private readonly IpostPhotoRepository photoRepository;
 
-        public PostController(IPostRepository postRepository, IWebHostEnvironment webHostEnvironment, IPhotoRepository photoRepository)
+        public PostController(IPostRepository postRepository, IWebHostEnvironment webHostEnvironment, IpostPhotoRepository photoRepository)
         {
             this.postRepository = postRepository;
             this.webHostEnvironment = webHostEnvironment;
@@ -54,12 +55,15 @@ namespace Instagram_Clone.Controllers
             photo.PostId = post.Id;
             photoRepository.Insert(photo);
             photoRepository.Save();
+            ViewBag.Name = name;
 
             //foreach (var item in post.Photos)
             //{
             //    photoRepository.Insert(item);
             //    photoRepository.Save();
             //}
+
+            //< img src = "D:\Mvc\project\Instagram_Clone\wwwroot\images\71ed0bca-c360-4885-ac83-458d38a18d3e_oii.jpeg" style = "width:100px; height:100px;" >
 
 
             return View("SaveAdd", post);

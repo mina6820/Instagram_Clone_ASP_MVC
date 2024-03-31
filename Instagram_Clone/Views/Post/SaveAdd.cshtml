@@ -10,8 +10,6 @@
 
 <h1>@Model.Caption</h1>
 <br />
-@foreach(var item in Model.PhotosPathes)
-{
-    <image src="@item" style="width:100px; height:100px;"></image>
-}
+  <img src="~/images/@ViewBag.Name" style="width:100px; height:100px;"></img>
+
 
