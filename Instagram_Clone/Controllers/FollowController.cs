@@ -3,6 +3,7 @@ using Instagram_Clone.Models;
 using Instagram_Clone.Repositories.UserFollowRepo;
 using Instagram_Clone.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace Instagram_Clone.Controllers
@@ -18,16 +19,17 @@ namespace Instagram_Clone.Controllers
             this.context = context;
         }
 
-        public List<string> Autocomplete(string term)
-        {
-            var followerNames = context.UserRelationship
-                .Where(ur => ur.Follower.UserName.Contains(term))
-                .Select(ur => ur.Follower.UserName)
-                .ToList();
+        //[HttpGet]
+        //public IActionResult Autocomplete(string term)
+        //{
+        //    var followerNames = context.UserRelationship
+        //        .Where(ur => ur.Follower.UserName.Contains(term))
+        //        .Select(ur => ur.Follower.UserName)
+        //        .ToList();
 
-            return followerNames;
-        }
-        
+        //    return Json(followerNames);
+        //}
+
 
         public IActionResult ShowFollowers(string Name)
         {

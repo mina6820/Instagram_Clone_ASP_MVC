@@ -52,10 +52,11 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
 
         public List<ApplicationUser> searchFollowers(string Name)
         {
+            string lowerName = Name.ToLower();
             List<ApplicationUser> searchedUsers =
                  context.Users
                  .Include(user => user.Followers)
-                 .Where(ur => ur.UserName.Contains(Name)).ToList();
+                 .Where(ur => ur.UserName.ToLower().Contains(lowerName)).ToList();
 
             return searchedUsers;
         }
