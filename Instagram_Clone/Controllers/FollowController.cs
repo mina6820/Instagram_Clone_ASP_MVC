@@ -10,7 +10,7 @@ namespace Instagram_Clone.Controllers
     public class FollowController : Controller
     {
        private IUserRelationshipRepository userRelationshipRepository;
-        private readonly Context context;
+       private readonly Context context;
 
         public FollowController( IUserRelationshipRepository _userRelationship , Context context)
         {
@@ -28,17 +28,6 @@ namespace Instagram_Clone.Controllers
             return followerNames;
         }
         
-
-        /// follow / ShowAll
-        //public IActionResult ShowAll()
-        //{
-        //    List<UserRelationship> lists = userRelationshipRepository.GetAll();
-        //    return View("ShowAll",lists);
-        //}
-
-
-
-        //Follow/showFollowers?id=
 
         public IActionResult ShowFollowers(string Name)
         {
@@ -98,24 +87,24 @@ namespace Instagram_Clone.Controllers
             } 
         }
 
-        //
-        //public ActionResult SearchFollowee(string name)
-        //{
-        //    List<UserRelationship> searchedUsers = userRelationshipRepository.searchFollowees(name);
-        //    if (name != null)
-        //    {
 
-        //        return View("showFollowees", searchedUsers);
-        //    }
-        //    else
-        //    {
-        //        searchedUsers = new List<UserRelationship>();
-        //        return View("showFollowers", searchedUsers);
-        //
-        //    }
+        public ActionResult SearchFollowee(string name)
+        {
+            List<ApplicationUser> searchedUsers = userRelationshipRepository.searchFollowees(name);
+            if (name != null)
+            {
+
+                return View("showFollowees", searchedUsers);
+            }
+            else
+            {
+                searchedUsers = new List<ApplicationUser>();
+                return View("showFollowers", searchedUsers);
+
+            }
 
 
-        //}
+        }
         public IActionResult Profile()
         {
             return View("Profile");
