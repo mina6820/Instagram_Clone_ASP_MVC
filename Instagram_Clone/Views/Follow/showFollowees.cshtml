@@ -32,23 +32,22 @@
     </li>
     @if (Model != null && Model.Count > 0)
     {
-            <table>
-                <tr>
-                    <th>User Name</th>
+        <table>
+            <tr>
+                <th>User Name</th>
                    
-                </tr>
+            </tr>
             @foreach (var follower in Model)
             {
-                        <tr>
-                            <td>@follower.UserName</td>
-                            
-                        </tr>
+                <tr>
+                    <td>@follower.UserName</td>                
+                </tr>
             }
-            </table>
+        </table>
     }
     else
     {
-            <p>No followers found.</p>
+        <p>No followers found.</p>
     }
 
     
