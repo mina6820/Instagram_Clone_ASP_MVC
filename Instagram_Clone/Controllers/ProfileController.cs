@@ -19,9 +19,11 @@ namespace Instagram_Clone.Controllers
         {
             //comment
             ProfileUserViewModel profileUserViewModel = new ProfileUserViewModel();
+
             string name = User.Identity.Name;
             Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
             ApplicationUser user = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+
             profileUserViewModel.UserName = user.UserName;
             profileUserViewModel.FirstName = user.FirstName;
             profileUserViewModel.LastName = user.LastName;
@@ -29,5 +31,7 @@ namespace Instagram_Clone.Controllers
             profileUserViewModel.Following=userRelationship.GetFollowees(user.Id);
             return View("Index", profileUserViewModel);
         }
+
+
     }
 }

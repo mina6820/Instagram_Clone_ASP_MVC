@@ -72,7 +72,7 @@ namespace Instagram_Clone.Controllers
                         //claims.Add(new Claim("Institute", "ITI"));
                         ////await  signInManager.SignInWithClaimsAsync(applicationUserDB,loginViewModel.RememberMe, claims);   
                         await signInManager.SignInAsync(applicationUserDB, loginViewModel.RememberMe);
-                        return RedirectToAction("Index", "MarwaAndMessiTest");
+                        return RedirectToAction("Index", "profile");
                     }
                 }
 
