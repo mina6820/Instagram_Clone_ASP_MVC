@@ -7,17 +7,12 @@ namespace Instagram_Clone.Models.photo
     {
         public int Id { get; set; }
         public string Path { get; set; }
+
+        public string Name { get; set; }
         public bool IsDeleted { get; set; } = false;
 
         // Navigation property
-
-
-
-
-
-
-
-
+        
 
     }
 }

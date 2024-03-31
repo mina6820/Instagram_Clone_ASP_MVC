@@ -41,7 +41,10 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
 
         public List<UserRelationship> searchFollowers(string Name)
         {
-           List< UserRelationship> searchedUsers = context.UserRelationship
+
+
+           List< UserRelationship> searchedUsers =
+                context.UserRelationship
                 .Include(ur => ur.Follower)
                 .Where(ur => ur.Follower.UserName.Contains(Name))
                 .ToList();

@@ -10,5 +10,11 @@ namespace Instagram_Clone.Repositories.MessageRepo
         {
             // No need to store the context separately if not used elsewhere
         }
+
+
+        public async Task InsertAsync(Message message)
+        {
+            context.Add(message);
+        }
     }
 }
