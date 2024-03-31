@@ -24,7 +24,7 @@
 <body>
     <h1>Followers List</h1>
     <li class="nav-item">
-        <form class="form-inline" method="post" asp-action="SearchFollower" asp-controller="follow">
+        <form class="form-inline" method="post" asp-action="SearchFollowee" asp-controller="follow">
             <label for="Name" class="me-2">Name</label>
             <input class="form-control me-2" id="Name" name="Name" placeholder="Search..." type="text">
             <input type="submit" class="btn btn-primary btn-sm mt-1" value="Search">
@@ -34,16 +34,14 @@
     {
             <table>
                 <tr>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Email</th>
+                    <th>User Name</th>
+                   
                 </tr>
             @foreach (var follower in Model)
             {
                         <tr>
-                            <td>@follower.FirstName</td>
-                            <td>@follower.LastName</td>
-                            <td>@follower.Email</td>
+                            <td>@follower.UserName</td>
+                            
                         </tr>
             }
             </table>
@@ -53,14 +51,6 @@
             <p>No followers found.</p>
     }
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var form = document.querySelector(".form-inline");
-            var input = document.getElementById("Name");
-            input.addEventListener("input", function () {
-                form.submit();
-            });
-        });
-    </script>
+    
 </body>
 </html>
