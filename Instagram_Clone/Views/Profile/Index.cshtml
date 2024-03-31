@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model ApplicationUser
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -52,7 +53,7 @@
                                 <img src="/images/profile_img.jpg" alt="">
                             </div>
                             <div class="info">
-                                <p class="name">Zineb_essoussi</p>
+                                <p class="name">@Model.UserName</p>
                                 <p class="second_name">Zim Ess</p>
                             </div>
                         </div>
@@ -76,7 +77,7 @@
                             </div>
                             <div class="info">
                                 <p class="name">
-                                    Zineb_essoussi
+                                    @Model.UserName
                                     <span class="desc">started following you.</span>
                                     <span class="time">2h</span>
                                 </p>
@@ -96,49 +97,7 @@
                             </div>
                             <div class="info">
                                 <p class="name">
-                                    Zineb_essoussi
-                                    <span class="desc">started following you.</span>
-                                    <span class="time">2h</span>
-                                </p>
-
-                            </div>
-                        </div>
-                        <div class="follow_you">
-                            <button class="follow_text">Follow</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="notif story_notif">
-                    <div class="cart">
-                        <div>
-                            <div class="img">
-                                <img src="/images/profile_img.jpg" alt="">
-                            </div>
-                            <div class="info">
-                                <div class="info">
-                                    <p class="name">
-                                        Zineb_essoussi
-                                        <span class="desc">liked your story.</span>
-                                        <span class="time">2d</span>
-                                    </p>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="story_like">
-                            <img src="/images/img2.jpg" alt="">
-                        </div>
-                    </div>
-                </div>
-                <div class="notif follow_notif">
-                    <div class="cart">
-                        <div>
-                            <div class="img">
-                                <img src="/images/profile_img.jpg" alt="">
-                            </div>
-                            <div class="info">
-                                <p class="name">
-                                    Zineb_essoussi
+                                    @Model.UserName
                                     <span class="desc">started following you.</span>
                                     <span class="time">2h</span>
                                 </p>
@@ -159,7 +118,7 @@
                             <div class="info">
                                 <div class="info">
                                     <p class="name">
-                                        Zineb_essoussi
+                                        @Model.UserName
                                         <span class="desc">liked your story.</span>
                                         <span class="time">2d</span>
                                     </p>
@@ -180,7 +139,49 @@
                             </div>
                             <div class="info">
                                 <p class="name">
-                                    Zineb_essoussi
+                                    @Model.UserName
+                                    <span class="desc">started following you.</span>
+                                    <span class="time">2h</span>
+                                </p>
+
+                            </div>
+                        </div>
+                        <div class="follow_you">
+                            <button class="follow_text">Follow</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="notif story_notif">
+                    <div class="cart">
+                        <div>
+                            <div class="img">
+                                <img src="/images/profile_img.jpg" alt="">
+                            </div>
+                            <div class="info">
+                                <div class="info">
+                                    <p class="name">
+                                        @Model.UserName
+                                        <span class="desc">liked your story.</span>
+                                        <span class="time">2d</span>
+                                    </p>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="story_like">
+                            <img src="/images/img2.jpg" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="notif follow_notif">
+                    <div class="cart">
+                        <div>
+                            <div class="img">
+                                <img src="/images/profile_img.jpg" alt="">
+                            </div>
+                            <div class="info">
+                                <p class="name">
+                                    @Model.UserName
                                     <span class="desc">started following you.</span>
                                     <span class="time">2h</span>
                                 </p>
@@ -204,7 +205,7 @@
                     </div>
                     <div class="info">
                         <p class="name">
-                            Zineb_essoussi
+                            @Model.UserName
                             <button class="edit_profile">
                                 Edit profile
                             </button>
@@ -337,7 +338,7 @@
                                             <img src="/images/profile_img.jpg">
                                         </div>
                                         <div class="info">
-                                            <p class="name">Zineb_essoussi</p>
+                                            <p class="name">@Model.UserName</p>
                                         </div>
                                     </div>
                                 </div>
