@@ -14,6 +14,7 @@ using Instagram_Clone.Repositories.StoryViewRepo;
 using Instagram_Clone.Repositories.UserFollowRepo;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 
 namespace Instagram_Clone
@@ -34,7 +35,7 @@ namespace Instagram_Clone
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
                             .AddEntityFrameworkStores<Context>();
-
+            builder.Services.AddSignalR();
             //builder.Services.AddScoped<IPhotoRepository, PhotoRepository>();
             builder.Services.AddScoped<IprofilePhotoRepository, profilePhotoRepository>();
             builder.Services.AddScoped<IpostPhotoRepository, postPhotoRepository>();

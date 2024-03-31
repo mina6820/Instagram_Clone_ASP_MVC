@@ -32,49 +32,57 @@
         </form>
     </li>
 
-    @if (Model != null && Model.Followers.Count > 0)
-    {
+    @* @if (Model != null && Model.Followers.Count > 0) *@
+    
         <table>
             <tr>
 
                 <th>UseName</th>
             </tr>
-            @foreach (var follower in Model.Followers)
+            @if (ViewBag.searchFollowers == null)
             {
-                <tr>
 
-                    <td>@follower.Follower.UserName</td>
-                </tr>
+                @foreach (var follower in Model.Followers)
+                {
+                    <tr>
+
+                        <td>@follower.Follower.UserName</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                @foreach (var follower in ViewBag.searchFollowers)
+                {
+                    <tr>
+
+                        <td>@follower.UserName</td>
+                    </tr>
+                }
             }
         </table>
-    }
-    else
+    
+@*     else
     {
         <p>No followers found.</p>
-    }
+    } *@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
-    <script>
+@*     <script>
         $(function () {
+            var instructorNames = @Html.Raw(Json.Serialize(ViewBag.searchFollowers.Select(i => i.UserName)));
+
             $("#NameSearch").autocomplete({
-                source: function (request, response) {
-                    $.ajax({
-                        url: "/Follow/Autocomplete",
-                        type: "GET",
-                        dataType: "json",
-                        data: { term: request.term },
-                        success: function (data) {
-                            response(data);
-                        }
-                    });
-                },
+                source: instructorNames,
                 minLength: 1 // specify minimum characters before triggering autocomplete
             });
         });
-    </script>
+    </script> *@
+
+
 
 
 </body>
