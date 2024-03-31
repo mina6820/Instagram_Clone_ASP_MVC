@@ -5,6 +5,7 @@ namespace Instagram_Clone.Repositories.MessageRepo
 {
     public interface IMessageRepository : IRepository<Message>
     {
+        public Task InsertAsync(Message message);
 
     }
 }

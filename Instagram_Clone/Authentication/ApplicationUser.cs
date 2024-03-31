@@ -25,10 +25,10 @@ namespace Instagram_Clone.Authentication
 
 
         [InverseProperty("Follower")]
-        public List<UserRelationship> Followers { get; set; }
+        public List<UserRelationship>? Followers { get; set; }
 
         [InverseProperty("Followee")]
-        public List<UserRelationship> Following { get; set; }
+        public List<UserRelationship>? Following { get; set; }
 
 
 
