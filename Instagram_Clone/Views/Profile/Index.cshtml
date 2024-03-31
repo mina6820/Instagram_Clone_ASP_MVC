@@ -1,4 +1,5 @@
-﻿@model ApplicationUser
+﻿@using Instagram_Clone.ViewModels
+@model ProfileUserViewModel
 <!DOCTYPE html>
 <html lang="en">
 
@@ -54,7 +55,7 @@
                             </div>
                             <div class="info">
                                 <p class="name">@Model.UserName</p>
-                                <p class="second_name">Zim Ess</p>
+                                <p class="second_name">@Model.FirstName  @Model.LastName</p>
                             </div>
                         </div>
                         <div class="clear">
@@ -212,10 +213,10 @@
                         </p>
                         <div class="general_info">
                             <p><span>1</span> post</p>
-                            <a id="followersCounter" asp-action="showFollowers" asp-controller="Follow" style="color:black ; margin:2px" class="ClickFollowers"> 177</a> <a style="color:black; margin:2px" asp-action="showFollowers" asp-controller="Follow" class="ClickFollowers"> Followers</a>
-                            <a id="FolloweesCounter" asp-action="showFollowees" asp-controller="Follow" style="color:black ; margin:2px" class="ClickFollowing"> 137</a> <a style="color:black; margin:2px" asp-action="showFollowees" asp-controller="Follow" class="ClickFollowing"> Following</a>
+                            <a id="FolloweesCounter" asp-action="showFollowers" asp-controller="Follow" style="color:black ; margin:2px" class="ClickFollowing"> @Model.Followers.Count</a> <a style="color:black; margin:2px" asp-action="showFollowers" asp-controller="Follow" asp-route-ProfileUserViewModel="@Model" class="ClickFollowing"> Followers</a>
+                            <a id="FolloweesCounter" asp-action="showFollowees" asp-controller="Follow" style="color:black ; margin:2px" class="ClickFollowing"> @Model.Following.Count</a> <a style="color:black; margin:2px" asp-action="showFollowees" asp-controller="Follow" asp-route-ProfileUserViewModel="@Model" class="ClickFollowing"> Following</a>
                         </div>
-                        <p class="nick_name">Zin Ess</p>
+                        <p class="nick_name">@Model.FirstName  @Model.LastName</p>
                         <p class="desc">
                             I'am an engineering student <br>
                             ENSAO
