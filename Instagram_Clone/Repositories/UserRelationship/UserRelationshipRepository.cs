@@ -48,19 +48,28 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
             return Following;
         }
         //انا هديك ال فلويي و انت تبعتلى الفلور
-        public List<UserRelationship> searchFollowers(string Name)
+        //public List<UserRelationship> searchFollowers(string Name)
+        //{
+
+            
+        //   List< UserRelationship> searchedUsers =
+        //        context.UserRelationship
+        //        .Include(ur => ur.Follower)
+        //        .Where(ur => ur.Follower.UserName.Contains(Name))
+        //        .ToList();
+
+        //    return searchedUsers;
+        //}
+
+        public List<ApplicationUser> searchFollowers(string Name)
         {
-
-
-           List< UserRelationship> searchedUsers =
-                context.UserRelationship
-                .Include(ur => ur.Follower)
-                .Where(ur => ur.Follower.UserName.Contains(Name))
-                .ToList();
+            List<ApplicationUser> searchedUsers =
+                 context.Users
+                 .Include(user => user.Followers)
+                 .Where(ur => ur.UserName.Contains(Name)).ToList();
 
             return searchedUsers;
         }
-
 
         //public List<UserRelationship> searchFollowers(string name)
         //{

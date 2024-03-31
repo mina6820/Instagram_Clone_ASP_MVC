@@ -32,26 +32,40 @@
         </form>
     </li>
 
-    @if (Model != null && Model.Followers.Count > 0)
-    {
+    @* @if (Model != null && Model.Followers.Count > 0) *@
+    
         <table>
             <tr>
 
                 <th>UseName</th>
             </tr>
-            @foreach (var follower in Model.Followers)
+            @if (ViewBag.searchFollowers == null)
             {
-                <tr>
 
-                    <td>@follower.Follower.UserName</td>
-                </tr>
+                @foreach (var follower in Model.Followers)
+                {
+                    <tr>
+
+                        <td>@follower.Follower.UserName</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                @foreach (var follower in ViewBag.searchFollowers)
+                {
+                    <tr>
+
+                        <td>@follower.UserName</td>
+                    </tr>
+                }
             }
         </table>
-    }
-    else
+    
+@*     else
     {
         <p>No followers found.</p>
-    }
+    } *@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>

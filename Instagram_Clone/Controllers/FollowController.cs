@@ -56,7 +56,8 @@ namespace Instagram_Clone.Controllers
             }
             else
             {
-                profileUserViewModel.Followers = userRelationshipRepository.searchFollowers(Name);
+                ViewBag.searchFollowers = userRelationshipRepository.searchFollowers(Name);
+                //profileUserViewModel.Followers = userRelationshipRepository.searchFollowers(Name);
                 profileUserViewModel.Following = userRelationshipRepository.GetFollowees(user.Id);
             }
 
@@ -80,7 +81,7 @@ namespace Instagram_Clone.Controllers
         }
         public ActionResult SearchFollower( string name)
         {
-            List<UserRelationship> searchedUsers = userRelationshipRepository.searchFollowers(name);
+            List<ApplicationUser> searchedUsers = userRelationshipRepository.searchFollowers(name);
             if (name != null)
             {
                
@@ -91,7 +92,7 @@ namespace Instagram_Clone.Controllers
                 //List<ApplicationUser> searchedUsers = userRelationshipRepository.searchFollowers(name);
                 //return View("showFollowers", searchedUsers);
                 //return RedirectToAction("Index","Home");
-                searchedUsers = new List<UserRelationship>();
+                searchedUsers = new List<ApplicationUser>();
                 return View("showFollowers", searchedUsers);
 
             } 
