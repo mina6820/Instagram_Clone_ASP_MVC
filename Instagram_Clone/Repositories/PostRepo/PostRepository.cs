@@ -10,7 +10,9 @@ namespace Instagram_Clone.Repositories.PostRepo
             // No need to store the context separately if not used elsewhere
         }
 
-
-
+        public List<Post> GetAllPostsByUserID(string userID)
+        {
+            return context.Posts.Where(p => p.UserId == userID).ToList();
+        }
     }
 }
