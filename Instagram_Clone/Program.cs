@@ -1,4 +1,5 @@
 using Instagram_Clone.Authentication;
+using Instagram_Clone.Hubs;
 using Instagram_Clone.Repositories.CommentRepo;
 using Instagram_Clone.Repositories.LikeRepo;
 using Instagram_Clone.Repositories.MessageRepo;
@@ -7,9 +8,13 @@ using Instagram_Clone.Repositories.PhotoRepo.message;
 using Instagram_Clone.Repositories.PhotoRepo.postPhotoContainer;
 using Instagram_Clone.Repositories.PhotoRepo.ProfilePhotoContainer;
 using Instagram_Clone.Repositories.PhotoRepo.Story;
+using Instagram_Clone.Repositories.PostRepo;
+using Instagram_Clone.Repositories.StoryRepo;
+using Instagram_Clone.Repositories.StoryViewRepo;
 using Instagram_Clone.Repositories.UserFollowRepo;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 
 namespace Instagram_Clone
@@ -45,7 +50,7 @@ namespace Instagram_Clone
             builder.Services.AddScoped<IStoryViewRepository, StoryViewRepository>();
             builder.Services.AddScoped<IpostPhotoRepository, postPhotoRepository>();
 
-
+            builder.Services.AddSignalR();
 
 
 

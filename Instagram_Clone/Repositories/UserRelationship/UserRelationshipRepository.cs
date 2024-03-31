@@ -50,16 +50,10 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
         //انا هديك ال فلويي و انت تبعتلى الفلور
         public List<UserRelationship> searchFollowers(string Name)
         {
-            //if (string.IsNullOrEmpty(Name))
-            //{
-            //    // If name is null or empty, return an empty list
-            //    return new List<UserRelationship>();
-            //}
 
-            // Convert the search name to lowercase for case-insensitive search
-            //string lowerName = Name.ToLower();
 
-           List< UserRelationship> searchedUsers = context.UserRelationship
+           List< UserRelationship> searchedUsers =
+                context.UserRelationship
                 .Include(ur => ur.Follower)
                 .Where(ur => ur.Follower.UserName.Contains(Name))
                 .ToList();
