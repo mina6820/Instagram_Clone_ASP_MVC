@@ -98,23 +98,23 @@ namespace Instagram_Clone.Controllers
         }
 
 
-        public ActionResult SearchFollowee(string name)
-        {
-            List<UserRelationship> searchedUsers = userRelationshipRepository.searchFollowees(name);
-            if (name != null)
-            {
+        //public ActionResult SearchFollowee(string name)
+        //{
+        //    List<UserRelationship> searchedUsers = userRelationshipRepository.searchFollowees(name);
+        //    if (name != null)
+        //    {
 
-                return View("showFollowees", searchedUsers);
-            }
-            else
-            {
-                searchedUsers = new List<UserRelationship>();
-                return View("showFollowers", searchedUsers);
+        //        return View("showFollowees", searchedUsers);
+        //    }
+        //    else
+        //    {
+        //        searchedUsers = new List<UserRelationship>();
+        //        return View("showFollowers", searchedUsers);
 
-            }
+        //    }
 
 
-        }
+        //}
         public IActionResult Profile()
         {
             return View("Profile");

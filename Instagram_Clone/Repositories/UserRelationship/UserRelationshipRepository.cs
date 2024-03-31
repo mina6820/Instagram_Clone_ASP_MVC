@@ -32,7 +32,7 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
                 //.Select(ur => ur.Follower)
                 .ToList();
 
-            return userRelationships;
+            return followers;
 
         }
 
