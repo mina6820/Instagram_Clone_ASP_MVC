@@ -1,4 +1,4 @@
-﻿@model List<ApplicationUser>
+﻿@model List<UserRelationship>
 
 <!DOCTYPE html>
 <html>
@@ -40,7 +40,7 @@
             @foreach (var follower in Model)
             {
                 <tr>
-                    <td>@follower.UserName</td>                
+                    <td>@follower.Followee.UserName</td>                
                 </tr>
             }
         </table>

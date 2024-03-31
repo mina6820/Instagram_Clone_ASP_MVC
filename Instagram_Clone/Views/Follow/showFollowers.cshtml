@@ -1,4 +1,4 @@
-﻿@model List<ApplicationUser>
+﻿@model List<UserRelationship>
 
 <!DOCTYPE html>
 <html>
@@ -42,7 +42,7 @@
             {
                 <tr>
 
-                    <td>@follower.UserName</td>
+                    <td>@follower.Follower.UserName</td>
                 </tr>
             }
         </table>

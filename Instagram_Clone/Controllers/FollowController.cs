@@ -26,7 +26,7 @@ namespace Instagram_Clone.Controllers
 
         public ActionResult showFollowers(string id)
         {
-            List<ApplicationUser> Followers = userRelationshipRepository.GetFollowers(id);
+            List<UserRelationship> Followers = userRelationshipRepository.GetFollowers(id);
 
             return View("showFollowers", Followers);
         }
@@ -34,13 +34,13 @@ namespace Instagram_Clone.Controllers
         //Follow/showFollowees?id=
         public ActionResult showFollowees(string id)
         {
-            List<ApplicationUser> Followees = userRelationshipRepository.GetFollowees(id);
+            List<UserRelationship> Followees = userRelationshipRepository.GetFollowees(id);
 
             return View("showFollowees", Followees);
         }
         public ActionResult SearchFollower( string name)
         {
-            List<ApplicationUser> searchedUsers = userRelationshipRepository.searchFollowers(name);
+            List<UserRelationship> searchedUsers = userRelationshipRepository.searchFollowers(name);
             if (name != null)
             {
                
@@ -51,7 +51,7 @@ namespace Instagram_Clone.Controllers
                 //List<ApplicationUser> searchedUsers = userRelationshipRepository.searchFollowers(name);
                 //return View("showFollowers", searchedUsers);
                 //return RedirectToAction("Index","Home");
-                searchedUsers = new List<ApplicationUser>();
+                searchedUsers = new List<UserRelationship>();
                 return View("showFollowers", searchedUsers);
 
             } 
@@ -60,7 +60,7 @@ namespace Instagram_Clone.Controllers
 
         public ActionResult SearchFollowee(string name)
         {
-            List<ApplicationUser> searchedUsers = userRelationshipRepository.searchFollowees(name);
+            List<UserRelationship> searchedUsers = userRelationshipRepository.searchFollowees(name);
             if (name != null)
             {
 
@@ -68,7 +68,7 @@ namespace Instagram_Clone.Controllers
             }
             else
             {
-                searchedUsers = new List<ApplicationUser>();
+                searchedUsers = new List<UserRelationship>();
                 return View("showFollowers", searchedUsers);
 
             }
