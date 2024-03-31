@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Instagram_Clone.ViewModels
+@model ProfileUserViewModel
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -16,113 +18,266 @@
 <body>
 
     <div class="post_page">
-        <!--***** nav menu start ****** -->
         <div class="nav_menu">
             <div class="fix_top">
                 <!-- nav for big->medium screen -->
 
+                            </li>
+                            <li>
+                                <a asp-action="Index" asp-controller="Profile" >
+                                    <img class="circle story" src="./images/profile_img.jpg">
+                                    <span class="d-none d-lg-block ">Profile</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="more">
+                        <div class="btn-group dropup">
+                            <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                <img src="./images/menu.png">
+                                <span class="d-none d-lg-block ">More</span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <span>Settings</span>
+                                        <img src="./images/reglage.png">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <span>Your activity</span>
+                                        <img src="./images/history.png">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <span>Saved</span>
+                                        <img src="./images/save-instagram.png">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <span>Switch apperance</span>
+                                        <img src="./images/moon.png">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <span>Report a problem</span>
+                                        <img src="./images/problem.png">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item bold_border" href="#">
+                                        <span>Switch accounts</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="./login.html">
+                                        <span>Log out</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--  -->
+
+                    </div>
+                </div>
+                <!-- nav for small screen  -->
+                <div class="nav_sm">
+                    <div class="content">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                <img class="logo" src="./images/logo_menu.png">
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <span>Following</span>
+                                        <img src="./images/add-friend.png">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <span>Favorites</span>
+                                        <img src="./images/star.png">
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="left">
+                            <div class="search_bar">
+                                <div class="input-group">
+                                    <div class="form-outline">
+                                        <div>
+                                            <img src="./images/search.png" alt="search">
+                                        </div>
+                                        <input type="search" id="form1" class="form-control" placeholder="Search" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="notifications notification_icon">
+                                <a href="./notification.html">
+                                    <img src="./images/love.png">
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- nav for ex-small screen  -->
+                <div class="nav_xm">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                            <img class="logo" src="./images/logo_menu.png">
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <span>Following</span>
+                                    <img src="./images/add-friend.png">
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <span>Favorites</span>
+                                    <img src="./images/star.png">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="left">
+
+                        <img src="./images/send.png">
+                        <a href="./notification.html">
+                            <img class="notification_icon" src="./images/love.png">
+                        </a>
+
+                    </div>
+                </div>
             </div>
             <!-- menu in the botton for smal screen  -->
             <div class="nav_bottom">
+                <a href="./home.html"><img src="./images/accueil.png"></a>
+                <a href="./explore.html"><img src="./images/compass.png"></a>
+                <a href="./reels.html"><img src="./images/video.png"></a>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#create_modal"><img src="./images/tab.png"></a>
+                <a href="profile.html"><img class="circle story" src="./images/profile_img.jpg"></a>
             </div>
         </div>
         <!-- search  -->
         <div id="search" class="search_section">
-        </div>
-        <!-- search  -->
-        <!-- notification -->
-        <div id="notification" class="notification_section">
-        </div>
-
-
-
-
-
-        <!--***** nav menu end ****** -->
-
-        <div class="second_container">
-            <!--***** posts_container start ****** -->
-            <div class="main_section">
-                <div class="posts_container">
-                    <div class="stories">
-                        <div class="owl-carousel items">
-                        </div>
-                    </div>
-
-                    <div class="posts">
-                    </div>
-
+            <h2>Search</h2>
+            <form method="post">
+                <input type="text" placeholder="Search">
+            </form>
+            <div class="find">
+                <div class="desc">
+                    <h4>Recent</h4>
+                    <p><a href="#">Clear all</a></p>
                 </div>
-            </div>
-            <!--***** posts_container end ****** -->
-            <!--***** followers_container start ****** -->
-            <div class="followers_container">
-                <div>
+                <div class="account">
                     <div class="cart">
                         <div>
                             <div class="img">
                                 <img src="/images/profile_img.jpg" alt="">
                             </div>
                             <div class="info">
-                                <p class="name">Zineb_essoussi</p>
-                                <p class="second_name">Zim Ess</p>
+                                <p class="name">@Model.UserName</p>
+                                <p class="second_name">@Model.FirstName  @Model.LastName</p>
                             </div>
                         </div>
                         <div class="switch">
                             <a href="#">Switch</a>
                         </div>
                     </div>
-                    <div class="suggestions">
-                        <div class="title">
-                            <h4>Suggestions for you</h4>
-                            <a class="dark" href="#">See All</a>
-                        </div>
-                        <div class="cart">
-                            <div>
-                                <div class="img">
-                                    <img src="/images/profile_img.jpg" alt="">
-                                </div>
-                                <div class="info">
-                                    <p class="name">Zineb_essoussi</p>
-                                    <p class="second_name">Zim Ess</p>
-                                </div>
+                </div>
+            </div>
+        </div>
+        <!-- search  -->
+        <!-- notification -->
+        <div id="notification" class="notification_section">
+            <h2>Notifications</h2>
+            <div class="notifications">
+                <div class="notif follow_notif">
+                    <div class="cart">
+                        <div>
+                            <div class="img">
+                                <img src="./images/profile_img.jpg" alt="">
                             </div>
-                            <div class="switch">
-                                <button class="follow_text" href="#">follow</button>
-                            </div>
-                        </div>
-                        <div class="cart">
-                            <div>
-                                <div class="img">
-                                    <img src="/images/profile_img.jpg" alt="">
-                                </div>
-                                <div class="info">
-                                    <p class="name">Zineb_essoussi</p>
-                                    <p class="second_name">Zim Ess</p>
-                                </div>
-                            </div>
-                            <div class="switch">
-                                <button class="follow_text" href="#">follow</button>
+                            <div class="info">
+                                <p class="name">
+                                    Zineb_essoussi
+                                    <span class="desc">started following you.</span>
+                                    <span class="time">2h</span>
+                                </p>
+
                             </div>
                         </div>
-                        <div class="cart">
-                            <div>
-                                <div class="img">
-                                    <img src="/images/profile_img.jpg" alt="">
-                                </div>
-                                <div class="info">
-                                    <p class="name">Zineb_essoussi</p>
-                                    <p class="second_name">Zim Ess</p>
-                                </div>
-                            </div>
-                            <div class="switch">
-                                <button class="follow_text" href="#">follow</button>
-                            </div>
+                        <div class="follow_you">
+                            <button class="follow_text">Follow</button>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!--***** followers_container end ****** -->
+                <div class="notif follow_notif">
+                    <div class="cart">
+                        <div>
+                            <div class="img">
+                                <img src="./images/profile_img.jpg" alt="">
+                            </div>
+                            <div class="info">
+                                <p class="name">
+                                    Zineb_essoussi
+                                    <span class="desc">started following you.</span>
+                                    <span class="time">2h</span>
+                                </p>
+
+                            </div>
+                        </div>
+                        <div class="follow_you">
+                            <button class="follow_text">Follow</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="notif story_notif">
+                    <div class="cart">
+                        <div>
+                            <div class="img">
+                                <img src="./images/profile_img.jpg" alt="">
+                            </div>
+                            <div class="info">
+                                <div class="info">
+                                    <p class="name">
+                                        Zineb_essoussi
+                                        <span class="desc">liked your story.</span>
+                                        <span class="time">2d</span>
+                                    </p>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="story_like">
+                            <img src="./images/img2.jpg" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="notif follow_notif">
+                    <div class="cart">
+                        <div>
+                            <div class="img">
+                                <img src="./images/profile_img.jpg" alt="">
+                            </div>
+                            <div class="info">
+                                <p class="name">
+                                    Zineb_essoussi
+                                    <span class="desc">started following you.</span>
+                                    <span class="time">2h</span>
+                                </p>
 
         </div>
 
@@ -135,99 +290,127 @@
                         <h1 class="modal-title fs-5" id="exampleModalLabel">Share</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        <div class="send">
-                            <div class="search_person">
-                                <p>To:</p>
-                                <input type="text" placeholder="Search">
+                </div>
+                <div class="notif story_notif">
+                    <div class="cart">
+                        <div>
+                            <div class="img">
+                                <img src="./images/profile_img.jpg" alt="">
                             </div>
-                            <p>Suggested</p>
-                            <div class="poeple">
-                                <div class="person">
-                                    <div class="d-flex">
-                                        <div class="img">
-                                            <img src="/images/profile_img.jpg" alt="">
-                                        </div>
-                                        <div class="content">
-                                            <div class="person">
-                                                <h4>namePerson</h4>
-                                                <span>zim ess</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <di class="circle">
-                                        <span></span>
-                                </div>
-                            </div>
-                            <div class="person">
-                                <div class="d-flex">
-                                    <div class="img">
-                                        <img src="/images/profile_img.jpg" alt="">
-                                    </div>
-                                    <div class="content">
-                                        <div class="person">
-                                            <h4>namePerson</h4>
-                                            <span>zim ess</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="circle">
-                                    <span></span>
-                                </div>
-                            </div>
+                            <div class="info">
+                                <div class="info">
+                                    <p class="name">
+                                        Zineb_essoussi
+                                        <span class="desc">liked your story.</span>
+                                        <span class="time">2d</span>
+                                    </p>
 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="story_like">
+                            <img src="./images/img2.jpg" alt="">
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-primary">Send</button>
+                </div>
+                <div class="notif follow_notif">
+                    <div class="cart">
+                        <div>
+                            <div class="img">
+                                <img src="./images/profile_img.jpg" alt="">
+                            </div>
+                            <div class="info">
+                                <p class="name">
+                                    Zineb_essoussi
+                                    <span class="desc">started following you.</span>
+                                    <span class="time">2h</span>
+                                </p>
+
+                            </div>
+                        </div>
+                        <div class="follow_you">
+                            <button class="follow_text">Follow</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--***** nav menu end ****** -->
+
+        <div class="profile_container">
+            <div class="profile_info">
+                <div class="cart">
+                    <div class="img">
+                        <img src="./images/profile_img.jpg" alt="">
+                    </div>
+                    <div class="info">
+                        <p class="name">
+                            Zineb_essoussi
+                            <button class="edit_profile">
+                                Edit profile
+                            </button>
+                        </p>
+                        <div class="general_info">
+                            <p><span>1</span> post</p>
+                            <p><span>177</span> followers</p>
+                            <p><span>137</span> following</p>
+                        </div>
+                        <p class="nick_name">Zin Ess</p>
+                        <p class="desc">
+                            I'am an engineering student <br>
+                            ENSAO
+                        </p>
                     </div>
                 </div>
 
             </div>
-        </div>
-
-        <!-- Modal for add messages-->
-        <div class="modal fade" id="message_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Comments</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="highlights">
+                <div class="highlight">
+                    <div class="img">
+                        <img src="./images/profile_img.jpg" alt="">
                     </div>
-                    <div class="modal-body">
-                        <div class="comments">
-                            <div class="comment">
-                                <div class="d-flex">
-                                    <div class="img">
-                                        <img src="/images/profile_img.jpg" alt="">
-                                    </div>
-                                    <div class="content">
-                                        <div class="person">
-                                            <h4>namePerson</h4>
-                                            <span>3j</span>
-                                        </div>
-                                        <p>Wow amzing shot</p>
-                                        <div class="replay">
-                                            <button class="replay">replay</button>
-                                            <button class="translation">see translation</button>
-                                        </div>
-                                        <div class="answers">
-                                            <button class="see_comment">
-                                                <span class="hide_com">Hide all responses</span>
-                                                <span class="show_c">
-                                                    <span class="line"></span> See the <span>
-                                                        1
-                                                    </span> answers
-                                                </span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="like">
-                                    <img class="not_loved" src="/images/love.png" alt="">
-                                    <img class="loved" src="/images/heart.png" alt="">
-                                    <p> 55</p>
-                                </div>
+                    <p>conseils</p>
+                </div>
+                <div class="highlight highlight_add">
+                    <div class="img">
+                        <img src="./images/plus.png" alt="">
+                    </div>
+                    <p>New</p>
+                </div>
+            </div>
+            <hr>
+            <div class="posts_profile">
+                <ul class="nav-pills w-100 d-flex justify-content-center" id="pills-tab" role="tablist">
+                    <li class="nav-item mx-2" role="presentation">
+                        <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">
+                            <img src="./images/feed.png" alt="posts">
+                            POSTS
+                        </button>
+                    </li>
+                    <li class="nav-item mx-2" role="presentation">
+                        <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">
+                            <img src="./images/save-instagram.png" alt="saved posts">
+                            SAVED
+                        </button>
+                    </li>
+                    <li class="nav-item mx-2" role="presentation">
+                        <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">
+                            <img src="./images/tagged.png" alt="tagged posts">
+                            TAGGED
+                        </button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
+                        <div id="posts_sec" class="post">
+                            <div class="item">
+                                <img class="img-fluid item_img" src="https://i.ibb.co/Jqh3rHv/img1.jpg" alt="">
+                            </div>
+                            <div class="item">
+                                <img class="img-fluid item_img" src="https://i.ibb.co/2ZxBFVp/img2.jpg" alt="">
+                            </div>
+                            <div class="item">
+                                <img class="img-fluid item_img" src="https://i.ibb.co/5vQt677/img3.jpg" alt="">
                             </div>
                             <div class="responses">
                                 <div class="response comment">
@@ -304,7 +487,7 @@
                                             <img src="/images/profile_img.jpg">
                                         </div>
                                         <div class="info">
-                                            <p class="name">Zineb_essoussi</p>
+                                            <p class="name">@Model.UserName</p>
                                         </div>
                                     </div>
                                 </div>
@@ -314,14 +497,47 @@
                             </div>
                         </div>
                         <div class="post_published hide_img">
-                            <img src="/images/uploaded_post.gif" alt="">
+                            <img src="./images/uploaded_post.gif" alt="">
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div> *@
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-pz0r7Pz0cHpXkzF5q1z5byXPxJph0XaP7ADkiJviu9CSnBohR+K5f2GO/dAiS6+J" crossorigin="anonymous"></script>
+
+    <!-- Your other scripts -->
+
+    <script>
+        // Wait for the document to be fully loaded
+        document.addEventListener("DOMContentLoaded", function () {
+            // Find all elements with the class 'ClickFollowers'
+            var followersLinks = document.querySelectorAll('.ClickFollowers');
+
+            // Iterate over each element and add a click event listener
+            followersLinks.forEach(function (link) {
+                link.addEventListener('click', function (event) {
+                    // Prevent the default action of the anchor tag
+                    event.preventDefault();
+
+                    // Show the modal programmatically
+                    var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+                    modal.show();
+                });
+            });
+        });
+    </script>
+
 
     <!-- <script src="/sass/vender/bootstrap.bundle.js"></script>
     <script src="/sass/vender/bootstrap.bundle.min.js"></script> -->
@@ -331,8 +547,7 @@
     <script src="/owlcarousel/owl.carousel.min.js"></script>
     <script src="/js/carousel.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.js"></script>
-    <script src="/js/main.js"></script>
-
+    <script src="./js/main.js"></script>
 </body>
 
 </html>

@@ -1,0 +1,58 @@
+﻿@using Instagram_Clone.ViewModels
+@model ProfileUserViewModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Followers List</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Followers List</h1>
+    <li class="nav-item">
+        <form class="form-inline" method="post" asp-action="SearchFollowee" asp-controller="Follow">
+            <label for="Name" class="me-2">Name</label>
+            <input class="form-control me-2" id="Name" name="Name" placeholder="Search..." type="text">
+@*             <input type="submit" class="btn btn-primary btn-sm mt-1" value="Search">
+ *@            <button type="submit" class="btn btn-primary">Search</button>
+
+        </form>
+    </li>
+    @if (Model != null && Model.Following.Count > 0)
+    {
+        <table>
+            <tr>
+                <th>User Name</th>
+                   
+            </tr>
+            @foreach (var followee in Model.Following)
+            {
+                <tr>
+                    <td>@followee.Followee.UserName</td>                
+                </tr>
+            }
+        </table>
+    }
+    else
+    {
+        <p>No followers found.</p>
+    }
+
+    
+</body>
+</html>
