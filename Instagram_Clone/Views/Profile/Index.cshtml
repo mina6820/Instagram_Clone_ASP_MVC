@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Instagram_Clone.ViewModels
+@model ProfileUserViewModel
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -6,219 +8,34 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Instagram</title>
-    <link rel="stylesheet" href="./sass/vender/bootstrap.css">
-    <link rel="stylesheet" href="./sass/vender/bootstrap.min.css">
-    <link rel="stylesheet" href="./owlcarousel/owl.theme.default.min.css">
-    <link rel="stylesheet" href="./owlcarousel/owl.carousel.min.css">
+    <link rel="stylesheet" href="/sass/vender/bootstrap.css">
+    <link rel="stylesheet" href="/sass/vender/bootstrap.min.css">
+    <link rel="stylesheet" href="/owlcarousel/owl.theme.default.min.css">
+    <link rel="stylesheet" href="/owlcarousel/owl.carousel.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.css">
-    <link rel="stylesheet" href="./sass/main.css">
+    <link rel="stylesheet" href="/sass/main.css">
 </head>
 <body>
 
     <div class="post_page">
-        <!--***** nav menu start ****** -->
         <div class="nav_menu">
             <div class="fix_top">
                 <!-- nav for big->medium screen -->
-                <div class="nav">
-                    <div class="logo">
-                        <a href="./home.html">
-                            <img class="d-block d-lg-none small-logo" src="./images/instagram.png" alt="logo">
-                            <img class="d-none d-lg-block" src="./images/logo_menu.png" alt="logo">
-                        </a>
-                    </div>
-                    <div class="menu">
-                        <ul>
-                            <li>
-                                <a class="active" href="home.html">
-                                    <img src="./images/accueil.png">
-                                    <span class="d-none d-lg-block ">Home</span>
-                                </a>
-                            </li>
-                            <li id="search_icon">
-                                <a href="#">
-                                    <img src="./images/search.png">
-                                    <span class="d-none d-lg-block search">Search </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="./explore.html">
-                                    <img src="./images/compass.png">
-                                    <span class="d-none d-lg-block ">Explore</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="./reels.html">
-                                    <img src="./images/video.png">
-                                    <span class="d-none d-lg-block ">Reels</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="./messages.html">
-                                    <img src="./images/send.png">
-                                    <span class="d-none d-lg-block ">Messages</span>
-                                </a>
-                            </li>
-                            <li class="notification_icon">
-                                <a href="#">
-                                    <img src="./images/love.png">
-                                    <span class="d-none d-lg-block ">Notifications</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#create_modal">
-                                    <img src="./images/tab.png">
-                                    <span class="d-none d-lg-block ">Create</span>
-                                </a>
 
-                            </li>
-                            <li>
-                                <a asp-action="Index" asp-controller="Profile" >
-                                    <img class="circle story" src="./images/profile_img.jpg">
-                                    <span class="d-none d-lg-block ">Profile</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="more">
-                        <div class="btn-group dropup">
-                            <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                <img src="./images/menu.png">
-                                <span class="d-none d-lg-block ">More</span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a class="dropdown-item" href="#">
-                                        <span>Settings</span>
-                                        <img src="./images/reglage.png">
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="#">
-                                        <span>Your activity</span>
-                                        <img src="./images/history.png">
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="#">
-                                        <span>Saved</span>
-                                        <img src="./images/save-instagram.png">
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="#">
-                                        <span>Switch apperance</span>
-                                        <img src="./images/moon.png">
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="#">
-                                        <span>Report a problem</span>
-                                        <img src="./images/problem.png">
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item bold_border" href="#">
-                                        <span>Switch accounts</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="./login.html">
-                                        <span>Log out</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <!--  -->
-
-                    </div>
-                </div>
-                <!-- nav for small screen  -->
-                <div class="nav_sm">
-                    <div class="content">
-                        <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                <img class="logo" src="./images/logo_menu.png">
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a class="dropdown-item" href="#">
-                                        <span>Following</span>
-                                        <img src="./images/add-friend.png">
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="#">
-                                        <span>Favorites</span>
-                                        <img src="./images/star.png">
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="left">
-                            <div class="search_bar">
-                                <div class="input-group">
-                                    <div class="form-outline">
-                                        <div>
-                                            <img src="./images/search.png" alt="search">
-                                        </div>
-                                        <input type="search" id="form1" class="form-control" placeholder="Search" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="notifications notification_icon">
-                                <a href="./notification.html">
-                                    <img src="./images/love.png">
-                                </a>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-                <!-- nav for ex-small screen  -->
-                <div class="nav_xm">
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                            <img class="logo" src="./images/logo_menu.png">
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a class="dropdown-item" href="#">
-                                    <span>Following</span>
-                                    <img src="./images/add-friend.png">
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#">
-                                    <span>Favorites</span>
-                                    <img src="./images/star.png">
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="left">
-
-                        <img src="./images/send.png">
-                        <a href="./notification.html">
-                            <img class="notification_icon" src="./images/love.png">
-                        </a>
-
-                    </div>
-                </div>
             </div>
             <!-- menu in the botton for smal screen  -->
             <div class="nav_bottom">
-                <a href="./home.html"><img src="./images/accueil.png"></a>
-                <a href="./explore.html"><img src="./images/compass.png"></a>
-                <a href="./reels.html"><img src="./images/video.png"></a>
-                <a href="#" data-bs-toggle="modal" data-bs-target="#create_modal"><img src="./images/tab.png"></a>
-                <a href="profile.html"><img class="circle story" src="./images/profile_img.jpg"></a>
             </div>
         </div>
+        <!-- search  -->
+        <div id="search" class="search_section">
+        </div>
+        <!-- search  -->
+        <!-- notification -->
+        <div id="notification" class="notification_section">
+        </div>
+        <!--***** nav menu start ****** -->
+       
         <!-- search  -->
         <div id="search" class="search_section">
             <h2>Search</h2>
@@ -234,11 +51,11 @@
                     <div class="cart">
                         <div>
                             <div class="img">
-                                <img src="./images/profile_img.jpg" alt="">
+                                <img src="/images/profile_img.jpg" alt="">
                             </div>
                             <div class="info">
-                                <p class="name">Zineb_essoussi</p>
-                                <p class="second_name">Zim Ess</p>
+                                <p class="name">@Model.UserName</p>
+                                <p class="second_name">@Model.FirstName  @Model.LastName</p>
                             </div>
                         </div>
                         <div class="clear">
@@ -257,11 +74,11 @@
                     <div class="cart">
                         <div>
                             <div class="img">
-                                <img src="./images/profile_img.jpg" alt="">
+                                <img src="/images/profile_img.jpg" alt="">
                             </div>
                             <div class="info">
                                 <p class="name">
-                                    Zineb_essoussi
+                                    @Model.UserName
                                     <span class="desc">started following you.</span>
                                     <span class="time">2h</span>
                                 </p>
@@ -277,53 +94,11 @@
                     <div class="cart">
                         <div>
                             <div class="img">
-                                <img src="./images/profile_img.jpg" alt="">
+                                <img src="/images/profile_img.jpg" alt="">
                             </div>
                             <div class="info">
                                 <p class="name">
-                                    Zineb_essoussi
-                                    <span class="desc">started following you.</span>
-                                    <span class="time">2h</span>
-                                </p>
-
-                            </div>
-                        </div>
-                        <div class="follow_you">
-                            <button class="follow_text">Follow</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="notif story_notif">
-                    <div class="cart">
-                        <div>
-                            <div class="img">
-                                <img src="./images/profile_img.jpg" alt="">
-                            </div>
-                            <div class="info">
-                                <div class="info">
-                                    <p class="name">
-                                        Zineb_essoussi
-                                        <span class="desc">liked your story.</span>
-                                        <span class="time">2d</span>
-                                    </p>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="story_like">
-                            <img src="./images/img2.jpg" alt="">
-                        </div>
-                    </div>
-                </div>
-                <div class="notif follow_notif">
-                    <div class="cart">
-                        <div>
-                            <div class="img">
-                                <img src="./images/profile_img.jpg" alt="">
-                            </div>
-                            <div class="info">
-                                <p class="name">
-                                    Zineb_essoussi
+                                    @Model.UserName
                                     <span class="desc">started following you.</span>
                                     <span class="time">2h</span>
                                 </p>
@@ -339,12 +114,12 @@
                     <div class="cart">
                         <div>
                             <div class="img">
-                                <img src="./images/profile_img.jpg" alt="">
+                                <img src="/images/profile_img.jpg" alt="">
                             </div>
                             <div class="info">
                                 <div class="info">
                                     <p class="name">
-                                        Zineb_essoussi
+                                        @Model.UserName
                                         <span class="desc">liked your story.</span>
                                         <span class="time">2d</span>
                                     </p>
@@ -353,7 +128,7 @@
                             </div>
                         </div>
                         <div class="story_like">
-                            <img src="./images/img2.jpg" alt="">
+                            <img src="/images/img2.jpg" alt="">
                         </div>
                     </div>
                 </div>
@@ -361,11 +136,53 @@
                     <div class="cart">
                         <div>
                             <div class="img">
-                                <img src="./images/profile_img.jpg" alt="">
+                                <img src="/images/profile_img.jpg" alt="">
                             </div>
                             <div class="info">
                                 <p class="name">
-                                    Zineb_essoussi
+                                    @Model.UserName
+                                    <span class="desc">started following you.</span>
+                                    <span class="time">2h</span>
+                                </p>
+
+                            </div>
+                        </div>
+                        <div class="follow_you">
+                            <button class="follow_text">Follow</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="notif story_notif">
+                    <div class="cart">
+                        <div>
+                            <div class="img">
+                                <img src="/images/profile_img.jpg" alt="">
+                            </div>
+                            <div class="info">
+                                <div class="info">
+                                    <p class="name">
+                                        @Model.UserName
+                                        <span class="desc">liked your story.</span>
+                                        <span class="time">2d</span>
+                                    </p>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="story_like">
+                            <img src="/images/img2.jpg" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="notif follow_notif">
+                    <div class="cart">
+                        <div>
+                            <div class="img">
+                                <img src="/images/profile_img.jpg" alt="">
+                            </div>
+                            <div class="info">
+                                <p class="name">
+                                    @Model.UserName
                                     <span class="desc">started following you.</span>
                                     <span class="time">2h</span>
                                 </p>
@@ -385,21 +202,21 @@
             <div class="profile_info">
                 <div class="cart">
                     <div class="img">
-                        <img src="./images/profile_img.jpg" alt="">
+                        <img src="/images/profile_img.jpg" alt="">
                     </div>
                     <div class="info">
                         <p class="name">
-                            Zineb_essoussi
+                            @Model.UserName
                             <button class="edit_profile">
                                 Edit profile
                             </button>
                         </p>
                         <div class="general_info">
                             <p><span>1</span> post</p>
-                            <p><span>177</span> followers</p>
-                            <p><span>137</span> following</p>
+                            <a id="FolloweesCounter" asp-action="showFollowers" asp-controller="Follow" style="color:black ; margin:2px" class="ClickFollowing"> @Model.Followers.Count</a> <a style="color:black; margin:2px" asp-action="showFollowers" asp-controller="Follow" asp-route-ProfileUserViewModel="@Model" class="ClickFollowing"> Followers</a>
+                            <a id="FolloweesCounter" asp-action="showFollowees" asp-controller="Follow" style="color:black ; margin:2px" class="ClickFollowing"> @Model.Following.Count</a> <a style="color:black; margin:2px" asp-action="showFollowees" asp-controller="Follow" asp-route-ProfileUserViewModel="@Model" class="ClickFollowing"> Following</a>
                         </div>
-                        <p class="nick_name">Zin Ess</p>
+                        <p class="nick_name">@Model.FirstName  @Model.LastName</p>
                         <p class="desc">
                             I'am an engineering student <br>
                             ENSAO
@@ -410,13 +227,13 @@
             <div class="highlights">
                 <div class="highlight">
                     <div class="img">
-                        <img src="./images/profile_img.jpg" alt="">
+                        <img src="/images/profile_img.jpg" alt="">
                     </div>
                     <p>conseils</p>
                 </div>
                 <div class="highlight highlight_add">
                     <div class="img">
-                        <img src="./images/plus.png" alt="">
+                        <img src="/images/plus.png" alt="">
                     </div>
                     <p>New</p>
                 </div>
@@ -426,19 +243,19 @@
                 <ul class="nav-pills w-100 d-flex justify-content-center" id="pills-tab" role="tablist">
                     <li class="nav-item mx-2" role="presentation">
                         <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">
-                            <img src="./images/feed.png" alt="posts">
+                            <img src="/images/feed.png" alt="posts">
                             POSTS
                         </button>
                     </li>
                     <li class="nav-item mx-2" role="presentation">
                         <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">
-                            <img src="./images/save-instagram.png" alt="saved posts">
+                            <img src="/images/save-instagram.png" alt="saved posts">
                             SAVED
                         </button>
                     </li>
                     <li class="nav-item mx-2" role="presentation">
                         <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">
-                            <img src="./images/tagged.png" alt="tagged posts">
+                            <img src="/images/tagged.png" alt="tagged posts">
                             TAGGED
                         </button>
                     </li>
@@ -503,7 +320,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <img class="up_load" src="./images/upload.png" alt="upload">
+                        <img class="up_load" src="/images/upload.png" alt="upload">
                         <p>Drag photos and videos here</p>
                         <button class="btn btn-primary btn_upload">
                             select from your computer
@@ -519,10 +336,10 @@
                                 <div class="cart">
                                     <div>
                                         <div class="img">
-                                            <img src="./images/profile_img.jpg">
+                                            <img src="/images/profile_img.jpg">
                                         </div>
                                         <div class="info">
-                                            <p class="name">Zineb_essoussi</p>
+                                            <p class="name">@Model.UserName</p>
                                         </div>
                                     </div>
                                 </div>
@@ -532,7 +349,7 @@
                             </div>
                         </div>
                         <div class="post_published hide_img">
-                            <img src="./images/uploaded_post.gif" alt="">
+                            <img src="/images/uploaded_post.gif" alt="">
                         </div>
                     </div>
                 </div>
@@ -541,13 +358,90 @@
 
     </div>
 
+
+   @*  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <!-- Modal content -->
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Search bar -->
+                    <input type="text" class="form-control" id="searchInput" placeholder="Search...">
+                    <!-- Search results will be displayed here -->
+                    <div id="searchResults"></div>
+                    <li class="nav-item">
+                        <form class="form-inline" id="searchForm" method="post" asp-action="SearchFollower" asp-controller="follow">
+                            <label for="Name" class="me-2">Name</label>
+                        </form>
+                    </li>
+
+                    @if (Model != null && Model.Count > 0)
+                    {
+                        <table>
+                            <tr>
+
+                                <th>UseName</th>
+                            </tr>
+                            @foreach (var follower in Model)
+                            {
+                                <tr>
+
+                                    <td>@follower.UserName</td>
+                                </tr>
+                            }
+                        </table>
+                    }
+                    else
+                    {
+                        <p>No followers found.</p>
+                    }
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div> *@
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-pz0r7Pz0cHpXkzF5q1z5byXPxJph0XaP7ADkiJviu9CSnBohR+K5f2GO/dAiS6+J" crossorigin="anonymous"></script>
+
+    <!-- Your other scripts -->
+
+    <script>
+        // Wait for the document to be fully loaded
+        document.addEventListener("DOMContentLoaded", function () {
+            // Find all elements with the class 'ClickFollowers'
+            var followersLinks = document.querySelectorAll('.ClickFollowers');
+
+            // Iterate over each element and add a click event listener
+            followersLinks.forEach(function (link) {
+                link.addEventListener('click', function (event) {
+                    // Prevent the default action of the anchor tag
+                    event.preventDefault();
+
+                    // Show the modal programmatically
+                    var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+                    modal.show();
+                });
+            });
+        });
+    </script>
+
+
     @* <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script> *@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
-    <script src="./owlcarousel/jquery.min.js"></script>
-    <script src="./owlcarousel/owl.carousel.min.js"></script>
-    <script src="./js/carousel.js"></script>
+    <script src="/owlcarousel/jquery.min.js"></script>
+    <script src="/owlcarousel/owl.carousel.min.js"></script>
+    <script src="/js/carousel.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.js"></script>
-    <script src="./js/main.js"></script>
+    <script src="/js/main.js"></script>
 </body>
 
 </html>

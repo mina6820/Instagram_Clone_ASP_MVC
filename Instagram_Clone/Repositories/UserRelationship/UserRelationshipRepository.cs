@@ -1,75 +1,99 @@
 ﻿using Instagram_Clone.Authentication;
 using Instagram_Clone.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
-using System.ComponentModel;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace Instagram_Clone.Repositories.UserFollowRepo
 {
-    public class UserRelationshipRepository:Repository<UserRelationship> , IUserRelationshipRepository
+    public class UserRelationshipRepository : Repository<UserRelationship>, IUserRelationshipRepository
     {
-        Context context;
-        public UserRelationshipRepository(Context context) : base(context)
+        private readonly Context context;
+
+        public UserRelationshipRepository(Context _context) : base(_context)
         {
-            // No need to store the context separately if not used elsewhere
+            context = _context;
+        }
+
+        public ApplicationUser GetById(string id)
+        {
+            ApplicationUser user = context.Users.Include(i => i.Followers)
+                .FirstOrDefault(i => i.Id == id);
+            return user;
         }
 
 
-      
-        //public List<UserRelationship> GetAll(string include="")
-        //{
-        //     List < UserRelationship > Lists = context.UserRelationship.ToList();
-        //    return Lists;
 
-        //}
-        //public ApplicationUser GetById(string id)
-        //{
-        //    ApplicationUser user = context.Users.FirstOrDefault(i => i.Id == id);
-        //    return user;
-        //}
-        //public List<ApplicationUser> GetFollowers(string id)
-        //{
-        //    UserRelationship userRelationship = context.UserRelationship.FirstOrDefault(x => x.FollowerId == id);
+        public List<UserRelationship> GetFollowers(string id)
+        {
+            List<UserRelationship> followers = context.UserRelationship
+                .Where(ur => ur.FolloweeId == id)
+                .Include(ur => ur.Follower)
+                //.Select(ur => ur.Follower)
+                //.Select(ur => ur.Follower)
 
-        //    if (userRelationship != null)
-        //    {
-        //        //Get the followers based on the user relationship
-        //        List<ApplicationUser> followers = context.UserRelationship
-        //        .Where(r => r.FolloweeId == id)
-        //        .Select(r => r.Followee)
-        //        .ToList();
+                .ToList();
 
-        //        return followers;
-        //    }
-        //    else
-        //    {
-        //        return new List<ApplicationUser>(); // Return an empty list if the user relationship is not found
-        //    }
+            return followers;
 
+        }
 
-
-
-            //UserRelationship userRelationship = new UserRelationship();
-
-            //ApplicationUser user = GetById(id);
-            //List<ApplicationUser> Followers = userRelationship.FollowerId;
-            //return Followers;
-
-
-
-            //var user = context.Users
-            //.Include(u => u.ProfilePicture)
-            //.FirstOrDefault(u => u.Id == id);
-
-            //if (user != null && user != null)
+        public List<UserRelationship> GetFollowees(string id)
+        {
+            List<UserRelationship> Following = context.UserRelationship
+                .Where(ur => ur.FollowerId == id)
+                .Include(Following => Following.Followee)
+                //.Select(ur => ur.Followee)
+                .ToList();
+            return Following;
+        }
+        //انا هديك ال فلويي و انت تبعتلى الفلور
+        public List<UserRelationship> searchFollowers(string Name)
+        {
+            //if (string.IsNullOrEmpty(Name))
             //{
-            //    return context.Users
-            //        .Include(u => u.ProfilePicture)
-            //        .Where(u => user..Contains(u.Id))
-            //        .ToList();
+            //    // If name is null or empty, return an empty list
+            //    return new List<UserRelationship>();
             //}
 
-            //return new List<ApplicationUser>();
+            // Convert the search name to lowercase for case-insensitive search
+            //string lowerName = Name.ToLower();
+
+           List< UserRelationship> searchedUsers = context.UserRelationship
+                .Include(ur => ur.Follower)
+                .Where(ur => ur.Follower.UserName.Contains(Name))
+                .ToList();
+
+            return searchedUsers;
+        }
+
+
+        //public List<UserRelationship> searchFollowers(string name)
+        //{
+        //    List<UserRelationship> searchedUsers =
+        //        context.UserRelationship
+        //        .Include(ur => ur.Follower)
+        //        .Where(ur => ur.Follower.UserName.Contains(name))
+        //        .ToList();
+        //    return searchedUsers;
         //}
 
+        public List<ApplicationUser> searchFollowees( string Name)
+        {
+            //List<UserRelationship> searchedUsers =
+            //    context.UserRelationship
+            //    .Where(ur => ur.Followee.UserName.Contains(name))//AppUser
+            //    .Include(following => following.Followee)
+            //    //.Select(ur => ur.Followee)//AppUser
+            //    .ToList();
+            List<ApplicationUser> users = context.Users.Where(u => u.UserName.Contains(Name)).Include(u => u.Following).ToList(); //GetFollowers(user.Id);
+
+            return users;
+          
+        }
+
+        
+
+        
     }
 }

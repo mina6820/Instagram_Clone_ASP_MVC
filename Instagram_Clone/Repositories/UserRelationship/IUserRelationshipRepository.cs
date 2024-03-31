@@ -4,6 +4,18 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
 {
     public interface IUserRelationshipRepository : IRepository<UserRelationship>
     {
-        //public List<ApplicationUser> GetFollowers(string id);
+        public List<UserRelationship> GetFollowers(string id);
+
+        public ApplicationUser GetById(string id);
+
+        public List<UserRelationship> GetFollowees(string id);
+
+        public List<UserRelationship> searchFollowers(string Name);
+
+        public List<ApplicationUser> searchFollowees(string Name);
+
+
+
+
     }
 }
