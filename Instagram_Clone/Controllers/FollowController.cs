@@ -23,6 +23,7 @@ namespace Instagram_Clone.Controllers
 
 
         //Follow/showFollowers?id=
+
         public ActionResult showFollowers(string id)
         {
             List<ApplicationUser> Followers = userRelationshipRepository.GetFollowers(id);
@@ -37,9 +38,6 @@ namespace Instagram_Clone.Controllers
 
             return View("showFollowees", Followees);
         }
-
-
-
         public ActionResult SearchFollower( string name)
         {
             List<ApplicationUser> searchedUsers = userRelationshipRepository.searchFollowers(name);

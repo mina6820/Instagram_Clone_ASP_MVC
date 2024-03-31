@@ -27,35 +27,42 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
         public List<ApplicationUser> GetFollowers(string id)
         {
             List<ApplicationUser> followers = context.UserRelationship
-           .Where(ur => ur.FolloweeId == id)
-           .Select(ur => ur.Follower)
-           .ToList();
-            return followers;   
+                .Where(ur => ur.FolloweeId == id)
+                .Include(follower => follower.Follower)
+                .Select(ur => ur.Follower)
+                .ToList();
+
+            return followers;
         }
         public List<ApplicationUser> GetFollowees(string id)
         {
             List<ApplicationUser> Following = context.UserRelationship
                 .Where(ur => ur.FollowerId == id)
+                .Include(Following => Following.Followee)
                 .Select(ur => ur.Followee)
                 .ToList();
             return Following;
         }
-
+        //انا هديك ال فلويي و انت تبعتلى الفلور
         public List<ApplicationUser> searchFollowers(string name)
         {
-            List<ApplicationUser> searchedUsers= 
-                context.UserRelationship
-                .Where(ur => ur.Follower.FirstName.Contains(name) || ur.Follower.LastName.Contains(name))//AppUser
-                .Select(ur=>ur.Follower)//AppUser
-                .ToList();
-            return searchedUsers;     
+            ApplicationUser user = context.Users.FirstOrDefault(u=>u.UserName.Contains(name));
+            List<ApplicationUser> users = GetFollowers(user.Id);
+            //List<ApplicationUser> searchedUsers= 
+            //    context.UserRelationship
+            //    .Where(ur => ur.Follower.UserName.Contains(name))//AppUser
+            //    .Include(follower => follower.Follower)
+            //    .Select(ur=>ur.Follower)//AppUser
+            //    .ToList();
+            return users;     
         }
 
         public List<ApplicationUser> searchFollowees( string name)
         {
             List<ApplicationUser> searchedUsers =
                 context.UserRelationship
-                .Where(ur => ur.Followee.FirstName.Contains(name) || ur.Followee.LastName.Contains(name))//AppUser
+                .Where(ur => ur.Followee.UserName.Contains(name))//AppUser
+                .Include(following => following.Followee)
                 .Select(ur => ur.Followee)//AppUser
                 .ToList();
             return searchedUsers;
