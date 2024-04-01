@@ -19,34 +19,35 @@ namespace Instagram_Clone.Controllers
         public async Task<IActionResult> Index()
         {
             ApplicationUser currentUser = await userManager.GetUserAsync(User);
+            
 
-            List<Message> messages = messageRepository.GetAll().ToList();
+            List<Chat> chats = messageRepository.GetAllChats(currentUser.Id);
 
             ViewBag.CurrentUserName = currentUser.UserName;
 
-            return View("Index",messages);
+            return View("Index",chats);
 
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Create(Message message)
-        {
-            if (ModelState.IsValid)
-            {
-                ApplicationUser sender = await userManager.GetUserAsync(User);
-                message.Sender = sender;
+        //[HttpPost]
+        //public async Task<IActionResult> Create(Message message)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        ApplicationUser sender = await userManager.GetUserAsync(User);
+        //        message.Sender = sender;
 
-                // Insert the message using your repository
-                await messageRepository.InsertAsync(message);
+        //        // Insert the message using your repository
+        //        await messageRepository.InsertAsync(message);
 
-                // Save changes after inserting the message
-                messageRepository.Save();
+        //        // Save changes after inserting the message
+        //        messageRepository.Save();
 
-                return RedirectToAction("Index");
-            }
+        //        return RedirectToAction("Index");
+        //    }
 
-            // If ModelState is not valid, return back to the view with the invalid message
-            return View(message);
-        }
+        //    // If ModelState is not valid, return back to the view with the invalid message
+        //    return View(message);
+        //}
     }
 }
