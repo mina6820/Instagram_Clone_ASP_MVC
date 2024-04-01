@@ -32,6 +32,11 @@ namespace Instagram_Clone
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("cs"));
             });
+            builder.Services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+            });
+
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
                             .AddEntityFrameworkStores<Context>();

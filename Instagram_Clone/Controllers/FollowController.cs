@@ -70,12 +70,28 @@ namespace Instagram_Clone.Controllers
             profileUserViewModel.Following = userRelationshipRepository.GetFollowees(user.Id);
             return View("showFollowees", profileUserViewModel);
         }
-        public ActionResult SearchFollower( string name)
+
+        //[HttpGet]
+        //public IActionResult SearchFollower(string name)
+        //{
+        //    if (!string.IsNullOrEmpty(name))
+        //    {
+        //        // Perform search based on the provided name (e.g., search in your database)
+        //        List<ApplicationUser> searchedUsers = userRelationshipRepository.searchFollowers(name);
+        //        return Json(searchedUsers);
+        //    }
+        //    else
+        //    {
+        //        // If the name is null or empty, return an empty list as JSON
+        //        return Json(new List<ApplicationUser>());
+        //    }
+        //}
+        public ActionResult SearchFollower(string name)
         {
             List<ApplicationUser> searchedUsers = userRelationshipRepository.searchFollowers(name);
             if (name != null)
             {
-               
+
                 return View("showFollowers", searchedUsers);
             }
             else
@@ -86,7 +102,7 @@ namespace Instagram_Clone.Controllers
                 searchedUsers = new List<ApplicationUser>();
                 return View("showFollowers", searchedUsers);
 
-            } 
+            }
         }
 
 
