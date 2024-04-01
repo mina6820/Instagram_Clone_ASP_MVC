@@ -1,4 +1,5 @@
-﻿using Instagram_Clone.Repositories.UserFollowRepo;
+﻿using Instagram_Clone.Repositories.PostRepo;
+using Instagram_Clone.Repositories.UserFollowRepo;
 using Instagram_Clone.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,11 +11,13 @@ namespace Instagram_Clone.Controllers
     {
         private readonly Context context;
         private readonly IUserRelationshipRepository userRelationship;
+        private readonly IPostRepository postRepository;
 
-        public ProfileController(Context context , IUserRelationshipRepository userRelationship)
+        public ProfileController(Context context , IUserRelationshipRepository userRelationship , IPostRepository postRepository)
         {
             this.context = context;
             this.userRelationship = userRelationship;
+            this.postRepository = postRepository;
         }
         public IActionResult Index()
         {
@@ -31,6 +34,7 @@ namespace Instagram_Clone.Controllers
             profileUserViewModel.Bio=user.Bio;
             profileUserViewModel.Followers= userRelationship.GetFollowers(user.Id);
             profileUserViewModel.Following=userRelationship.GetFollowees(user.Id);
+            profileUserViewModel.Posts = postRepository.GetAllPostsByUserID(user.Id);
             profileUserViewModel.ProfilePicture=user.ProfilePicture;
             return View("Index", profileUserViewModel);
         }
