@@ -1,4 +1,5 @@
-﻿@model List<ApplicationUser>
+﻿@using Instagram_Clone.ViewModels
+@model ProfileUserViewModel
 
 <!DOCTYPE html>
 <html>
@@ -24,25 +25,25 @@
 <body>
     <h1>Followers List</h1>
     <li class="nav-item">
-        <form class="form-inline" id="searchForm" method="post" asp-action="SearchFollower" asp-controller="follow">
+        <form class="form-inline" id="searchForm" method="get" asp-action="ShowFollowers" asp-controller="Follow">
             <label for="Name" class="me-2">Name</label>
-            <input class="form-control me-2" placeholder="Search..." id="Name" name="Name" type="text">
+            <input class="form-control me-2" placeholder="Search..." id="NameSearch" name="Name" type="text">
             <input type="submit" class="btn btn-primary btn-sm mt-1" value="Search">
         </form>
     </li>
 
-    @if (Model != null && Model.Count > 0)
+    @if (Model != null && Model.Followers.Count > 0)
     {
         <table>
             <tr>
 
                 <th>UseName</th>
             </tr>
-            @foreach (var follower in Model)
+            @foreach (var follower in Model.Followers)
             {
                 <tr>
 
-                    <td>@follower.UserName</td>
+                    <td>@follower.Follower.UserName</td>
                 </tr>
             }
         </table>
@@ -52,6 +53,32 @@
         <p>No followers found.</p>
     }
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <script>
+        $(function () {
+            $("#NameSearch").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "/Follow/Autocomplete",
+                        type: "GET",
+                        dataType: "json",
+                        data: { term: request.term },
+                        success: function (data) {
+                            response(data);
+                        }
+                    });
+                },
+                minLength: 1 // specify minimum characters before triggering autocomplete
+            });
+        });
+    </script>
+
 
 </body>
 </html>
+
+    
+

@@ -1,17 +1,33 @@
 ﻿using Instagram_Clone.Authentication;
+using Instagram_Clone.Models;
 using Instagram_Clone.Repositories.UserFollowRepo;
+using Instagram_Clone.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Instagram_Clone.Controllers
 {
     public class FollowController : Controller
     {
        private IUserRelationshipRepository userRelationshipRepository;
+        private readonly Context context;
 
-        public FollowController( IUserRelationshipRepository _userRelationship )
+        public FollowController( IUserRelationshipRepository _userRelationship , Context context)
         {
             userRelationshipRepository = _userRelationship;
+            this.context = context;
         }
+
+        public List<string> Autocomplete(string term)
+        {
+            var followerNames = context.UserRelationship
+                .Where(ur => ur.Follower.UserName.Contains(term))
+                .Select(ur => ur.Follower.UserName)
+                .ToList();
+
+            return followerNames;
+        }
+        
 
         /// follow / ShowAll
         //public IActionResult ShowAll()
@@ -24,23 +40,47 @@ namespace Instagram_Clone.Controllers
 
         //Follow/showFollowers?id=
 
-        public ActionResult showFollowers(string id)
+        public IActionResult ShowFollowers(string Name)
         {
-            List<ApplicationUser> Followers = userRelationshipRepository.GetFollowers(id);
+            ProfileUserViewModel profileUserViewModel = new ProfileUserViewModel();
+            Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+            ApplicationUser user = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+            profileUserViewModel.UserName = user.UserName;
+            profileUserViewModel.FirstName = user.FirstName;
+            profileUserViewModel.LastName = user.LastName;
 
-            return View("showFollowers", Followers);
+            if (Name == null)
+            {
+                profileUserViewModel.Followers = userRelationshipRepository.GetFollowers(user.Id);
+                profileUserViewModel.Following = userRelationshipRepository.GetFollowees(user.Id);
+            }
+            else
+            {
+                profileUserViewModel.Followers = userRelationshipRepository.searchFollowers(Name);
+                profileUserViewModel.Following = userRelationshipRepository.GetFollowees(user.Id);
+            }
+
+            return View("ShowFollowers", profileUserViewModel);
         }
 
         //Follow/showFollowees?id=
-        public ActionResult showFollowees(string id)
+        public ActionResult showFollowees()//string id)
         {
-            List<ApplicationUser> Followees = userRelationshipRepository.GetFollowees(id);
-
-            return View("showFollowees", Followees);
+            //List<UserRelationship> Followees = userRelationshipRepository.GetFollowees(id);
+            ProfileUserViewModel profileUserViewModel = new ProfileUserViewModel();
+            //string name = User.Identity.Name;
+            Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+            ApplicationUser user = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+            profileUserViewModel.UserName = user.UserName;
+            profileUserViewModel.FirstName = user.FirstName;
+            profileUserViewModel.LastName = user.LastName;
+            profileUserViewModel.Followers = userRelationshipRepository.GetFollowers(user.Id);
+            profileUserViewModel.Following = userRelationshipRepository.GetFollowees(user.Id);
+            return View("showFollowees", profileUserViewModel);
         }
         public ActionResult SearchFollower( string name)
         {
-            List<ApplicationUser> searchedUsers = userRelationshipRepository.searchFollowers(name);
+            List<UserRelationship> searchedUsers = userRelationshipRepository.searchFollowers(name);
             if (name != null)
             {
                
@@ -51,7 +91,7 @@ namespace Instagram_Clone.Controllers
                 //List<ApplicationUser> searchedUsers = userRelationshipRepository.searchFollowers(name);
                 //return View("showFollowers", searchedUsers);
                 //return RedirectToAction("Index","Home");
-                searchedUsers = new List<ApplicationUser>();
+                searchedUsers = new List<UserRelationship>();
                 return View("showFollowers", searchedUsers);
 
             } 

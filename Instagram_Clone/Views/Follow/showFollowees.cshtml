@@ -1,4 +1,5 @@
-﻿@model List<ApplicationUser>
+﻿@using Instagram_Clone.ViewModels
+@model ProfileUserViewModel
 
 <!DOCTYPE html>
 <html>
@@ -24,23 +25,25 @@
 <body>
     <h1>Followers List</h1>
     <li class="nav-item">
-        <form class="form-inline" method="post" asp-action="SearchFollowee" asp-controller="follow">
+        <form class="form-inline" method="post" asp-action="SearchFollowee" asp-controller="Follow">
             <label for="Name" class="me-2">Name</label>
             <input class="form-control me-2" id="Name" name="Name" placeholder="Search..." type="text">
-            <input type="submit" class="btn btn-primary btn-sm mt-1" value="Search">
+@*             <input type="submit" class="btn btn-primary btn-sm mt-1" value="Search">
+ *@            <button type="submit" class="btn btn-primary">Search</button>
+
         </form>
     </li>
-    @if (Model != null && Model.Count > 0)
+    @if (Model != null && Model.Following.Count > 0)
     {
         <table>
             <tr>
                 <th>User Name</th>
                    
             </tr>
-            @foreach (var follower in Model)
+            @foreach (var followee in Model.Following)
             {
                 <tr>
-                    <td>@follower.UserName</td>                
+                    <td>@followee.Followee.UserName</td>                
                 </tr>
             }
         </table>
