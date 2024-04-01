@@ -15,6 +15,32 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.css">
     <link rel="stylesheet" href="/sass/main.css">
 </head>
+<style>
+    .user-info {
+        display: flex;
+        justify-content: space-between; /* Add space between username and link */
+        align-items: center;
+    }
+
+    .name {
+        /* No need for margin-right */
+    }
+
+    .edit-profile-link {
+        background-color: #007bff;
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+
+        .edit-profile-link:hover {
+            background-color: #0056b3;
+        }
+
+
+</style>
 <body>
 
     <div class="post_page">
@@ -205,12 +231,13 @@
                         <img src="/images/profile_img.jpg" alt="">
                     </div>
                     <div class="info">
-                        <p class="name">
-                            @Model.UserName
-                            <button class="edit_profile">
-                                Edit profile
-                            </button>
-                        </p>
+                        <div class="user-info">
+                            <p class="name">@Model.UserName</p>
+                            <a href="@Url.Action("Edit", "Profile")" class="edit-profile-link">Edit profile</a>
+                        </div>
+
+
+
                         <div class="general_info">
                             <p><span>1</span> post</p>
                             <a id="FolloweesCounter" asp-action="showFollowers" asp-controller="Follow" style="color:black ; margin:2px" class="ClickFollowing"> @Model.Followers.Count</a> <a style="color:black; margin:2px" asp-action="showFollowers" asp-controller="Follow" asp-route-ProfileUserViewModel="@Model" class="ClickFollowing"> Followers</a>
@@ -218,8 +245,7 @@
                         </div>
                         <p class="nick_name">@Model.FirstName  @Model.LastName</p>
                         <p class="desc">
-                            I'am an engineering student <br>
-                            ENSAO
+                            @Model.Bio
                         </p>
                     </div>
                 </div>
