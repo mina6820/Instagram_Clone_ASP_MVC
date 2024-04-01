@@ -20,12 +20,13 @@ namespace Instagram_Clone.Controllers
             return View();
         }
         //Register
+        [HttpGet]
         public IActionResult Register()
         {
             return View("Register");
         }
         [HttpPost]
-        public async Task<IActionResult> SaveRegister(RegisterViewModel userVM)
+        public async Task<IActionResult> Register(RegisterViewModel userVM)
         {
             if (ModelState.IsValid) {
                 ApplicationUser user = new ApplicationUser()
@@ -53,12 +54,14 @@ namespace Instagram_Clone.Controllers
             return View("Register", userVM);
         }
         //Login
+        [HttpGet]
         public IActionResult Login()
         {
             return View("Login");
         }
 
-        public async Task<IActionResult> SaveLogin(LoginViewModel loginViewModel)
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel loginViewModel)
         {
             if (ModelState.IsValid == true)
             {
