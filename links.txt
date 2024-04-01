@@ -1,0 +1,38 @@
+
+                // Access the Followers property directly
+                //List<ApplicationUser> followers = context.Users
+                //    .Select(x=>x.Followers)
+                //    .FirstOrDefault(u => u.Id == id)
+                //    .ToList();
+                //    //user.Followers;
+
+
+
+
+ //// Find the user's followers based on the FollowerId
+ //List<string> followerIds = context.UserRelationship
+ //    .Where(ur => ur.FolloweeId == id)
+ //    .Select(ur => ur.FollowerId)
+ //    .ToList();
+
+ //// Get the ApplicationUser objects corresponding to the followerIds
+ //List<ApplicationUser> followers =
+ //     context.Users
+ //    .Where(u => followerIds.Contains(u.Id))
+ //    .ToList();
+
+ //return followers;
+ // Find the user by id
+
+//abadeer,shimaa,mohamed
+http://localhost:5219/follow/showFollowers?id=a880637f-884b-4b12-ae43-51059938e034
+//habeba
+http://localhost:5219/follow/showFollowers?id=c04e0fa6-30d1-45c7-ab94-3d01bf5823ec
+
+habeba,mina,mohamed
+http://localhost:5219/follow/showFollowees?id=c04e0fa6-30d1-45c7-ab94-3d01bf5823ec
+
+abadeer
+http://localhost:5219/follow/showFollowees?id=a880637f-884b-4b12-ae43-51059938e034
+
+
