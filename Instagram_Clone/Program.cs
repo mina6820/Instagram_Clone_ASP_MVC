@@ -54,9 +54,10 @@ namespace Instagram_Clone
             builder.Services.AddScoped<IStoryRepository, StoryRepository>();
             builder.Services.AddScoped<IStoryViewRepository, StoryViewRepository>();
             builder.Services.AddScoped<IpostPhotoRepository, postPhotoRepository>();
-
             builder.Services.AddSignalR();
 
+            
+            
 
 
             //////////////////////////////==========buiild=================////////////////////////////////////////////////////////

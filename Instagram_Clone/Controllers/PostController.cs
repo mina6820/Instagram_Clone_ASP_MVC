@@ -5,17 +5,20 @@ using Instagram_Clone.Repositories.PostRepo;
 using Instagram_Clone.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Instagram_Clone.Controllers
 {
     public class PostController : Controller
     {
+        private readonly Context context;
         private readonly IPostRepository postRepository;
         private readonly IWebHostEnvironment webHostEnvironment;
         private readonly IpostPhotoRepository photoRepository;
 
-        public PostController(IPostRepository postRepository, IWebHostEnvironment webHostEnvironment, IpostPhotoRepository photoRepository)
+        public PostController(Context context,IPostRepository postRepository, IWebHostEnvironment webHostEnvironment, IpostPhotoRepository photoRepository)
         {
+            this.context = context;
             this.postRepository = postRepository;
             this.webHostEnvironment = webHostEnvironment;
             this.photoRepository = photoRepository;
@@ -36,16 +39,20 @@ namespace Instagram_Clone.Controllers
             {
                 postVM.Image.CopyTo(fileStream);
             }
-            
+
             //photo.Path = name;
-            
+
+            Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+            ApplicationUser user = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+
             Post post = new Post();
             post.Caption = postVM.Caption;
             //post.Photos = new List<string> ();
             List<string> Pathes = new List<string>();
             Pathes.Add(filePath);
 
-            post.PhotosPathes = Pathes;
+            post.PhotosPathes.Add(name);
+            post.UserId = user.Id;
             postRepository.Insert(post);
             postRepository.Save();
 
