@@ -22,6 +22,7 @@ namespace Instagram_Clone.Controllers
         public IActionResult Index()
         {
             //comment
+            //comment2
             ProfileUserViewModel profileUserViewModel = new ProfileUserViewModel();
 
             string name = User.Identity.Name;
