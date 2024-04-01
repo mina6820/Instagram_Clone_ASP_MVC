@@ -235,12 +235,9 @@
                             <p class="name" style="font-size:17px;margin:4px">@Model.UserName</p>
                             <a href="@Url.Action("Edit", "Profile")" style="background-color:darkgray;margin:2px;font-size:15px" class="edit-profile-link">Edit profile</a>
                         </div>
-
-
-
                         <div class="general_info">
                             <p><span>@Model.Posts.Count</span> post</p>
-                            <a id="FolloweesCounter" asp-action="showFollowers" asp-controller="Follow" style="color:black ; margin:2px" class="ClickFollowing"> @Model.Followers.Count</a> <a style="color:black; margin:2px" asp-action="showFollowers" asp-controller="Follow" asp-route-ProfileUserViewModel="@Model" class="ClickFollowing"> Followers</a>
+                            <a id="FollowersCounter" asp-action="showFollowers" asp-controller="Follow" style="color:black ; margin:2px" class="ClickFollowers"> @Model.Followers.Count</a> <a style="color:black; margin:2px" asp-action="showFollowers" asp-controller="Follow" asp-route-ProfileUserViewModel="@Model" class="ClickFollowers"> Followers</a>
                             <a id="FolloweesCounter" asp-action="showFollowees" asp-controller="Follow" style="color:black ; margin:2px" class="ClickFollowing"> @Model.Following.Count</a> <a style="color:black; margin:2px" asp-action="showFollowees" asp-controller="Follow" asp-route-ProfileUserViewModel="@Model" class="ClickFollowing"> Following</a>
                         </div>
                         <p class="nick_name">@Model.FirstName  @Model.LastName</p>
@@ -342,7 +339,7 @@
         </div>
 
 
-        <!--Create model-->
+    @*     <!--Create model-->
         <div class="modal fade" id="create_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
@@ -391,10 +388,10 @@
             </div>
         </div>
 
-    </div>
+    </div> *@
 
-
-   @*  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+@* 
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <!-- Modal content -->
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
@@ -404,34 +401,37 @@
                 </div>
                 <div class="modal-body">
                     <!-- Search bar -->
-                    <input type="text" class="form-control" id="searchInput" placeholder="Search...">
+                   
                     <!-- Search results will be displayed here -->
                     <div id="searchResults"></div>
                     <li class="nav-item">
-                        <form class="form-inline" id="searchForm" method="post" asp-action="SearchFollower" asp-controller="follow">
-                            <label for="Name" class="me-2">Name</label>
+                        <form class="form-inline" id="searchForm" method="get" asp-action="ShowFollowers" asp-controller="Follow">
+                           
+                            <input class="form-control me-2" placeholder="Search..." id="NameSearch" name="Name" type="text">
+                            <input type="submit" class="btn btn-primary btn-sm mt-1" value="Search">
                         </form>
                     </li>
 
-                    @if (Model != null && Model.Count > 0)
+                    @if (ViewBag.searchFollowers == null)
                     {
-                        <table>
+
+                        @foreach (var follower in Model.Followers)
+                        {
                             <tr>
 
-                                <th>UseName</th>
+                                <td>@follower.Follower.UserName</td>
                             </tr>
-                            @foreach (var follower in Model)
-                            {
-                                <tr>
-
-                                    <td>@follower.UserName</td>
-                                </tr>
-                            }
-                        </table>
+                        }
                     }
                     else
                     {
-                        <p>No followers found.</p>
+                        @foreach (var follower in ViewBag.searchFollowers)
+                        {
+                            <tr>
+
+                                <td>@follower.UserName</td>
+                            </tr>
+                        }
                     }
 
 
@@ -449,7 +449,7 @@
 
     <!-- Your other scripts -->
 
-    <script>
+   @*  <script>
         // Wait for the document to be fully loaded
         document.addEventListener("DOMContentLoaded", function () {
             // Find all elements with the class 'ClickFollowers'
@@ -467,7 +467,7 @@
                 });
             });
         });
-    </script>
+    </script> *@
 
 
     @* <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script> *@
