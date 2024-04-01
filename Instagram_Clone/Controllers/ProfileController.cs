@@ -93,7 +93,25 @@ namespace Instagram_Clone.Controllers
         [HttpPost]
         public IActionResult Edit(EditUserViewModel editUserViewModel)
         {
+            Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+            ApplicationUser user = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+
             string wwrootPath = Path.Combine(webHost.WebRootPath, "Images");
+            //if (editUserViewModel.ProfilePicture == null)
+            //{
+            //    profilePhoto profileImage = new profilePhoto();
+            //    profileImage.Name = user.ProfilePicture.Name;
+            //    profileImage.Path = user.ProfilePicture.Path;
+            //    profileImage.UserId = user.Id;
+            //    profileImage.User = user;
+            //    user.ProfilePicture = profileImage;
+
+            //    // Check if editUserViewModel.ProfilePicture is not null before assigning FileName
+            //    if (editUserViewModel.ProfilePicture != null)
+            //    {
+            //        editUserViewModel.ProfilePicture.FileName = profileImage.Name;
+            //    }
+            //}
             string imageName = Guid.NewGuid().ToString() + "_" + editUserViewModel.ProfilePicture.FileName;
             //string imageName = Guid.NewGuid().ToString() + "_" + editUserViewModel.ProfilePicture.FileName;
             string filePath = Path.Combine(wwrootPath, imageName);
@@ -106,8 +124,7 @@ namespace Instagram_Clone.Controllers
             }
             if (ModelState != null)
             {
-                Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
-                ApplicationUser user = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+                
                
                 user.UserName = editUserViewModel.UserName;
                 user.Email = editUserViewModel.Email;
