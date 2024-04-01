@@ -67,9 +67,15 @@
         <p>No followers found.</p>
     } *@
 
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+   
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
 @*     <script>
         $(function () {
@@ -77,6 +83,28 @@
 
             $("#NameSearch").autocomplete({
                 source: instructorNames,
+                minLength: 1 // specify minimum characters before triggering autocomplete
+            });
+        });
+    </script> *@
+@* 
+    <script>
+        $(function () {
+            $("#NameSearch").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '/Follow/SearchFollower', // Adjust the URL according to your route
+                        dataType: 'json',
+                        data: {
+                            name: request.term
+                        },
+                        success: function (data) {
+                            response(data.map(function (user) {
+                                return user.UserName;
+                            }));
+                        }
+                    });
+                },
                 minLength: 1 // specify minimum characters before triggering autocomplete
             });
         });
