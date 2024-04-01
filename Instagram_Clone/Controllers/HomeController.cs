@@ -7,7 +7,10 @@ namespace Instagram_Clone.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
+        /// <summary>
+        /// messi
+        /// </summary>
+        /// <param name="logger"></param>
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
