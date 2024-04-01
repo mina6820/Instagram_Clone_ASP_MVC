@@ -212,7 +212,7 @@
                             </button>
                         </p>
                         <div class="general_info">
-                            <p><span>1</span> post</p>
+                            <p><span>@Model.Posts.Count</span> post</p>
                             <a id="FolloweesCounter" asp-action="showFollowers" asp-controller="Follow" style="color:black ; margin:2px" class="ClickFollowing"> @Model.Followers.Count</a> <a style="color:black; margin:2px" asp-action="showFollowers" asp-controller="Follow" asp-route-ProfileUserViewModel="@Model" class="ClickFollowing"> Followers</a>
                             <a id="FolloweesCounter" asp-action="showFollowees" asp-controller="Follow" style="color:black ; margin:2px" class="ClickFollowing"> @Model.Following.Count</a> <a style="color:black; margin:2px" asp-action="showFollowees" asp-controller="Follow" asp-route-ProfileUserViewModel="@Model" class="ClickFollowing"> Following</a>
                         </div>
@@ -263,10 +263,19 @@
                 <div class="tab-content" id="pills-tabContent">
                     <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
                         <div id="posts_sec" class="post">
-                            <div class="item">
-                                <img class="img-fluid item_img" src="https://i.ibb.co/Jqh3rHv/img1.jpg" alt="">
-                            </div>
-                            <div class="item">
+
+                            @foreach(var post in Model.Posts)
+                            {
+                                @foreach(var photo in post.PhotosPathes)
+                                {
+                                    <div class="item">
+                                        <img class="img-fluid item_img" src="~/images/@photo" alt="">
+                                    </div>
+                                }
+                            }
+                            
+
+                            @* <div class="item">
                                 <img class="img-fluid item_img" src="https://i.ibb.co/2ZxBFVp/img2.jpg" alt="">
                             </div>
                             <div class="item">
@@ -277,7 +286,7 @@
                             </div>
                             <div class="item">
                                 <img class="img-fluid item_img" src="https://i.ibb.co/j8L7FPY/account10.jpg" alt="">
-                            </div>
+                            </div> *@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
