@@ -14,7 +14,9 @@ namespace Instagram_Clone.ViewModels
 
         public string? Bio { get; set; }
         
-        public profilePhoto? ProfilePicture { get; set; }
+        public IFormFile? ProfilePicture { get; set; }
+        public string? ImgName { get; set; }
+
 
     }
 }
