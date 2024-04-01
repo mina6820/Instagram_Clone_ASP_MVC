@@ -92,8 +92,10 @@
                         <div class="account-settings">
                             <div class="user-profile">
                                 <div class="user-avatar">
-                                    <img src="~/images/@Model.ImgName"
-                                         alt="Maxwell Admin">
+                                   @*  <img src="~/images/@Model.ImgName"
+                                         alt="Maxwell Admin"> *@
+                                    <img src="~/images/@Model.ImgName" asp-append-version="true" alt="My Image" />
+
                                 </div>
                                 <h5 class="user-name" style="margin:4px">@Model.UserName</h5>
                                 <h6 class="user-fullname">@Model.FirstName @Model.LastName</h6>

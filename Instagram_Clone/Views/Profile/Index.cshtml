@@ -77,7 +77,8 @@
                     <div class="cart">
                         <div>
                             <div class="img">
-                                <img src="~/images/@Model.ProfilePicture.Name" alt="">
+                                @* <img src="~/images/@Model.ProfilePicture.Name" alt=""> *@
+                                <img src="~/images/@Model.ProfilePicture.Name" asp-append-version="true" alt="My Image" />
                             </div>
                             <div class="info">
                                 <p class="name">@Model.UserName</p>
@@ -100,7 +101,9 @@
                     <div class="cart">
                         <div>
                             <div class="img">
-                                <img src="~/images/@Model?.ProfilePicture.Name" alt="">
+                                <img src="~/images/@Model.ProfilePicture.Name" asp-append-version="true" alt="My Image" />
+
+                                @* <img src="~/images/@Model?.ProfilePicture.Name" alt=""> *@
                             </div>
                             <div class="info">
                                 <p class="name">
@@ -120,7 +123,9 @@
                     <div class="cart">
                         <div>
                             <div class="img">
-                                <img src="~/images/@Model?.ProfilePicture.Name" alt="">
+                                <img src="~/images/@Model.ProfilePicture.Name" asp-append-version="true" alt="My Image" />
+
+                                @* <img src="~/images/@Model?.ProfilePicture.Name" alt=""> *@
                             </div>
                             <div class="info">
                                 <p class="name">
@@ -140,7 +145,9 @@
                     <div class="cart">
                         <div>
                             <div class="img">
-                                <img src="~/images/@Model?.ProfilePicture.Name" alt="">
+                                <img src="~/images/@Model.ProfilePicture.Name" asp-append-version="true" alt="My Image" />
+
+                                @* <img src="~/images/@Model?.ProfilePicture.Name" alt=""> *@
                             </div>
                             <div class="info">
                                 <div class="info">
@@ -162,7 +169,9 @@
                     <div class="cart">
                         <div>
                             <div class="img">
-                                <img src="~/images/@Model.ProfilePicture.Name" alt="">
+                                <img src="~/images/@Model.ProfilePicture.Name" asp-append-version="true" alt="My Image" />
+
+                                @* <img src="~/images/@Model.ProfilePicture.Name" alt=""> *@
                             </div>
                             <div class="info">
                                 <p class="name">
@@ -182,7 +191,9 @@
                     <div class="cart">
                         <div>
                             <div class="img">
-                                <img src="~/images/@Model.ProfilePicture.Name" alt="">
+                                @* <img src="~/images/@Model.ProfilePicture.Name" alt=""> *@
+                                <img src="~/images/@Model.ProfilePicture.Name" asp-append-version="true" alt="My Image" />
+
                             </div>
                             <div class="info">
                                 <div class="info">
@@ -204,7 +215,9 @@
                     <div class="cart">
                         <div>
                             <div class="img">
-                                <img src="~/images/@Model.ProfilePicture.Name" alt="">
+                                <img src="~/images/@Model.ProfilePicture.Name" asp-append-version="true" alt="My Image" />
+
+                                @* <img src="~/images/@Model.ProfilePicture.Name" alt=""> *@
                             </div>
                             <div class="info">
                                 <p class="name">
@@ -228,7 +241,9 @@
             <div class="profile_info">
                 <div class="cart">
                     <div class="img">
-                        <img src="~/images/@Model.ProfilePicture.Name" alt="">
+                         <img src="~/images/@Model.ProfilePicture.Name" asp-append-version="true" alt="My Image" />
+
+                        @* <img src="~/images/@Model.ProfilePicture.Name" alt=""> *@
                     </div>
                     <div class="info">
                         <div class="user-info">
@@ -250,7 +265,9 @@
             <div class="highlights">
                 <div class="highlight">
                     <div class="img">
-                        <img src="~/images/@Model.ProfilePicture.Name" alt="">
+                          <img src="~/images/@Model.ProfilePicture.Name" asp-append-version="true" alt="My Image" />
+
+                        @* <img src="~/images/@Model.ProfilePicture.Name" alt=""> *@
                     </div>
                     <p>conseils</p>
                 </div>
@@ -292,7 +309,9 @@
                                 @foreach(var photo in post.PhotosPathes)
                                 {
                                     <div class="item">
-                                        <img class="img-fluid item_img" src="~/images/@photo" alt="">
+                                        <img src="~/images/@photo" asp-append-version="true" alt="My Image" />
+
+                                        @* <img class="img-fluid item_img" src="~/images/@photo" alt=""> *@
                                     </div>
                                 }
                             }
