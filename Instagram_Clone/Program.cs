@@ -2,13 +2,11 @@ using Instagram_Clone.Authentication;
 using Instagram_Clone.Repositories.CommentRepo;
 using Instagram_Clone.Repositories.LikeRepo;
 using Instagram_Clone.Repositories.MessageRepo;
+using Instagram_Clone.Repositories.PhotoRepo;
 using Instagram_Clone.Repositories.PhotoRepo.message;
 using Instagram_Clone.Repositories.PhotoRepo.postPhotoContainer;
 using Instagram_Clone.Repositories.PhotoRepo.ProfilePhotoContainer;
 using Instagram_Clone.Repositories.PhotoRepo.Story;
-using Instagram_Clone.Repositories.PostRepo;
-using Instagram_Clone.Repositories.StoryRepo;
-using Instagram_Clone.Repositories.StoryViewRepo;
 using Instagram_Clone.Repositories.UserFollowRepo;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -45,6 +43,7 @@ namespace Instagram_Clone
             builder.Services.AddScoped<IPostRepository, PostRepository>();
             builder.Services.AddScoped<IStoryRepository, StoryRepository>();
             builder.Services.AddScoped<IStoryViewRepository, StoryViewRepository>();
+            builder.Services.AddScoped<IpostPhotoRepository, postPhotoRepository>();
 
 
 
@@ -64,6 +63,9 @@ namespace Instagram_Clone
             app.UseRouting();
 
             app.UseAuthorization();
+
+            // The Hub
+            app.MapHub<ChatHub>("/chat/index");
 
             app.MapControllerRoute(
                 name: "default",
