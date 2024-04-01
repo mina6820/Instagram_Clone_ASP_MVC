@@ -30,6 +30,8 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
                 .Where(ur => ur.FolloweeId == id)
                 .Include(ur => ur.Follower)
                 //.Select(ur => ur.Follower)
+                //.Select(ur => ur.Follower)
+
                 .ToList();
 
             return followers;
