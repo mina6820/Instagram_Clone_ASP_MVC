@@ -1,32 +1,28 @@
-﻿@model List<Instagram_Clone.Models.Message>
+﻿@model List<Chat>
 
 <!DOCTYPE html>
 <html>
 <head>
     <title>Chat</title>
     <!-- Include the SignalR library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.8/signalr.min.js"></script>
+    @* <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.8/signalr.min.js"></script> *@
 </head>
 <body>
-    <h1>Chat</h1>
+    <h1 style="margin-left:500px">Chats</h1>
 
-    <div id="messageContainer">
-        @foreach (var message in Model.OrderBy(m => m.Date))
+    <div id="messageContainer" style="margin-left:500px">
+        @foreach (var chat in Model)
         {
             <div>
-                <strong>@message.Sender.UserName:</strong>
-                <span>@message.Content</span>
+                <strong>@chat.Sender.UserName</strong>
+                <span>@chat.messages</span>
             </div>
         }
     </div>
 
-    <!-- Your form for sending messages can be added here -->
-    <form id="messageForm">
-        <input type="text" id="messageInput" />
-        <button type="button" onclick="sendMessage()">Send</button>
-    </form>
 
-    <script>
+
+@*     <script>
         // Establish a connection to the SignalR hub
         var connection = new signalR.HubConnectionBuilder()
             .withUrl("/chat/index")
@@ -54,6 +50,6 @@
             // Handle received message
             console.log("Received message:", message);
         });
-    </script>
+    </script> *@
 </body>
 </html>
