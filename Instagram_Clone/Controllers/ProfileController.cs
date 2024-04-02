@@ -42,16 +42,16 @@ namespace Instagram_Clone.Controllers
             profileUserViewModel.Posts = postRepository.GetAllPostsByUserID(user.Id);
             //profileUserViewModel.ProfilePicture = user.ProfilePicture;
 
-            if (user.ProfilePicture == null)
-            {
-                profilePhoto profilePhoto = new profilePhoto();
-                profilePhoto.Name = "messi.jpg";
-                profilePhoto.Path = Path.Combine(webHost.WebRootPath, "Images");
-                profilePhoto.UserId = user.Id;
-                profilePhoto.User = user;
+            //if (user.ProfilePicture == null)
+            //{
+            //    profilePhoto profilePhoto = new profilePhoto();
+            //    profilePhoto.Name = "messi.jpg";
+            //    profilePhoto.Path = Path.Combine(webHost.WebRootPath, "Images");
+            //    profilePhoto.UserId = user.Id;
+            //    profilePhoto.User = user;
 
-                user.ProfilePicture = profilePhoto;
-            }
+            //    user.ProfilePicture = profilePhoto;
+            //}
                 profileUserViewModel.ProfilePicture=user.ProfilePicture;
             return View("Index", profileUserViewModel);
         }
@@ -79,16 +79,16 @@ namespace Instagram_Clone.Controllers
             editUserViewMode.PhoneNumber = user.PhoneNumber;
             editUserViewMode.Bio = user.Bio;
 
-            if (user.ProfilePicture == null)
-            {
-                profilePhoto profilePhoto = new profilePhoto();
-                profilePhoto.Name = "messi.jpg";
-                profilePhoto.Path = Path.Combine(webHost.WebRootPath, "Images");
-                profilePhoto.UserId = user.Id;
-                profilePhoto.User = user;
+            //if (user.ProfilePicture == null)
+            //{
+            //    profilePhoto profilePhoto = new profilePhoto();
+            //    profilePhoto.Name = "messi.jpg";
+            //    profilePhoto.Path = Path.Combine(webHost.WebRootPath, "Images");
+            //    profilePhoto.UserId = user.Id;
+            //    profilePhoto.User = user;
 
-                user.ProfilePicture = profilePhoto;
-            }
+            //    user.ProfilePicture = profilePhoto;
+            //}
             editUserViewMode.ImgName = user.ProfilePicture.Name;
             return View("Edit", editUserViewMode);
 
