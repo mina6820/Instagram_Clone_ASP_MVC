@@ -94,11 +94,15 @@ namespace Instagram_Clone.Controllers
         public IActionResult Edit(EditUserViewModel editUserViewModel)
         {
             string wwrootPath = Path.Combine(webHost.WebRootPath, "Images");
-            string imageName = Guid.NewGuid().ToString() + "_" + editUserViewModel.ProfilePicture.FileName;
+
+
+
+            string? imageName = Guid.NewGuid().ToString() + "_" + editUserViewModel.ProfilePicture?.FileName;
             //string imageName = Guid.NewGuid().ToString() + "_" + editUserViewModel.ProfilePicture.FileName;
             string filePath = Path.Combine(wwrootPath, imageName);
             //string imageName=Guid.NewGuid().ToString()+"_"+ImageFile.FileName;
             //string imageName=Guid.NewGuid().ToString()+"_"+ImageFile.FileName;
+            
 
             using (FileStream fileStream = new FileStream(filePath, FileMode.Create))
             {
