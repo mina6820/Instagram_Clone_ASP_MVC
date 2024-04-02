@@ -253,6 +253,9 @@
                             <p><span>@Model.Posts.Count</span> post</p>
                             <a id="FollowersCounter" href="#" style="color:black ; margin:2px" class="ClickFollowers" data-bs-toggle="modal" data-bs-target="#followersModal">@Model.Followers.Count</a>
                             <a href="#" style="color:black; margin:2px" class="ClickFollowers" data-bs-toggle="modal" data-bs-target="#followersModal">Followers</a>
+
+                            <a id="FollowingCounter" href="#" style="color:black ; margin:2px" class="ClickFollowing" data-bs-toggle="modal" data-bs-target="#followingModal">@Model.Following.Count</a>
+                            <a href="#" style="color:black; margin:2px" class="ClickFollowing" data-bs-toggle="modal" data-bs-target="#followingModal">Following</a>
                             @* <a id="FollowersCounter" asp-action="showFollowers" asp-controller="Follow" style="color:black ; margin:2px" class="ClickFollowers"> @Model.Followers.Count</a> <a style="color:black; margin:2px" asp-action="showFollowers" asp-controller="Follow" asp-route-ProfileUserViewModel="@Model" class="ClickFollowers"> Followers</a> *@
                             @* <a id="FolloweesCounter" asp-action="showFollowees" asp-controller="Follow" style="color:black ; margin:2px" class="ClickFollowing"> @Model.Following.Count</a> <a style="color:black; margin:2px" asp-action="showFollowees" asp-controller="Follow" asp-route-ProfileUserViewModel="@Model" class="ClickFollowing"> Following</a> *@
                         </div>
@@ -363,7 +366,7 @@
             </div>
         </div>
 
-        @* popup *@
+        @* followers popup *@
 
         <div class="modal fade" id="followersModal" tabindex="-1" aria-labelledby="followersModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -379,10 +382,25 @@
             </div>
         </div>
 
+        @* following popup *@
+        <div class="modal fade" id="followingModal" tabindex="-1" aria-labelledby="followingModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="followingModalLabel">Followers</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="followingListContainer" overflow-y: auto;">
+                        <!-- Partial view will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
-
-
-      
 
         <script>
             $(document).ready(function () {
@@ -397,6 +415,28 @@
                         success: function (response) {
                             // Update the content of the modal body with the response (partial view)
                             $("#followersListContainer").html(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(xhr.responseText);
+                        }
+                    });
+                });
+            });
+        </script>
+
+        <script>
+            $(document).ready(function () {
+                // Add event listener to followers count link
+                $(".ClickFollowing").on("click", function (e) {
+                    e.preventDefault(); // Prevent the default action of the link
+
+                    // Make AJAX request to showFollowers action
+                    $.ajax({
+                        url: "/Follow/showFollowees", // URL of the action
+                        type: "GET",
+                        success: function (response) {
+                            // Update the content of the modal body with the response (partial view)
+                            $("#followingListContainer").html(response);
                         },
                         error: function (xhr, status, error) {
                             console.error(xhr.responseText);
