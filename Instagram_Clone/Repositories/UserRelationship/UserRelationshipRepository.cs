@@ -25,6 +25,7 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
             List<UserRelationship> followers = context.UserRelationship
                 .Where(ur => ur.FolloweeId == id)
                 .Include(ur => ur.Follower)
+                .Include(ur => ur.Follower.ProfilePicture)
                 .ToList();
             return followers;
         }
@@ -33,6 +34,7 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
             List<UserRelationship> Following = context.UserRelationship
                 .Where(ur => ur.FollowerId == id)
                 .Include(ur => ur.Followee)
+                .Include(ur => ur.Followee.ProfilePicture)
                 .ToList();
             return Following;
         }
