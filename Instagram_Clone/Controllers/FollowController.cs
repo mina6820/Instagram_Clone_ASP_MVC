@@ -41,7 +41,9 @@ namespace Instagram_Clone.Controllers
             {
                 ViewBag.searchFollowers = userRelationshipRepository.searchFollowers(Name);
                 //profileUserViewModel.Followers = userRelationshipRepository.searchFollowers(Name);
-                profileUserViewModel.Following = userRelationshipRepository.GetFollowees(user.Id);
+                //profileUserViewModel.Following = userRelationshipRepository.GetFollowees(user.Id);
+                ViewBag.searchFollowees = userRelationshipRepository.searchFollowees(Name);
+
             }
 
             return PartialView("_FollowersList", profileUserViewModel);
@@ -67,9 +69,12 @@ namespace Instagram_Clone.Controllers
 
             else
             {
+                //ViewBag.searchFollowees = userRelationshipRepository.searchFollowees(Name);
+                ////profileUserViewModel.Followers = userRelationshipRepository.searchFollowers(Name);
+                //profileUserViewModel.Followers = userRelationshipRepository.GetFollowers(user.Id);
+                ViewBag.searchFollowers = userRelationshipRepository.searchFollowers(Name);
                 ViewBag.searchFollowees = userRelationshipRepository.searchFollowees(Name);
-                //profileUserViewModel.Followers = userRelationshipRepository.searchFollowers(Name);
-                profileUserViewModel.Followers = userRelationshipRepository.GetFollowers(user.Id);
+
             }
 
             return PartialView("_FollowingList", profileUserViewModel);
