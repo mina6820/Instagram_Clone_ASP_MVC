@@ -29,6 +29,18 @@ namespace Instagram_Clone.Controllers
 
         }
 
+        public async Task<IActionResult> OpenChat(string senderId, int chatId, string receiverId)
+        {
+            var userRecord = await userManager.FindByIdAsync(senderId);
+            ViewBag.senderName = userRecord?.UserName;
+
+            ViewBag.chatId = chatId;
+            ViewBag.receiverId = receiverId;
+
+            return View();
+        }
+
+
         //[HttpPost]
         //public async Task<IActionResult> Create(Message message)
         //{

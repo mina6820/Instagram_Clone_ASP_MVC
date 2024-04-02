@@ -76,7 +76,7 @@ namespace Instagram_Clone
             app.UseAuthorization();
 
             // The Hub
-            app.MapHub<ChatterHub>("/chat/index");
+            app.MapHub<ChatterHub>("/ChatH");
 
             app.MapControllerRoute(
                 name: "default",

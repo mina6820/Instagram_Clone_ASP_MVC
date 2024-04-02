@@ -21,7 +21,7 @@ namespace Instagram_Clone.Repositories.MessageRepo
         {
             return context.Chats
                 .Include(ch => ch.Sender)
-                .Where(ch => ch.RecieverId == userId)
+                .Where(ch => (ch.RecieverId == userId || ch.SenderId == userId))
                 .ToList();
         }
 
