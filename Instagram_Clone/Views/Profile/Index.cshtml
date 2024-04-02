@@ -39,6 +39,16 @@
             background-color: #0056b3;
         }
 
+    .profile_container .profile_info .cart .img img {
+        height:150px;
+        width:150px;
+        border-radius:50%;
+    }
+
+    .cart div {
+        display:flex;
+        justify-content:flex-start;
+    }
 
 </style>
 <body>
@@ -78,7 +88,7 @@
                         <div>
                             <div class="img">
                                 @* <img src="~/images/@Model.ProfilePicture.Name" alt=""> *@
-                                <img src="~/images/@Model.ProfilePicture.Name" asp-append-version="true" alt="My Image" />
+                                <img src="~/images/@Model.ProfilePicture.Name" asp-append-version="true" alt="My Image"  />
                             </div>
                             <div class="info">
                                 <p class="name">@Model.UserName</p>
@@ -169,7 +179,7 @@
                     <div class="cart">
                         <div>
                             <div class="img">
-                                <img src="~/images/@Model.ProfilePicture.Name" asp-append-version="true" alt="My Image" />
+                                <img src="~/images/@Model.ProfilePicture.Name" asp-append-version="true" alt="My Image"  />
 
                                 @* <img src="~/images/@Model.ProfilePicture.Name" alt=""> *@
                             </div>
@@ -192,7 +202,7 @@
                         <div>
                             <div class="img">
                                 @* <img src="~/images/@Model.ProfilePicture.Name" alt=""> *@
-                                <img src="~/images/@Model.ProfilePicture.Name" asp-append-version="true" alt="My Image" />
+                                <img src="~/images/@Model.ProfilePicture.Name" asp-append-version="true" alt="My Image"  />
 
                             </div>
                             <div class="info">
