@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Instagram_Clone.Hubs
 {
-    public class ChatHub : Hub
+    public class ChatterHub : Hub
     {
         // Method to send a message to a specific user
         public async Task SendMessage(Message message, string receiverId)
