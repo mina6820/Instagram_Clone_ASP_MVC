@@ -43,14 +43,14 @@ namespace Instagram_Clone.Controllers
                 //profileUserViewModel.Followers = userRelationshipRepository.searchFollowers(Name);
                 //profileUserViewModel.Following = userRelationshipRepository.GetFollowees(user.Id);
                 ViewBag.searchFollowees = userRelationshipRepository.searchFollowees(Name);
-
+                //
             }
 
             return PartialView("_FollowersList", profileUserViewModel);
         }
 
        
-        public ActionResult showFollowees(string Name)//string id)
+        public IActionResult showFollowees(string Name)//string id)
         {
             ProfileUserViewModel profileUserViewModel = new ProfileUserViewModel();
             Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
