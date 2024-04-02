@@ -70,7 +70,7 @@ namespace Instagram_Clone.Controllers
             else
             {
                 //ViewBag.searchFollowees = userRelationshipRepository.searchFollowees(Name);
-                ////profileUserViewModel.Followers = userRelationshipRepository.searchFollowers(Name);
+                //profileUserViewModel.Followers = userRelationshipRepository.searchFollowers(Name);
                 //profileUserViewModel.Followers = userRelationshipRepository.GetFollowers(user.Id);
                 ViewBag.searchFollowers = userRelationshipRepository.searchFollowers(Name);
                 ViewBag.searchFollowees = userRelationshipRepository.searchFollowees(Name);
