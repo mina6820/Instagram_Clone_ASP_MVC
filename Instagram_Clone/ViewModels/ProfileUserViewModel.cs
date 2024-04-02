@@ -18,10 +18,15 @@ namespace Instagram_Clone.ViewModels
         public List<Post>? Posts { get; set; }
 
         public profilePhoto? ProfilePicture { get; set; }
-       
+
+        public IFormFile? ProfilePicture2 { get; set; }
 
 
+        public string? Id { get; set; }
+        public string? Email { get; set; }
+        public string? PhoneNumber { get; set; }
 
+        public string? ImgName { get; set; }
 
 
         public List<UserRelationship> ?Followers { get; set; }
