@@ -48,7 +48,7 @@ namespace Instagram_Clone.Controllers
         }
 
        
-        public ActionResult showFollowees(string Name)//string id)
+        public IActionResult showFollowees(string Name)//string id)
         {
             ProfileUserViewModel profileUserViewModel = new ProfileUserViewModel();
             Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);

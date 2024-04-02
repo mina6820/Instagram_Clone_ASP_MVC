@@ -32,7 +32,7 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
         {
             List<UserRelationship> Following = context.UserRelationship
                 .Where(ur => ur.FollowerId == id)
-                .Include(Following => Following.Followee)
+                .Include(ur => ur.Followee)
                 .ToList();
             return Following;
         }
