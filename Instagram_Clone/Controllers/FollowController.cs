@@ -26,7 +26,7 @@ namespace Instagram_Clone.Controllers
             ProfileUserViewModel profileUserViewModel = new ProfileUserViewModel();
             Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
             ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim.Value);
-            ApplicationUser user = context.Users.Include(u => u.ProfilePicture).Include(u=>u.Followers).FirstOrDefault(u => u.Id == user2.Id);
+            ApplicationUser user = context.Users.Include(u => u.ProfilePicture).FirstOrDefault(u => u.Id == user2.Id);
             profileUserViewModel.UserName = user.UserName;
             profileUserViewModel.FirstName = user.FirstName;
             profileUserViewModel.LastName = user.LastName;
