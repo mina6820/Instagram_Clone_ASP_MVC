@@ -52,7 +52,7 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
         //    return searchedUsers;
         //}
 
-        public List<ApplicationUser> searchFollowers(string Name)
+        public List<ApplicationUser> searchFollowers(string Name )
         {
             string lowerName = Name.ToLower();
             List<ApplicationUser> searchedUsers =
@@ -60,7 +60,7 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
                  .Include(user => user.ProfilePicture)
 
                  .Include(user => user.Followers)
-                 .Where(ur => ur.UserName.ToLower().Contains(lowerName)).ToList();
+                 .Where(ur => ur.UserName.ToLower().Contains(lowerName) ).ToList();
 
             return searchedUsers;
         }
@@ -73,7 +73,40 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
                  .Include(user => user.ProfilePicture)
 
                 .Include(u => u.Following)
-                .Where(u =>u.UserName.ToLower().Contains(lowerName)).ToList();
+                .Where(u =>u.UserName.ToLower().Contains(lowerName) ).ToList();
+            return searchedUsers;
+        }
+
+       public List<UserRelationship> searchFollowers2(string Name, string id)
+        {
+            string lowerName = Name.ToLower();
+            List<UserRelationship> searchedUsers =
+                 context.UserRelationship
+                 .Include(Follower => Follower.Follower)
+                 .Include(Followee => Followee.Followee)
+                 .Include(Follower => Follower.Follower.ProfilePicture)
+                 .Include(Followee => Followee.Followee.ProfilePicture)
+                 
+
+                 //.Include(user => user.Follower)
+                 .Where(ur => ur.Follower.UserName.ToLower().Contains(lowerName) && ur.Followee.Id == id).ToList();
+
+            return searchedUsers;
+        }
+
+        public List<UserRelationship> searchFollowees2(string Name, string id)
+        {
+            string lowerName = Name.ToLower();
+            List<UserRelationship> searchedUsers =
+                 context.UserRelationship
+                 .Include(Follower => Follower.Follower)
+                 .Include(Followee => Followee.Followee)
+                 .Include(Followe => Followe.Followee.ProfilePicture)
+                 .Include(Follower => Follower.Follower.ProfilePicture)
+
+                 //.Include(user => user.Follower)
+                 .Where(ur => ur.Followee.UserName.ToLower().Contains(lowerName) && ur.Follower.Id == id).ToList();
+
             return searchedUsers;
         }
 
