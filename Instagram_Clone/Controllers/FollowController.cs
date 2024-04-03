@@ -104,6 +104,13 @@ namespace Instagram_Clone.Controllers
 
             }
         }
+        //public ActionResult SearchFollower(string name)
+        //{
+        //    List<ApplicationUser> searchedUsers = userRelationshipRepository.searchFollowers(name);
+
+        //    // Pass the searched users to the view
+        //    return View("showFollowers", searchedUsers);
+        //}
 
 
         public ActionResult SearchFollowee(string name)
@@ -123,9 +130,20 @@ namespace Instagram_Clone.Controllers
 
 
         }
-        public IActionResult Profile()
+        public IActionResult Profile(string id)
         {
-            return View("Profile");
+            ProfileUserViewModel profileUserViewModel = new ProfileUserViewModel();
+    
+            ApplicationUser user = context.Users.FirstOrDefault(u => u.Id == id);
+            profileUserViewModel.UserName = user.UserName;
+            profileUserViewModel.FirstName = user.FirstName;
+            profileUserViewModel.LastName = user.LastName;
+            profileUserViewModel.Email = user.Email;
+            profileUserViewModel.IsDeleted = user.IsDeleted;
+            profileUserViewModel.ProfilePicture=user.ProfilePicture;    
+            profileUserViewModel.Followers = userRelationshipRepository.GetFollowers(user.Id);
+            profileUserViewModel.Following = userRelationshipRepository.GetFollowees(user.Id);
+            return View("Profile" ,profileUserViewModel);
         }
 
     }

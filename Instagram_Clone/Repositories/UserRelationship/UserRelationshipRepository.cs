@@ -55,11 +55,13 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
             string lowerName = Name.ToLower();
             List<ApplicationUser> searchedUsers =
                  context.Users
+                 .Where(ur => ur.UserName.ToLower().Contains(lowerName))
                  .Include(user => user.Followers)
-                 .Where(ur => ur.UserName.ToLower().Contains(lowerName)).ToList();
+                 .ToList();
 
             return searchedUsers;
         }
+
 
         //public List<UserRelationship> searchFollowers(string name)
         //{
@@ -73,7 +75,10 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
 
         public List<ApplicationUser> searchFollowees( string Name)
         {
-            List<ApplicationUser> users = context.Users.Where(u => u.UserName.Contains(Name)).Include(u => u.Following).ToList();
+            List<ApplicationUser> users = context.Users
+                .Where(u => u.UserName.Contains(Name))
+                .Include(u => u.Following)
+                .ToList();
             return users; 
         }
 
