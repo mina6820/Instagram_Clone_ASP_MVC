@@ -1,10 +1,107 @@
-﻿
+﻿@model ProfileUserViewModel
 
-@* <form asp-action="ShowAll" asp-controller="Follow"> *@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Profile</title>
+    <style>
+        /* Your existing CSS styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fafafa;
+            margin: 0;
+            padding: 0;
+        }
 
-    <div class="general_info">
-        <p><span>1</span> post</p>
-        <p><span>177</span> followers</p>
-        <p><span>137</span> following</p>
+        .profile-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .profile-pic {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .profile-info {
+            flex-grow: 1;
+            margin-left: 20px;
+        }
+
+        .profile-name {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .follow-button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #0095f6;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            .follow-button:hover {
+                background-color: #0077b5;
+            }
+
+        .followers-following {
+            margin-top: 20px;
+        }
+
+            .followers-following a {
+                display: block;
+                margin-bottom: 10px;
+                color: #0095f6;
+                text-decoration: none;
+                font-weight: bold;
+            }
+
+                .followers-following a:hover {
+                    text-decoration: underline;
+                }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <div class="profile-header">
+            <img src="@Model.ProfilePicture" alt="Profile Picture" class="profile-pic">
+            <div class="profile-info">
+                <div class="profile-name">@Model.UserName</div>
+                <button class="follow-button">Follow</button>
+            </div>
+        </div>
+        <div class="info">
+            <div class="user-info">
+                <p class="name" style="font-size:17px;margin:4px">@Model.UserName</p>
+                <a href="@Url.Action("Edit", "Profile")" style="background-color:darkgray;margin:2px;font-size:15px" class="edit-profile-link">Edit profile</a>
+            </div>
+            <div class="general_info">
+                <a id="FollowersCounter" asp-action="showFollowers" asp-controller="Follow" style="color:black ; margin:2px" class="ClickFollowers"> @Model.Followers.Count</a> <a style="color:black; margin:2px" asp-action="showFollowers" asp-controller="Follow" asp-route-ProfileUserViewModel="@Model" class="ClickFollowers"> Followers</a>
+                <a id="FolloweesCounter" asp-action="showFollowees" asp-controller="Follow" style="color:black ; margin:2px" class="ClickFollowing"> @Model.Following.Count</a> <a style="color:black; margin:2px" asp-action="showFollowees" asp-controller="Follow" asp-route-ProfileUserViewModel="@Model" class="ClickFollowing"> Following</a>
+            </div>
+            <p class="nick_name">@Model.FirstName  @Model.LastName</p>
+          
+        </div>
     </div>
-@* </form> *@
+    </div>
+</body>
+</html>

@@ -38,20 +38,26 @@
         <table>
             <tr>
                 <th>User Name</th>
-                   
             </tr>
             @foreach (var followee in Model.Following)
             {
                 <tr>
-                    <td>@followee.Followee.UserName</td>                
+                    <td>
+                        <a href="@Url.Action("Index", "Profile", new { id = followee.Followee.Id })">
+                            @followee.Followee.UserName
+                        </a>
+
+                    </td>
                 </tr>
             }
         </table>
     }
     else
     {
-        <p>No followers found.</p>
+        <p>No followees found.</p>
     }
+
+
 
     
 </body>
