@@ -1,4 +1,5 @@
 ﻿using Instagram_Clone.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Instagram_Clone.Repositories.MessageRepo
 {
@@ -6,15 +7,23 @@ namespace Instagram_Clone.Repositories.MessageRepo
     {
 
         Context context;
-        public MessageRepository(Context context) : base(context)
+        public MessageRepository(Context _context) : base(_context)
         {
-            // No need to store the context separately if not used elsewhere
+            context = _context;
         }
-
 
         public async Task InsertAsync(Message message)
         {
             context.Add(message);
         }
+
+        public List<Chat> GetAllChats(string userId)
+        {
+            return context.Chats
+                .Include(ch => ch.Sender)
+                .Where(ch => (ch.RecieverId == userId || ch.SenderId == userId))
+                .ToList();
+        }
+
     }
 }

@@ -14,6 +14,10 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
 
         public List<ApplicationUser> searchFollowees(string Name);
 
+        public List<UserRelationship> searchFollowers2(string Name, string id);
+
+        public List<UserRelationship> searchFollowees2(string Name, string id);
+
 
 
 

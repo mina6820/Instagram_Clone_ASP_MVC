@@ -18,9 +18,9 @@ namespace Instagram_Clone.Models
         public bool IsDeleted { get; set; } = false;
 
 
-        public List<string> PhotosPathes { get; set; } = new List<string>();    
+        public List<string>? PhotosPathes { get; set; } = new List<string>();    
 
-        public List<Like>? Likes { get; set; }
+        public List<Like>? Likes { get; set; } = new List<Like>(); 
 
         public List<Comment>? Comments { get; set; }
 

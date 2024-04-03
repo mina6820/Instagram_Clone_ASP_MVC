@@ -30,8 +30,6 @@ namespace Instagram_Clone.Controllers
             //comment
             //comment2
             ProfileUserViewModel profileUserViewModel = new ProfileUserViewModel();
-
-            
             Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
             ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim.Value);
             ApplicationUser user = context.Users.Include(u=>u.ProfilePicture).FirstOrDefault(u => u.Id== user2.Id);
@@ -44,16 +42,16 @@ namespace Instagram_Clone.Controllers
             profileUserViewModel.Posts = postRepository.GetAllPostsByUserID(user.Id);
             //profileUserViewModel.ProfilePicture = user.ProfilePicture;
 
-            if (user.ProfilePicture == null)
-            {
-                profilePhoto profilePhoto = new profilePhoto();
-                profilePhoto.Name = "messi.jpg";
-                profilePhoto.Path = Path.Combine(webHost.WebRootPath, "Images");
-                profilePhoto.UserId = user.Id;
-                profilePhoto.User = user;
+            //if (user.ProfilePicture == null)
+            //{
+            //    profilePhoto profilePhoto = new profilePhoto();
+            //    profilePhoto.Name = "messi.jpg";
+            //    profilePhoto.Path = Path.Combine(webHost.WebRootPath, "Images");
+            //    profilePhoto.UserId = user.Id;
+            //    profilePhoto.User = user;
 
-                user.ProfilePicture = profilePhoto;
-            }
+            //    user.ProfilePicture = profilePhoto;
+            //}
                 profileUserViewModel.ProfilePicture=user.ProfilePicture;
             return View("Index", profileUserViewModel);
         }
@@ -67,10 +65,10 @@ namespace Instagram_Clone.Controllers
             ApplicationUser user = context.Users.Include(u => u.ProfilePicture).FirstOrDefault(u => u.Id == user2.Id);
 
             if (user == null)
-                {
-                    // Handle case when user is not found
-                    return NotFound();
-                }
+            {
+                // Handle case when user is not found
+                return NotFound();
+            }
 
             ProfileUserViewModel editUserViewMode = new ProfileUserViewModel();
             editUserViewMode.Id = user.Id;
@@ -80,20 +78,20 @@ namespace Instagram_Clone.Controllers
             editUserViewMode.Email = user.Email;
             editUserViewMode.PhoneNumber = user.PhoneNumber;
             editUserViewMode.Bio = user.Bio;
-           
-            if (user.ProfilePicture == null)
-            {
-                profilePhoto profilePhoto=new profilePhoto();
-                profilePhoto.Name = "messi.jpg";
-                profilePhoto.Path =Path.Combine(webHost.WebRootPath, "Images");
-                profilePhoto.UserId = user.Id;
-                profilePhoto.User= user;
-                
-                user.ProfilePicture=profilePhoto;
-            }
+
+            //if (user.ProfilePicture == null)
+            //{
+            //    profilePhoto profilePhoto = new profilePhoto();
+            //    profilePhoto.Name = "messi.jpg";
+            //    profilePhoto.Path = Path.Combine(webHost.WebRootPath, "Images");
+            //    profilePhoto.UserId = user.Id;
+            //    profilePhoto.User = user;
+
+            //    user.ProfilePicture = profilePhoto;
+            //}
             editUserViewMode.ImgName = user.ProfilePicture.Name;
             return View("Edit", editUserViewMode);
-            
+
         }
 
 

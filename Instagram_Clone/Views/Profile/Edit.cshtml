@@ -79,22 +79,28 @@
             border: 0;
             margin-bottom: 1rem;
         }
+
+        .user-avatar img{
+            width:150px;
+            height:150px;
+            border-radius:50%;
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <div class="row gutters">
-            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+        <div class="row">
+          @*   <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
                 <div class="card h-100">
                     <div class="card-body">
                         <div class="account-settings">
                             <div class="user-profile">
-                                <div class="user-avatar">
+                                @* <div class="user-avatar">
                                     @* <img src="~/images/@Model.ImgName"
-                                    alt="Maxwell Admin"> *@
+                                    alt="Maxwell Admin"> 
                                     <img src="~/images/@Model.ImgName" asp-append-version="true" alt="My Image" />
-                                </div>
+                                </div> 
                                 <h5 class="user-name" style="margin:4px">@Model.UserName</h5>
                                 <h6 class="user-fullname">@Model.FirstName @Model.LastName</h6>
                                 <h6 class="user-email"><a href="mailto:@Model.Email">@Model.Email</a></h6>
@@ -107,14 +113,21 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+            </div> *@
+            <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12 m-auto">
                 <div class="card h-100">
                     <div class="card-body">
                         <form method="post" action="@Url.Action("Edit", "Profile")" enctype="multipart/form-data">
                             <div class="row gutters">
                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                    <h6 class="mb-2 text-primary">Personal Details</h6>
+                                    <h6 class="mb-2 text-primary text-center">Personal Details</h6>
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mb-4">
+                                <div class="user-avatar text-center">
+                                    @* <img src="~/images/@Model.ImgName"
+                                    alt="Maxwell Admin"> *@
+                                    <img src="~/images/@Model.ImgName" asp-append-version="true" alt="My Image" />
+                                </div>
                                 </div>
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div class="form-group">

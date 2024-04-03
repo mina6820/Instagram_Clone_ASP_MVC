@@ -1,4 +1,5 @@
 ﻿using Instagram_Clone.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Instagram_Clone.Repositories.PostRepo
 {
@@ -14,6 +15,11 @@ namespace Instagram_Clone.Repositories.PostRepo
         public List<Post>? GetAllPostsByUserID(string userID)
         {
             return context.Posts.Where(p => p.UserId == userID).ToList();
+        }
+
+        public List<Post>? GetAllPostsWithPhotosAndLikes()
+        {
+            return context.Posts.Where(p => p.IsDeleted == false).Include(p => p.Likes).Include(p => p.User).ToList();
         }
     }
 }

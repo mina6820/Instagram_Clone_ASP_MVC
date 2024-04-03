@@ -19,26 +19,17 @@ namespace Instagram_Clone.Controllers
             this.context = context;
         }
 
-        //[HttpGet]
-        //public IActionResult Autocomplete(string term)
-        //{
-        //    var followerNames = context.UserRelationship
-        //        .Where(ur => ur.Follower.UserName.Contains(term))
-        //        .Select(ur => ur.Follower.UserName)
-        //        .ToList();
-
-        //    return Json(followerNames);
-        //}
-
 
         public IActionResult ShowFollowers(string Name)
         {
             ProfileUserViewModel profileUserViewModel = new ProfileUserViewModel();
             Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
-            ApplicationUser user = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+            ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+            ApplicationUser user = context.Users.Include(u => u.ProfilePicture).FirstOrDefault(u => u.Id == user2.Id);
             profileUserViewModel.UserName = user.UserName;
             profileUserViewModel.FirstName = user.FirstName;
             profileUserViewModel.LastName = user.LastName;
+            profileUserViewModel.ProfilePicture = user.ProfilePicture;
 
             if (Name == null)
             {
@@ -47,29 +38,40 @@ namespace Instagram_Clone.Controllers
             }
             else
             {
-                ViewBag.searchFollowers = userRelationshipRepository.searchFollowers(Name);
-                //profileUserViewModel.Followers = userRelationshipRepository.searchFollowers(Name);
-                profileUserViewModel.Following = userRelationshipRepository.GetFollowees(user.Id);
+                profileUserViewModel.Followers = userRelationshipRepository.searchFollowers2(Name, user.Id);
+                profileUserViewModel.Following = userRelationshipRepository.searchFollowees2(Name, user.Id);
             }
 
-            return View("ShowFollowers", profileUserViewModel);
+            return PartialView("_FollowersList", profileUserViewModel);
         }
 
-        //Follow/showFollowees?id=
-        public ActionResult showFollowees()//string id)
+
+
+        public IActionResult showFollowees(string Name)
         {
-            //List<UserRelationship> Followees = userRelationshipRepository.GetFollowees(id);
             ProfileUserViewModel profileUserViewModel = new ProfileUserViewModel();
-            //string name = User.Identity.Name;
             Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
-            ApplicationUser user = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+            ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+            ApplicationUser user = context.Users.Include(u => u.ProfilePicture).FirstOrDefault(u => u.Id == user2.Id);
             profileUserViewModel.UserName = user.UserName;
             profileUserViewModel.FirstName = user.FirstName;
             profileUserViewModel.LastName = user.LastName;
-            profileUserViewModel.Followers = userRelationshipRepository.GetFollowers(user.Id);
-            profileUserViewModel.Following = userRelationshipRepository.GetFollowees(user.Id);
-            return View("showFollowees", profileUserViewModel);
+            profileUserViewModel.ProfilePicture = user.ProfilePicture;
+
+            if (Name == null)
+            {
+                profileUserViewModel.Followers = userRelationshipRepository.GetFollowers(user.Id);
+                profileUserViewModel.Following = userRelationshipRepository.GetFollowees(user.Id);
+            }
+            else
+            {
+                profileUserViewModel.Followers = userRelationshipRepository.searchFollowers2(Name, user.Id);
+                profileUserViewModel.Following = userRelationshipRepository.searchFollowees2(Name, user.Id);
+            }
+
+            return PartialView("_FollowingList", profileUserViewModel);
         }
+
 
         //[HttpGet]
         //public IActionResult SearchFollower(string name)
@@ -77,7 +79,7 @@ namespace Instagram_Clone.Controllers
         //    if (!string.IsNullOrEmpty(name))
         //    {
         //        // Perform search based on the provided name (e.g., search in your database)
-        //        List<ApplicationUser> searchedUsers = userRelationshipRepository.searchFollowers(name);
+        //        List<ApplicationUser> searchedUsers = userRelationshipRepository.searchFollowers2(name);
         //        return Json(searchedUsers);
         //    }
         //    else
@@ -86,21 +88,25 @@ namespace Instagram_Clone.Controllers
         //        return Json(new List<ApplicationUser>());
         //    }
         //}
+
         public ActionResult SearchFollower(string name)
         {
-            List<ApplicationUser> searchedUsers = userRelationshipRepository.searchFollowers(name);
+            Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+            ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+            ApplicationUser user = context.Users.Include(u => u.ProfilePicture).FirstOrDefault(u => u.Id == user2.Id);
+            List<UserRelationship> searchedUsers = userRelationshipRepository.searchFollowers2(name,user.Id);
             if (name != null)
             {
 
-                return View("showFollowers", searchedUsers);
+                return PartialView("_FollowersList", searchedUsers);
             }
             else
             {
-                //List<ApplicationUser> searchedUsers = userRelationshipRepository.searchFollowers(name);
+                //List<ApplicationUser> searchedUsers = userRelationshipRepository.searchFollowers2(name);
                 //return View("showFollowers", searchedUsers);
                 //return RedirectToAction("Index","Home");
-                searchedUsers = new List<ApplicationUser>();
-                return View("showFollowers", searchedUsers);
+                searchedUsers = new List<UserRelationship>();
+                return PartialView("_FollowersList", searchedUsers);
 
             }
         }
@@ -115,20 +121,21 @@ namespace Instagram_Clone.Controllers
 
         public ActionResult SearchFollowee(string name)
         {
-            List<ApplicationUser> searchedUsers = userRelationshipRepository.searchFollowees(name);
+            Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+            ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+            ApplicationUser user = context.Users.Include(u => u.ProfilePicture).FirstOrDefault(u => u.Id == user2.Id);
+            List<UserRelationship> searchedUsers = userRelationshipRepository.searchFollowees2(name,user.Id);
             if (name != null)
             {
 
-                return View("showFollowees", searchedUsers);
+                return PartialView("_FollowingList", searchedUsers);
             }
             else
             {
-                searchedUsers = new List<ApplicationUser>();
-                return View("showFollowers", searchedUsers);
+                searchedUsers = new List<UserRelationship>();
+                return PartialView("_FollowingList", searchedUsers);
 
             }
-
-
         }
         public IActionResult Profile(string id)
         {
