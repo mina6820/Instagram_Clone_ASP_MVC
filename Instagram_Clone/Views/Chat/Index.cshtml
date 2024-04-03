@@ -14,7 +14,7 @@
         @foreach (var chat in Model)
         {
             <div>
-                <strong>@chat.Sender.UserName</strong>
+                <a asp-controller="Chat" asp-action="OpenChat" asp-route-senderId="@chat.SenderId" asp-route-chatId="@chat.id" asp-route-receiverId="@chat.RecieverId">@chat.Sender.UserName</a>
                 <span>@chat.messages</span>
             </div>
         }
@@ -22,34 +22,6 @@
 
 
 
-@*     <script>
-        // Establish a connection to the SignalR hub
-        var connection = new signalR.HubConnectionBuilder()
-            .withUrl("/chat/index")
-            .build();
-
-        connection.start().then(function () {
-            console.log("SignalR Connected");
-        }).catch(function (err) {
-            console.error("SignalR Connection Error: " + err);
-        });
-
-        // Function to send a message
-        function sendMessage() {
-            var messageInput = document.getElementById("messageInput").value;
-            var receiverId = @Model[0].RecieverId;
-
-            connection.invoke("SendMessage", messageInput, receiverId)
-                .catch(function (err) {
-                    console.error("Error sending message: " + err);
-                });
-        }
-
-        // Receive message from the server
-        connection.on("ReceiveMessage", function (message) {
-            // Handle received message
-            console.log("Received message:", message);
-        });
-    </script> *@
+     
 </body>
 </html>

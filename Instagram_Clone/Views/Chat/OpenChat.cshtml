@@ -1,0 +1,75 @@
+﻿@model Instagram_Clone.Models.Message
+
+
+<h1 style="margin-left:250px">@ViewBag.senderName</h1>
+
+<h4>Message</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4" style="margin-left:250px">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <input type="hidden" id="receiverId" value="@ViewBag.receiverId" />
+        <input type="hidden" id="chatId" value="@ViewBag.chatId" />
+
+            <div class="form-group">
+
+                <input asp-for="Content" id="messageInput" class="form-control" placeholder="Your Message..." />
+                 <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+
+            <ul id="Conv">
+            </ul>
+@*             <div class="form-group">
+                <label asp-for="chatId" class="control-label"></label>
+                <input asp-for="chatId" class="form-control" />
+                <span asp-validation-for="chatId" class="text-danger"></span>
+            </div> *@
+            <div class="form-group">
+                <input type="button" onclick="sendMessage()" value="Send" class="btn btn-primary" />
+            </div>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@*  @section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}  *@
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"
+        integrity="sha512-7rhBJh1om/W5Ztx7WiYOR9h2wlSaTmPyQMoHFtbT/FVNIA12y6S6I8HY9mrBS1uJ3dSU/R3qaSAXsGYuRjMDxg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    // Establish a connection to the SignalR hub
+    var connection = new signalR.HubConnectionBuilder()
+        .withUrl("/ChatH")
+        .build();
+
+    connection.start().then(function () {
+        console.log("SignalR Connected");
+    }).catch(function (err) {
+        console.error("SignalR Connection Error: " + err);
+    });
+
+
+
+
+    // Receive message from the server
+    connection.on("ReciveMessage", function (messageInput) {
+        $("#Conv").append("<li>" + messageInput + "</li>");
+    })
+
+    // Function to send a message
+    function sendMessage() {
+        var messageInput = document.getElementById("messageInput").value;
+        var receiverId = document.getElementById("receiverId").value;
+        var chatId = document.getElementById("chatId").value;
+
+        connection.invoke("SendMessage", messageInput, receiverId, chatId);
+    }
+
+
+</script>
