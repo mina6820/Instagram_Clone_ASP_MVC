@@ -176,7 +176,7 @@
                 <div class="notif follow_notif">
                     <div class="cart">
                         <div>
-                            <div class="img">
+                            <div class="img" >
                                 <img src="~/images/@Model.ProfilePicture.Name" asp-append-version="true" alt="My Image" />
 
                                 @* <img src="~/images/@Model.ProfilePicture.Name" alt=""> *@
@@ -415,12 +415,14 @@
                 // Add event listener to followers count link
                 $(".ClickFollowers").on("click", function (e) {
                     e.preventDefault(); // Prevent the default action of the link
-
+                    var profileId = "@Model.Id";
                     // Make AJAX request to showFollowers action
                     $.ajax({
-                        url: "/Follow/ShowFollowers", // URL of the action
+                        url: "/FriendsProfile/ShowFollowers/", // URL of the action
                         type: "GET",
+                        data: { id: profileId },
                         success: function (response) {
+                            console.log(response);
                             // Update the content of the modal body with the response (partial view)
                             $("#followersListContainer").html(response);
                         },
