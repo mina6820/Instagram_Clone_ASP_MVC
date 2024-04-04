@@ -25,7 +25,7 @@ namespace Instagram_Clone.Controllers
             this.webHost = webHost;
             this.userManager = userManager;
         }
-        public IActionResult Index(string _ID)//(ProfileUserViewModel profileUserViewModel)
+        public IActionResult Index(string ID)//(ProfileUserViewModel profileUserViewModel)
         {
            
             ApplicationUser user = context.Users
@@ -33,10 +33,10 @@ namespace Instagram_Clone.Controllers
                 .Include(u=>u.Following)
                 .Include(u=>u.ProfilePicture)
                 .Include(u=>u.Posts)
-                .FirstOrDefault(u => u.Id == _ID);
+                .FirstOrDefault(u => u.Id == ID);
 
             ProfileUserViewModel profileUserViewModel = new ProfileUserViewModel();
-            if (user == null)
+            if (user != null)
             {
                 profileUserViewModel.Id = user.Id;
                 profileUserViewModel.UserName = user.UserName;
