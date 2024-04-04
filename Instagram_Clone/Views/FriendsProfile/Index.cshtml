@@ -439,11 +439,12 @@
                 // Add event listener to followers count link
                 $(".ClickFollowing").on("click", function (e) {
                     e.preventDefault(); // Prevent the default action of the link
-
+                    var profileId = "@Model.Id";
                     // Make AJAX request to showFollowers action
                     $.ajax({
-                        url: "/Follow/showFollowees", // URL of the action
+                        url: "/FriendsProfile/ShowFollowees", // URL of the action
                         type: "GET",
+                        data: { id: profileId },
                         success: function (response) {
                             // Update the content of the modal body with the response (partial view)
                             $("#followingListContainer").html(response);
