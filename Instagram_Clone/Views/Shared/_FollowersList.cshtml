@@ -21,8 +21,8 @@
     <div class="container mt-5" ">
         <div class="d-flex justify-content-center row">
             <div class="col-md-6">
-    @if (ViewBag.searchFollowers == null)
-    {
+    @* @if (ViewBag.searchFollowers == null)
+    { *@
         @foreach (var follower in Model.Followers)
         {
                         <div class="p-3 bg-white text-center">
@@ -36,8 +36,8 @@
                             </div>
                         </div>
         }
-    }
-    else
+    @* } *@
+    @* else
     {
         @foreach (var follower in ViewBag.searchFollowers)
         {
@@ -54,7 +54,7 @@
     }
             </div>
         </div>
-    </div>
+    </div> *@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="/resources/demos/style.css">
