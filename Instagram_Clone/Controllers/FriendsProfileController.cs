@@ -44,9 +44,9 @@ namespace Instagram_Clone.Controllers
                 profileUserViewModel.LastName = user.LastName;
                 profileUserViewModel.Bio = user.Bio;
                 profileUserViewModel.ProfilePicture = user.ProfilePicture;
-                profileUserViewModel.Followers = userRelationship.GetFollowers(user.Id);
-                profileUserViewModel.Following = userRelationship.GetFollowees(user.Id);
-                profileUserViewModel.Posts = postRepository.GetAllPostsByUserID(user.Id);
+                profileUserViewModel.Followers = user.Followers;// userRelationship.GetFollowers(user.Id);
+                profileUserViewModel.Following = user.Following;//userRelationship.GetFollowees(user.Id);
+                profileUserViewModel.Posts = user.Posts;//postRepository.GetAllPostsByUserID(user.Id);
             }
 
             return View("Index", profileUserViewModel);
