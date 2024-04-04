@@ -28,7 +28,7 @@
 
                             <div class="d-flex flex-row justify-content-between align-items-center mt-2">
                                 <img class="rounded-circle" src="/images/@follower.Follower.ProfilePicture.Name" width="55">
-                                <div class="d-flex flex-column align-items-start ml-2"><span class="font-weight-bold">@follower.Follower.UserName</span><span class="followers"><span style="margin:2px">@follower.Follower.FirstName</span><span style="margin:2px">@follower.Follower.LastName</span></span></div>
+                            <div class="d-flex flex-column align-items-start ml-2"><a class="font-weight-bold" href="/FriendsProfile/index" asp-route-ID="@follower.Id">@follower.Follower.UserName</a><span class="followers"><span style="margin:2px">@follower.Follower.FirstName</span><span style="margin:2px">@follower.Follower.LastName</span></span></div>
                                 <div class="d-flex flex-row align-items-center">
                                     <div class="d-flex flex-row align-items-center mt-2"><button class="btn btn-primary btn-sm" type="button">Remove</button></div>
                                 </div>

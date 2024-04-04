@@ -107,8 +107,6 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
                     searchedUsers.Add(item);
                 }
             }
-
-
             return searchedUsers;
         }
 
