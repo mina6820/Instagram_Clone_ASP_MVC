@@ -5,9 +5,10 @@
 
 @model List<PostViewModel>
 
-
+<input type="hidden" id="hiddenID" value="@ViewBag.CurrentUserId" />
 @foreach(var post in Model)
 {
+    
     <div class="post">
         <div class="info">
             <div class="person">
@@ -17,7 +18,7 @@
                 }
                 else
                 {
-                    <img  src="~/images/@post.ProfilePhoto"/>
+                    <img  src="~/images/@post.ProfilePhoto.Name"/>
                 }
                 
 
@@ -53,10 +54,16 @@
         <div class="desc">
             <div class="icons">
                 <div class="icon_left d-flex">
-                    <div class="like">
+                    @* <div class="like">
                         <img class="not_loved" src="./images/love.png">
                         <img class="loved" src="./images/heart.png">
-                    </div>
+                    </div> *@
+
+                    <button  class="like" onclick="Like(@post.ID)">
+                        <img class="not-loved" id="not-Loved-@post.ID" src="./images/love.png">
+                        <img class="loved" id="loved-@post.ID" src="./images/heart.png">
+                    </button>
+
                     <div class="chat">
                         <button type="button" class="btn p-0" data-bs-toggle="modal" data-bs-target="#message_modal">
                             <img src="./images/bubble-chat.png">
@@ -74,7 +81,7 @@
                 </div>
             </div>
             <div class="liked">
-                <a class="bold" href="#">@post.Likes likes</a>
+                <a class="bold" id="likedCount-@post.ID" href="#">@post.Likes.Count <span>Likes</span></a>
             </div>
             <div class="post_desc">
                 <p>
@@ -89,5 +96,31 @@
     </div>
 
 }
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.12/signalr.min.js"></script>
 
+<script>
+    var currentUserID = document.getElementById("hiddenID").value;
+    console.log(`the ID =  ${currentUserID}`);
+    var hub = new signalR.HubConnectionBuilder().withUrl("/PostH").build();
+
+    hub.start().then(function () {
+        console.log("success");
+    });
+
+    function Like(postID){
+        var imgElement = document.getElementById(`not-Loved-${postID}`)
+        if (!imgElement.classList.contains("hide_img")) {
+            hub.invoke("AddLike", postID, currentUserID);
+        }
+        else {
+            hub.invoke("DeleteLike", postID, currentUserID);
+        }
+            
+    }
+
+    hub.on("ReceiveLikes", function (postID, likesCount) {
+        var element = document.getElementById(`likedCount-${postID}`);
+        element.textContent = likesCount + " Likes" ;
+    })
+</script>
 
