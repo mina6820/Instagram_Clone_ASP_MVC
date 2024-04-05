@@ -3,6 +3,7 @@ using Instagram_Clone.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Transactions;
 
 namespace Instagram_Clone.Repositories.UserFollowRepo
 {
@@ -23,7 +24,7 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
         public List<UserRelationship> GetFollowers(string id)
         {
             List<UserRelationship> followers = context.UserRelationship
-                .Where(ur => ur.FolloweeId == id)
+                .Where(ur => ur.FolloweeId == id && ur.Follower.IsDeleted ==false && ur.IsDeleted==false)
                 .Include(ur => ur.Follower)
                 .Include(ur => ur.Follower.ProfilePicture)
                 .ToList();
@@ -32,7 +33,7 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
         public List<UserRelationship> GetFollowees(string id)
         {
             List<UserRelationship> Following = context.UserRelationship
-                .Where(ur => ur.FollowerId == id)
+                .Where(ur => ur.FollowerId == id && ur.Followee.IsDeleted == false && ur.IsDeleted == false)
                 .Include(ur => ur.Followee)
                 .Include(ur => ur.Followee.ProfilePicture)
                 .ToList();
@@ -121,9 +122,68 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
         //    return searchedUsers;
         //}
 
+        /////Abadeer
 
+        //public UserRelationship GetFollowerRelationship(string followerId, string followeeId)
+        //{
+        //    return context.UserRelationship.FirstOrDefault(ur => ur.FollowerId == followeeId && ur.FolloweeId == followerId);
+        //}
+        //public UserRelationship GetFollowingRelationship(string followerId, string followeeId)
+        //{
+        //    return context.UserRelationship.FirstOrDefault(ur => ur.FollowerId == followerId && ur.FolloweeId == followeeId);
+        //}
+        //public void removeFollowing(string id)
+        //{
 
+        //    UserRelationship following = context.UserRelationship.FirstOrDefault(u => u.FolloweeId == id);
+        //    if (following != null)
+        //    {
+        //        following.IsDeleted = true;
+        //        context.SaveChanges();
+        //    }
 
+        //}
+        //public void removeFollower(string id)
+        //{
+        //    UserRelationship Follower = context.UserRelationship.FirstOrDefault(u => u.FollowerId == id);
+        //    if (Follower != null)
+        //    {
+        //        Follower.IsDeleted = true;
+        //        context.SaveChanges();
+        //    }
+
+        //}
+
+        //public bool UnFollow(string LoginUserID , string FollowerID)
+        //{
+        //    var user = context.Users.FirstOrDefault(u => u.Id == LoginUserID);
+        //    var Relation = context.UserRelationship
+        //   .FirstOrDefault(ur=>ur.user.Id == LoginUserID && ur=>ur.Follower.Id == FollowerID);
+        //}
+        public void GetFollowingRelationship(string followeeId, string LoginUsrer)
+        {
+            var relation= context.UserRelationship
+                .Where(ur=>ur.IsDeleted==false)
+                .FirstOrDefault(ur => ur.FollowerId == LoginUsrer && ur.FolloweeId == followeeId);
+            if (relation != null)
+            {
+                relation.IsDeleted=true;
+                context.SaveChanges();
+            }
+        }
+
+        public void GetFollowersRelationship(string followerId, string LoginUsrer)
+        {
+            var relation = context.UserRelationship
+                .Where(ur => ur.IsDeleted == false)
+                .FirstOrDefault(ur => ur.FolloweeId == LoginUsrer && ur.FollowerId == followerId);
+            if (relation != null)
+            {
+                relation.IsDeleted = true;
+                context.SaveChanges();
+            }
+
+        }
 
 
     }

@@ -18,6 +18,15 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
 
         public List<UserRelationship> searchFollowees2(string Name, string id);
 
+        public void GetFollowingRelationship(string followerId, string LoginUsrer);
+        public void GetFollowersRelationship(string followerId, string LoginUsrer);
+        ///////// Abadeer
+        //public UserRelationship GetFollowerRelationship(string followerId, string followeeId);
+        //public UserRelationship GetFollowingRelationship(string followerId, string followeeId);
+
+
+        //public void removeFollower(string id);
+        //public void removeFollowing(string id);
 
 
 

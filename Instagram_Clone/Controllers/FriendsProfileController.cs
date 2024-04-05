@@ -77,7 +77,7 @@ namespace Instagram_Clone.Controllers
                 profileUserViewModel.ProfilePicture = user.ProfilePicture;
             }
 
-            if (user.Id != null)
+            if (ID != null)
             {
                 profileUserViewModel.Followers = userRelationship.GetFollowers(user.Id);
                 profileUserViewModel.Following = userRelationship.GetFollowees(user.Id);
@@ -114,7 +114,7 @@ namespace Instagram_Clone.Controllers
                 profileUserViewModel.ProfilePicture = user.ProfilePicture;
             }
 
-            if (user.Id != null)
+            if (ID != null)
             {
                 profileUserViewModel.Followers = userRelationship.GetFollowers(user.Id);
                 profileUserViewModel.Following = userRelationship.GetFollowees(user.Id);
