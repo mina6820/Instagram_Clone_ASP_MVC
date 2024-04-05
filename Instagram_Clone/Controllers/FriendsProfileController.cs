@@ -127,5 +127,27 @@ namespace Instagram_Clone.Controllers
 
             return PartialView("_FollowersList", profileUserViewModel);
         }
+
+        //public ActionResult SearchFollower(string name)
+        //{
+
+        //    Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+        //    ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+        //    ApplicationUser user = context.Users.Include(u => u.ProfilePicture).FirstOrDefault(u => u.Id == user2.Id);
+        //    List<UserRelationship> searchedUsers = userRelationshipRepository.searchFollowers2(name, user.Id);
+        //    if (name != null)
+        //    {
+
+        //        return PartialView("_FollowersList", searchedUsers);
+        //    }
+        //    else
+        //    {
+
+        //        searchedUsers = new List<UserRelationship>();
+        //        return PartialView("_FollowersList", searchedUsers);
+
+        //    }
+        //}
+
     }
 }
