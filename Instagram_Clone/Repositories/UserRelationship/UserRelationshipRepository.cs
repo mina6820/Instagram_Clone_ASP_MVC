@@ -77,7 +77,12 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
                 .Where(u =>u.UserName.ToLower().Contains(lowerName) ).ToList();
             return searchedUsers;
         }
-
+        /// <summary>
+        /// ///
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
        public List<UserRelationship> searchFollowers2(string Name, string id)
         {
             

@@ -14,7 +14,7 @@
     <link href="tryfollow.css">
 </head>
 <body>
-    <form class="form-inline" id="searchForm" method="get" asp-action="ShowFollowees" asp-controller="FriendsProfile">
+    <form class="form-inline" id="searchForm" method="get" asp-action="SearchFollowee" asp-controller="FriendsProfile" asp-route-Id="@Model.Id">
         <input class="form-control me-2" placeholder="Search..." id="NameSearch" name="Name" type="text">
         <input type="submit" class="btn btn-primary btn-sm mt-1" value="Search">
     </form>

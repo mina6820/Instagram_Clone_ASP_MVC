@@ -125,29 +125,56 @@ namespace Instagram_Clone.Controllers
                 profileUserViewModel.Following = userRelationship.searchFollowees2(user.UserName, user.Id);
             }
 
-            return PartialView("_FollowersList", profileUserViewModel);
+            return PartialView("_FollowingFriendPartial", profileUserViewModel);
         }
 
-        //public ActionResult SearchFollower(string name)
-        //{
+        public ActionResult SearchFollower(string Name, string Id)
+        {
+            ApplicationUser user = context.Users.Include(u => u.ProfilePicture).FirstOrDefault(u => u.Id == Id);
 
-        //    Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
-        //    ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim.Value);
-        //    ApplicationUser user = context.Users.Include(u => u.ProfilePicture).FirstOrDefault(u => u.Id == user2.Id);
-        //    List<UserRelationship> searchedUsers = userRelationshipRepository.searchFollowers2(name, user.Id);
-        //    if (name != null)
-        //    {
+            // Assuming you have a way to get followers from your user model
+            var followers = userRelationship.searchFollowers2(Name,user.Id); // Replace this with your actual logic
 
-        //        return PartialView("_FollowersList", searchedUsers);
-        //    }
-        //    else
-        //    {
+            // Assuming ProfileUserViewModel has a property named Followers
+            var profileUserViewModel = new ProfileUserViewModel
+            {
+                Followers = followers
+            };
 
-        //        searchedUsers = new List<UserRelationship>();
-        //        return PartialView("_FollowersList", searchedUsers);
+            if (Name != null)
+            {
+                return PartialView("_FollowersFriendPartial", profileUserViewModel);
+            }
+            else
+            {
+                profileUserViewModel.Followers = new List<UserRelationship>();
+                return PartialView("_FollowersFriendPartial", profileUserViewModel);
+            }
+        }
 
-        //    }
-        //}
+        public ActionResult SearchFollowee(string Name, string Id)
+        {
+            ApplicationUser user = context.Users.Include(u => u.ProfilePicture).FirstOrDefault(u => u.Id == Id);
+
+            // Assuming you have a way to get followers from your user model
+            var followees = userRelationship.searchFollowees2(Name, user.Id); // Replace this with your actual logic
+
+            // Assuming ProfileUserViewModel has a property named Followers
+            var profileUserViewModel = new ProfileUserViewModel
+            {
+                Following = followees
+            };
+
+            if (Name != null)
+            {
+                return PartialView("_FollowingFriendPartial", profileUserViewModel);
+            }
+            else
+            {
+                profileUserViewModel.Following = new List<UserRelationship>();
+                return PartialView("_FollowingFriendPartial", profileUserViewModel);
+            }
+        }
 
     }
 }
