@@ -259,10 +259,10 @@
                         </div>
                         <div class="general_info">
                             <p><span>@Model.Posts.Count</span> post</p>
-                            <a id="FollowersCounter" href="#" style="color:black ; margin:2px" class="ClickFollowers" data-bs-toggle="modal" data-bs-target="#followersModal">@Model.Followers.Count</a>
+                            <a id="FollowersCounter" href="#" style="color:black ; margin:2px" class="ClickFollowers" data-bs-toggle="modal" data-bs-target="#followersModal">@Model.Following.Count</a>
                             <a href="#" style="color:black; margin:2px" class="ClickFollowers" data-bs-toggle="modal" data-bs-target="#followersModal">Followers</a>
 
-                            <a id="FollowingCounter" href="#" style="color:black ; margin:2px" class="ClickFollowing" data-bs-toggle="modal" data-bs-target="#followingModal">@Model.Following.Count</a>
+                            <a id="FollowingCounter" href="#" style="color:black ; margin:2px" class="ClickFollowing" data-bs-toggle="modal" data-bs-target="#followingModal">@Model.Followers.Count</a>
                             <a href="#" style="color:black; margin:2px" class="ClickFollowing" data-bs-toggle="modal" data-bs-target="#followingModal">Following</a>
                             @* <a id="FollowersCounter" asp-action="showFollowers" asp-controller="Follow" style="color:black ; margin:2px" class="ClickFollowers"> @Model.Followers.Count</a> <a style="color:black; margin:2px" asp-action="showFollowers" asp-controller="Follow" asp-route-ProfileUserViewModel="@Model" class="ClickFollowers"> Followers</a> *@
                             @* <a id="FolloweesCounter" asp-action="showFollowees" asp-controller="Follow" style="color:black ; margin:2px" class="ClickFollowing"> @Model.Following.Count</a> <a style="color:black; margin:2px" asp-action="showFollowees" asp-controller="Follow" asp-route-ProfileUserViewModel="@Model" class="ClickFollowing"> Following</a> *@
@@ -377,7 +377,7 @@
         @* followers popup *@
 
         <div class="modal fade" id="followersModal" tabindex="-1" aria-labelledby="followersModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="followersModalLabel">Followers</h5>
@@ -392,10 +392,10 @@
 
         @* following popup *@
         <div class="modal fade" id="followingModal" tabindex="-1" aria-labelledby="followingModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="followingModalLabel">Followers</h5>
+                        <h5 class="modal-title" id="followingModalLabel">Following</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body" id="followingListContainer" overflow-y: auto;">

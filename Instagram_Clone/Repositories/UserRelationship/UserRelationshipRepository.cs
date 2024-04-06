@@ -165,6 +165,8 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
         //    var Relation = context.UserRelationship
         //   .FirstOrDefault(ur=>ur.user.Id == LoginUserID && ur=>ur.Follower.Id == FollowerID);
         //}
+
+
         public void GetFollowingRelationship(string followeeId, string LoginUsrer)
         {
             var relation= context.UserRelationship
@@ -173,7 +175,8 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
             if (relation != null)
             {
                 relation.IsDeleted=true;
-                context.SaveChanges();
+                Save();
+                //context.SaveChanges();
             }
         }
 
@@ -185,7 +188,9 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
             if (relation != null)
             {
                 relation.IsDeleted = true;
-                context.SaveChanges();
+                Save();
+
+                //context.SaveChanges();
             }
 
         }
