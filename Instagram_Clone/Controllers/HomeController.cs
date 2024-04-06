@@ -3,6 +3,7 @@ using Instagram_Clone.Repositories.PostRepo;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace Instagram_Clone.Controllers
 {
@@ -11,15 +12,17 @@ namespace Instagram_Clone.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IPostRepository postRepository;
+        private readonly Context context;
 
         /// <summary>
         /// messi
         /// </summary>
         /// <param name="logger"></param>
-        public HomeController(ILogger<HomeController> logger , IPostRepository postRepository)
+        public HomeController(ILogger<HomeController> logger , IPostRepository postRepository, Context context)
         {
             _logger = logger;
             this.postRepository = postRepository;
+            this.context = context;
         }
 
         public IActionResult Index()
@@ -37,11 +40,20 @@ namespace Instagram_Clone.Controllers
                 }
                 else
                 {
-                    // Handle the case where post.User is null
+                    // Handle the case where post.User is null // remember to remove this
                     postViewModel.UserName = "Unknown"; // Or any default value you prefer
                 }
+                postViewModel.ID = post.Id;
                 postViewModel.ImagesNames = post.PhotosPathes;
-                postViewModel.Likes = post.Likes.Count();
+                postViewModel.Likes = post.Likes;
+                postViewModel.Comments = post.Comments;
+                //postViewModel.ProfilePhoto = post.User.ProfilePicture;
+
+
+                // get the current user
+                Claim? claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+                ApplicationUser? user = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+                ViewBag.CurrentUserId = user?.Id;
 
                 TimeSpan TimeSincePost = DateTime.Now - post.Date;
                 if (TimeSincePost.TotalSeconds < 60)

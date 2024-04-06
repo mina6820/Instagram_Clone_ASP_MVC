@@ -26,7 +26,6 @@
         /* No need for margin-right */
     }
 
-   
     .edit-profile-link {
         background-color: #007bff;
         color: #fff;
@@ -41,29 +40,15 @@
         }
 
     .profile_container .profile_info .cart .img img {
-        height:150px;
-        width:150px;
-        border-radius:50%;
+        height: 150px;
+        width: 150px;
+        border-radius: 50%;
     }
 
     .cart div {
-        display:flex;
-        justify-content:flex-start;
+        display: flex;
+        justify-content: flex-start;
     }
-
-  .profile_container .highlights .img img {
-      height:88px;
-  }
-
-    .ClickFollowers,.ClickFollowing{
-        text-decoration:none;
-    }
-
-    .nav .menu ul li a {
-        text-decoration:none;
-        padding-left:20px;
-    }
-
 
 </style>
 <body>
@@ -85,7 +70,6 @@
         <div id="notification" class="notification_section">
         </div>
         <!--***** nav menu start ****** -->
-       
         <!-- search  -->
         <div id="search" class="search_section">
             <h2>Search</h2>
@@ -102,10 +86,10 @@
                         <div>
                             <div class="img">
                                 @* <img src="~/images/@Model.ProfilePicture.Name" alt=""> *@
-                                <img src="~/images/@Model.ProfilePicture?.Name" asp-append-version="true" alt="My Image"  />
+                                <img src="~/images/@Model.ProfilePicture?.Name" asp-append-version="true" alt="My Image" />
                             </div>
                             <div class="info">
-                                <p class="name" >@Model.UserName</p>
+                                <p class="name">@Model.UserName</p>
                                 <p class="second_name">@Model.FirstName  @Model.LastName</p>
                             </div>
                         </div>
@@ -192,8 +176,8 @@
                 <div class="notif follow_notif">
                     <div class="cart">
                         <div>
-                            <div class="img">
-                                <img src="~/images/@Model.ProfilePicture.Name" asp-append-version="true" alt="My Image"  />
+                            <div class="img" >
+                                <img src="~/images/@Model.ProfilePicture.Name" asp-append-version="true" alt="My Image" />
 
                                 @* <img src="~/images/@Model.ProfilePicture.Name" alt=""> *@
                             </div>
@@ -216,7 +200,7 @@
                         <div>
                             <div class="img">
                                 @* <img src="~/images/@Model.ProfilePicture.Name" alt=""> *@
-                                <img src="~/images/@Model.ProfilePicture.Name" asp-append-version="true" alt="My Image"  />
+                                <img src="~/images/@Model.ProfilePicture.Name" asp-append-version="true" alt="My Image" />
 
                             </div>
                             <div class="info">
@@ -265,14 +249,13 @@
             <div class="profile_info">
                 <div class="cart">
                     <div class="img">
-                         <img src="~/images/@Model.ProfilePicture.Name" asp-append-version="true" alt="My Image" />
+                        <img src="~/images/@Model.ProfilePicture.Name" asp-append-version="true" alt="My Image" />
 
                         @* <img src="~/images/@Model.ProfilePicture.Name" alt=""> *@
                     </div>
                     <div class="info">
                         <div class="user-info">
                             <p class="name" style="font-size:17px;margin:4px">@Model.UserName</p>
-                            <a href="@Url.Action("Edit", "Profile")" style="background-color:darkgray;margin:2px;font-size:15px" class="edit-profile-link">Edit profile</a>
                         </div>
                         <div class="general_info">
                             <p><span>@Model.Posts.Count</span> post</p>
@@ -292,13 +275,12 @@
                 </div>
             </div>
 
-         @*    <div id="followersListContainer">
-                <!-- Partial view will be loaded here -->
+            @*    <div id="followersListContainer">
+            <!-- Partial view will be loaded here -->
             </div> *@
 
             <div class="highlights">
                 <div class="highlight">
-
                     <div class="img">
                         <img src="~/images/@Model.ProfilePicture.Name" asp-append-version="true" alt="My Image" />
 
@@ -339,9 +321,9 @@
                     <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
                         <div id="posts_sec" class="post">
 
-                            @foreach(var post in Model.Posts)
+                            @foreach (var post in Model.Posts)
                             {
-                                @foreach(var photo in post.PhotosPathes)
+                                @foreach (var photo in post.PhotosPathes)
                                 {
                                     <div class="item">
                                         <img src="~/images/@photo" asp-append-version="true" alt="My Image" />
@@ -350,19 +332,19 @@
                                     </div>
                                 }
                             }
-                            
+
 
                             @* <div class="item">
-                                <img class="img-fluid item_img" src="https://i.ibb.co/2ZxBFVp/img2.jpg" alt="">
+                            <img class="img-fluid item_img" src="https://i.ibb.co/2ZxBFVp/img2.jpg" alt="">
                             </div>
                             <div class="item">
-                                <img class="img-fluid item_img" src="https://i.ibb.co/5vQt677/img3.jpg" alt="">
+                            <img class="img-fluid item_img" src="https://i.ibb.co/5vQt677/img3.jpg" alt="">
                             </div>
                             <div class="item">
-                                <img class="img-fluid item_img" src="https://i.ibb.co/pJ8thst/account13.jpg" alt="">
+                            <img class="img-fluid item_img" src="https://i.ibb.co/pJ8thst/account13.jpg" alt="">
                             </div>
                             <div class="item">
-                                <img class="img-fluid item_img" src="https://i.ibb.co/j8L7FPY/account10.jpg" alt="">
+                            <img class="img-fluid item_img" src="https://i.ibb.co/j8L7FPY/account10.jpg" alt="">
                             </div> *@
                         </div>
                     </div>
@@ -394,7 +376,6 @@
 
         @* followers popup *@
 
-
         <div class="modal fade" id="followersModal" tabindex="-1" aria-labelledby="followersModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
@@ -408,7 +389,6 @@
                 </div>
             </div>
         </div>
-
 
         @* following popup *@
         <div class="modal fade" id="followingModal" tabindex="-1" aria-labelledby="followingModalLabel" aria-hidden="true">
@@ -435,12 +415,14 @@
                 // Add event listener to followers count link
                 $(".ClickFollowers").on("click", function (e) {
                     e.preventDefault(); // Prevent the default action of the link
-
+                    var profileId = "@Model.Id";
                     // Make AJAX request to showFollowers action
                     $.ajax({
-                        url: "/Follow/ShowFollowers", // URL of the action
+                        url: "/FriendsProfile/ShowFollowers/", // URL of the action
                         type: "GET",
+                        data: { id: profileId },
                         success: function (response) {
+                            console.log(response);
                             // Update the content of the modal body with the response (partial view)
                             $("#followersListContainer").html(response);
                         },
@@ -457,11 +439,12 @@
                 // Add event listener to followers count link
                 $(".ClickFollowing").on("click", function (e) {
                     e.preventDefault(); // Prevent the default action of the link
-
+                    var profileId = "@Model.Id";
                     // Make AJAX request to showFollowers action
                     $.ajax({
-                        url: "/Follow/showFollowees", // URL of the action
+                        url: "/FriendsProfile/ShowFollowees", // URL of the action
                         type: "GET",
+                        data: { id: profileId },
                         success: function (response) {
                             // Update the content of the modal body with the response (partial view)
                             $("#followingListContainer").html(response);
@@ -474,39 +457,39 @@
             });
         </script>
         @* <script>
-            $(document).ready(function () {
-                // Add event listener to followers count link
-                $(".ClickFollowers").on("click", function (e) {
-                    console.log("success");
-                    e.preventDefault(); // Prevent the default action of the link
+        $(document).ready(function () {
+        // Add event listener to followers count link
+        $(".ClickFollowers").on("click", function (e) {
+        console.log("success");
+        e.preventDefault(); // Prevent the default action of the link
 
-                    // Make AJAX request to showFollowers action
-                    $.ajax({
-                        url: "/Follow/ShowFollowers", // URL of the action
-                        type: "GET",
-                        //data: { Name: "@Model.UserName" }, // Pass any necessary data
-                        success: function (response) {
-                            // Update the content of a specific element with the response (partial view)
-                            $("#followersListContainer").html(response);
-                            console.log(response);
-                        },
-                        error: function (xhr, status, error) {
-                            console.error(xhr.responseText);
-                        }
-                    });
-                });
-            });
+        // Make AJAX request to showFollowers action
+        $.ajax({
+        url: "/Follow/ShowFollowers", // URL of the action
+        type: "GET",
+        //data: { Name: "@Model.UserName" }, // Pass any necessary data
+        success: function (response) {
+        // Update the content of a specific element with the response (partial view)
+        $("#followersListContainer").html(response);
+        console.log(response);
+        },
+        error: function (xhr, status, error) {
+        console.error(xhr.responseText);
+        }
+        });
+        });
+        });
         </script> *@
 
-    @*     
+        @*
 
-    @* <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script> *@
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
-    <script src="/owlcarousel/jquery.min.js"></script>
-    <script src="/owlcarousel/owl.carousel.min.js"></script>
-    <script src="/js/carousel.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.js"></script>
-    <script src="/js/main.js"></script>
+        @* <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script> *@
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
+        <script src="/owlcarousel/jquery.min.js"></script>
+        <script src="/owlcarousel/owl.carousel.min.js"></script>
+        <script src="/js/carousel.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.js"></script>
+        <script src="/js/main.js"></script>
 </body>
 
 </html>

@@ -18,13 +18,24 @@ namespace Instagram_Clone.Controllers
             userRelationshipRepository = _userRelationship;
             this.context = context;
         }
+        //public IActionResult AutocompleteSearch(string term)
+        //{
+        //    Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+        //    ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+        //    ApplicationUser user = context.Users.Include(u => u.ProfilePicture).FirstOrDefault(u => u.Id == user2.Id);
 
+        //    // Replace this with your actual implementation to search for usernames based on the term
+        //    List<string> userNames = SearchUserNames(term);
+
+        //    return Json(userNames);
+        //}
 
         public IActionResult ShowFollowers(string Name)
         {
             ProfileUserViewModel profileUserViewModel = new ProfileUserViewModel();
             Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
             ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+           
             ApplicationUser user = context.Users.Include(u => u.ProfilePicture).FirstOrDefault(u => u.Id == user2.Id);
             profileUserViewModel.UserName = user.UserName;
             profileUserViewModel.FirstName = user.FirstName;
@@ -73,21 +84,7 @@ namespace Instagram_Clone.Controllers
         }
 
 
-        //[HttpGet]
-        //public IActionResult SearchFollower(string name)
-        //{
-        //    if (!string.IsNullOrEmpty(name))
-        //    {
-        //        // Perform search based on the provided name (e.g., search in your database)
-        //        List<ApplicationUser> searchedUsers = userRelationshipRepository.searchFollowers2(name);
-        //        return Json(searchedUsers);
-        //    }
-        //    else
-        //    {
-        //        // If the name is null or empty, return an empty list as JSON
-        //        return Json(new List<ApplicationUser>());
-        //    }
-        //}
+       
 
         public ActionResult SearchFollower(string name)
         {
@@ -102,22 +99,13 @@ namespace Instagram_Clone.Controllers
             }
             else
             {
-                //List<ApplicationUser> searchedUsers = userRelationshipRepository.searchFollowers2(name);
-                //return View("showFollowers", searchedUsers);
-                //return RedirectToAction("Index","Home");
+              
                 searchedUsers = new List<UserRelationship>();
                 return PartialView("_FollowersList", searchedUsers);
 
             }
         }
-        //public ActionResult SearchFollower(string name)
-        //{
-        //    List<ApplicationUser> searchedUsers = userRelationshipRepository.searchFollowers(name);
-
-        //    // Pass the searched users to the view
-        //    return View("showFollowers", searchedUsers);
-        //}
-
+       
 
         public ActionResult SearchFollowee(string name)
         {
@@ -152,6 +140,127 @@ namespace Instagram_Clone.Controllers
             profileUserViewModel.Following = userRelationshipRepository.GetFollowees(user.Id);
             return View("Profile" ,profileUserViewModel);
         }
+
+        //Abadeer
+
+        //  /Follow/RemoveFollower?id=
+        //public IActionResult RemoveFollower(string id)
+        //{
+        //    Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+        //    ApplicationUser user = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+        //    if (user != null)
+        //    {
+        //        userRelationshipRepository.removeFollower(id);
+        //        return RedirectToAction("ShowFollowers"); // Redirect to the action to refresh the followers list
+        //    }
+        //    return View("_FollowersList");
+        //}
+
+        ////  /Follow/RemoveFollowing?id=
+        //public IActionResult unFollow(string id)
+        //{
+        //    Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+        //    ApplicationUser user = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+        //    if (user != null)
+        //    {
+        //        userRelationshipRepository.removeFollowing(id);
+        //        return RedirectToAction("showFollowees"); // Redirect to the action to refresh the following list
+        //    }
+        //    return View("_FollowingList");
+        //}
+
+        //public IActionResult RemoveFollower(string id)
+        //{
+        //    Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+        //    ApplicationUser currentUser = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+        //    if (currentUser != null)
+        //    {
+        //        // Check if the relationship exists
+        //        UserRelationship relationship = userRelationshipRepository.GetFollowerRelationship(currentUser.Id, id);
+        //        if (relationship != null)
+        //        {
+        //            // Mark the relationship as deleted
+        //            relationship.IsDeleted = true;
+        //            context.SaveChanges();
+        //            return RedirectToAction("ShowFollowers"); // Redirect to the action to refresh the followers list
+        //        }
+        //        else
+        //        {
+        //            // Handle the case where the relationship does not exist
+        //            ModelState.AddModelError(string.Empty, "The follower relationship does not exist.");
+        //            return View("_FollowersList");
+        //        }
+        //    }
+        //    else
+        //    {
+        //        // Handle the case where the current user is not found
+        //        ModelState.AddModelError(string.Empty, "User not found.");
+        //        return View("_FollowersList");
+        //    }
+        //}
+
+        //public IActionResult unFollow(string id)
+        //{
+        //    Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+        //    ApplicationUser currentUser = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+
+        //    if (currentUser != null)
+        //    {
+        //        // Check if the relationship exists
+        //        UserRelationship relationship = userRelationshipRepository.GetFollowingRelationship(claim.Value, id);
+        //        if (relationship != null)
+        //        {
+        //            // Mark the relationship as deleted
+        //            relationship.IsDeleted = true;
+        //            context.SaveChanges();
+        //            return RedirectToAction("showFollowees"); // Redirect to the action to refresh the following list
+        //        }
+        //        else
+        //        {
+        //            // Handle the case where the relationship does not exist
+        //            ModelState.AddModelError(string.Empty, "The followee relationship does not exist.");
+        //            return View("_FollowingList");
+        //        }
+        //    }
+        //    else
+        //    {
+        //        // Handle the case where the current user is not found
+        //        ModelState.AddModelError(string.Empty, "User not found.");
+        //        return View("_FollowingList");
+        //    }
+        //}
+
+        public IActionResult UnFollow(string id)
+        {
+            // user.id (login user)
+            // id (id of the follower)
+            if (id != null)
+            {
+                Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+                ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+                userRelationshipRepository.GetFollowingRelationship(id,user2.Id);
+             
+            }
+            return RedirectToAction("Index","Profile");
+        }
+
+        public IActionResult RemoveFollower(string id)
+        {
+            // user.id (login user)
+            // id (id of the follower)
+            if (id != null)
+
+            {
+                Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+                ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+                userRelationshipRepository.GetFollowingRelationship(user2.Id,id);
+
+            }
+            return RedirectToAction("Index", "Profile");
+        }
+
+
+
 
     }
 }
