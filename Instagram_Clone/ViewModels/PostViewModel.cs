@@ -19,6 +19,7 @@
 
         public profilePhoto ProfilePhoto { get; set; }
 
+        public List<UserRelationship>? Followers { get; set; }
 
 
     }

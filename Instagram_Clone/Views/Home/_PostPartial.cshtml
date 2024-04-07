@@ -59,13 +59,13 @@
                         <img class="loved" src="./images/heart.png">
                     </div> *@
 
-                    <button  class="like" onclick="Like(@post.ID)">
+                    <button style="background-color:transparent;border:none;" class="like" onclick="Like(@post.ID)">
                         <img class="not-loved" id="not-Loved-@post.ID" src="./images/love.png">
                         <img class="loved" id="loved-@post.ID" src="./images/heart.png">
                     </button>
 
                     <div class="chat">
-                        <button type="button" class="btn p-0" data-bs-toggle="modal" data-bs-target="#message_modal">
+                        <button type="button" class="btn p-0" onclick="comment(@post.ID)" data-bs-toggle="modal" data-bs-target="#message_modal">
                             <img src="./images/bubble-chat.png">
                         </button>
                     </div>
@@ -122,5 +122,20 @@
         var element = document.getElementById(`likedCount-${postID}`);
         element.textContent = likesCount + " Likes" ;
     })
+
+
+    function comment(postId){
+       
+            $.ajax({
+                url: "/Post/Comment",
+                success: function () {
+                    console.log("successhdhdh");
+
+                },
+            data: { PostID: postId }
+            });
+        
+    }
+
 </script>
 

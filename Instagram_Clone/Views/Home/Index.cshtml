@@ -136,7 +136,8 @@
 
         </div>
 
-        <!-- Modal for sending posts-->
+        
+        <!-- Modal for sending posts-->   <!-- comment here -->
         <div class="modal fade" id="send_message_modal" tabindex="-1" aria-labelledby="exampleModalLabel"
              aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -195,9 +196,10 @@
 
             </div>
         </div>
+        <partial name="_CommentPartial"></partial>
 
-        <!-- Modal for add messages-->
-        <div class="modal fade" id="message_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <!-- Modal for add messages--> <!-- comment here not above -->
+        @* <div class="modal fade" id="message_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -280,7 +282,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> *@
 
         <partial name="_TestPartial" asp-controller="Post" asp-action="Add" ></partial>
         @* <!--Create model-->
