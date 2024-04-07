@@ -53,8 +53,14 @@
                         </div>
                     </div>
 
-                    <div class="posts">
-                    </div>
+                   @*  <div class="posts">
+
+
+                    </div>  *@
+                    <partial name="_PostPartial"></partial>
+
+
+
 
                 </div>
             </div>
@@ -337,6 +343,24 @@
     <script src="/js/carousel.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.js"></script>
     <script src="/js/main.js"></script>
+
+    <script>
+            const likeLoveDiv = document.getElementById('checkLike');
+
+            // Function to handle changes
+            function handleClassChange() {
+                if (likeLoveDiv.classList.contains('liked')) {
+                    // If 'liked' class is added
+
+                    console.log('Like loved');
+                } else {
+                    // If 'liked' class is removed
+                    console.log('Like not loved');
+                }
+            }
+
+
+    </script>
   
 </body>
 

@@ -2,6 +2,7 @@
 using Instagram_Clone.Repositories.UserFollowRepo;
 using Instagram_Clone.ViewModels;
 using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
@@ -14,24 +15,24 @@ namespace Instagram_Clone.Controllers
         private readonly IUserRelationshipRepository userRelationship;
         private readonly IPostRepository postRepository;
         private readonly IWebHostEnvironment webHost;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public ProfileController(Context context , IUserRelationshipRepository userRelationship , IPostRepository postRepository , IWebHostEnvironment webHost)
+        public ProfileController(Context context , IUserRelationshipRepository userRelationship , IPostRepository postRepository , IWebHostEnvironment webHost , UserManager<ApplicationUser> userManager)
         {
             this.context = context;
             this.userRelationship = userRelationship;
             this.postRepository = postRepository;
             this.webHost = webHost;
+            this.userManager = userManager;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             //comment
             //comment2
             ProfileUserViewModel profileUserViewModel = new ProfileUserViewModel();
-
-            string name = User.Identity.Name;
             Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
-            ApplicationUser user = context.Users.FirstOrDefault(u => u.Id == claim.Value);
-
+            ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+            ApplicationUser user = context.Users.Include(u=>u.ProfilePicture).FirstOrDefault(u => u.Id== user2.Id);
             profileUserViewModel.UserName = user.UserName;
             profileUserViewModel.FirstName = user.FirstName;
             profileUserViewModel.LastName = user.LastName;
@@ -39,33 +40,37 @@ namespace Instagram_Clone.Controllers
             profileUserViewModel.Followers= userRelationship.GetFollowers(user.Id);
             profileUserViewModel.Following=userRelationship.GetFollowees(user.Id);
             profileUserViewModel.Posts = postRepository.GetAllPostsByUserID(user.Id);
-            if (user.ProfilePicture == null)
-            {
-                profilePhoto profilePhoto = new profilePhoto();
-                profilePhoto.Name = "messi.jpg";
-                profilePhoto.Path = Path.Combine(webHost.WebRootPath, "Images");
-                profilePhoto.UserId = user.Id;
-                profilePhoto.User = user;
+            //profileUserViewModel.ProfilePicture = user.ProfilePicture;
 
-                user.ProfilePicture = profilePhoto;
-            }
+            //if (user.ProfilePicture == null)
+            //{
+            //    profilePhoto profilePhoto = new profilePhoto();
+            //    profilePhoto.Name = "messi.jpg";
+            //    profilePhoto.Path = Path.Combine(webHost.WebRootPath, "Images");
+            //    profilePhoto.UserId = user.Id;
+            //    profilePhoto.User = user;
+
+            //    user.ProfilePicture = profilePhoto;
+            //}
                 profileUserViewModel.ProfilePicture=user.ProfilePicture;
             return View("Index", profileUserViewModel);
         }
 
+        [HttpGet]
         public IActionResult Edit()
         {
-            
-                Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
-                ApplicationUser user = context.Users.FirstOrDefault(u => u.Id == claim.Value);
 
-                if (user == null)
-                {
-                    // Handle case when user is not found
-                    return NotFound();
-                }
+            Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+            ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+            ApplicationUser user = context.Users.Include(u => u.ProfilePicture).FirstOrDefault(u => u.Id == user2.Id);
 
-            EditUserViewModel editUserViewMode = new EditUserViewModel();
+            if (user == null)
+            {
+                // Handle case when user is not found
+                return NotFound();
+            }
+
+            ProfileUserViewModel editUserViewMode = new ProfileUserViewModel();
             editUserViewMode.Id = user.Id;
             editUserViewMode.UserName = user.UserName;
             editUserViewMode.FirstName = user.FirstName;
@@ -73,41 +78,54 @@ namespace Instagram_Clone.Controllers
             editUserViewMode.Email = user.Email;
             editUserViewMode.PhoneNumber = user.PhoneNumber;
             editUserViewMode.Bio = user.Bio;
-           
-            if (user.ProfilePicture == null)
-            {
-                profilePhoto profilePhoto=new profilePhoto();
-                profilePhoto.Name = "messi.jpg";
-                profilePhoto.Path =Path.Combine(webHost.WebRootPath, "Images");
-                profilePhoto.UserId = user.Id;
-                profilePhoto.User= user;
-                
-                user.ProfilePicture=profilePhoto;
-            }
+
+            //if (user.ProfilePicture == null)
+            //{
+            //    profilePhoto profilePhoto = new profilePhoto();
+            //    profilePhoto.Name = "messi.jpg";
+            //    profilePhoto.Path = Path.Combine(webHost.WebRootPath, "Images");
+            //    profilePhoto.UserId = user.Id;
+            //    profilePhoto.User = user;
+
+            //    user.ProfilePicture = profilePhoto;
+            //}
             editUserViewMode.ImgName = user.ProfilePicture.Name;
             return View("Edit", editUserViewMode);
-            
+
         }
 
 
         [HttpPost]
         public IActionResult Edit(EditUserViewModel editUserViewModel)
         {
-            string wwrootPath = Path.Combine(webHost.WebRootPath, "Images");
-            string imageName = Guid.NewGuid().ToString() + "_" + editUserViewModel.ProfilePicture.FileName;
-            //string imageName = Guid.NewGuid().ToString() + "_" + editUserViewModel.ProfilePicture.FileName;
-            string filePath = Path.Combine(wwrootPath, imageName);
-            //string imageName=Guid.NewGuid().ToString()+"_"+ImageFile.FileName;
-            //string imageName=Guid.NewGuid().ToString()+"_"+ImageFile.FileName;
+            Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+            ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+            ApplicationUser user = context.Users.Include(u => u.ProfilePicture).FirstOrDefault(u => u.Id == user2.Id);
 
-            using (FileStream fileStream = new FileStream(filePath, FileMode.Create))
+            string wwrootPath = Path.Combine(webHost.WebRootPath, "Images");
+            if (editUserViewModel.ProfilePicture == null)
+            {
+                user.UserName = editUserViewModel.UserName;
+                user.Email = editUserViewModel.Email;
+                user.PhoneNumber = editUserViewModel.PhoneNumber;
+                user.Bio = editUserViewModel.Bio;
+                user.FirstName = editUserViewModel.FirstName;
+                user.LastName = editUserViewModel.LastName;
+                context.Users.Update(user);
+                context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            string imageName = Guid.NewGuid().ToString() + "_" + editUserViewModel.ProfilePicture.FileName;
+            string filePath = Path.Combine(wwrootPath, imageName);
+            
+
+            using (FileStream fileStream = new FileStream(filePath, FileMode.Append))
             {
                 editUserViewModel.ProfilePicture.CopyTo(fileStream);
             }
             if (ModelState != null)
             {
-                Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
-                ApplicationUser user = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+                
                
                 user.UserName = editUserViewModel.UserName;
                 user.Email = editUserViewModel.Email;

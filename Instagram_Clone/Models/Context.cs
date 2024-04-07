@@ -31,6 +31,9 @@ namespace Instagram_Clone
 
         public DbSet<ApplicationUser> Users { get; set; }
 
+        public DbSet<Chat> Chats { get; set; }
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

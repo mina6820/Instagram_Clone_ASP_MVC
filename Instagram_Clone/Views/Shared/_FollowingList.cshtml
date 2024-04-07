@@ -1,0 +1,137 @@
+﻿@using Instagram_Clone.ViewModels
+@model ProfileUserViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Followers & Following List</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="tryfollow.css">
+    <style>
+        .confirmation-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .confirmation-modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 40%;
+            border-radius: 10px;
+        }
+
+            .confirmation-modal-content h2 {
+                margin-bottom: 20px;
+            }
+
+        .confirmation-modal-btns {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+            .confirmation-modal-btns button {
+                padding: 10px 20px;
+                margin: 0 10px;
+                cursor: pointer;
+                border-radius: 5px;
+            }
+
+                .confirmation-modal-btns button.cancel-btn {
+                    background-color: #ccc;
+                    border: none;
+                }
+
+                .confirmation-modal-btns button.confirm-btn {
+                
+                    border: none;
+                    color: white;
+                }
+    </style>
+</head>
+<body>
+    <form class="form-inline" id="searchForm" method="get" asp-action="showFollowees" asp-controller="Follow">
+        <input class="form-control me-2" placeholder="Search..." id="NameSearch" name="Name" type="text">
+        <input type="submit" class="btn btn-primary btn-sm mt-1" value="Search">
+    </form>
+    <div class="container mt-5">
+        <div class="d-flex justify-content-center row">
+            <div class="col-md-6">
+                @foreach (var followee in Model.Following)
+                {
+                    <div class="p-3 bg-white text-center">
+                        <div class="d-flex flex-row justify-content-between align-items-center mt-2">
+                            <img class="rounded-circle" src="/images/@followee.Followee.ProfilePicture.Name" width="55">
+                            <div class="d-flex flex-column align-items-start ml-2">
+                                <a class="font-weight-bold" href="/FriendsProfile/index/@followee.FolloweeId">@followee.Followee.UserName</a>
+                                <span class="followers">
+                                    <span style="margin:2px">@followee.Followee.FirstName</span>
+                                    <span style="margin:2px">@followee.Followee.LastName</span>
+                                </span>
+                            </div>
+
+                            <div class="d-flex flex-row align-items-center">
+                                <div class="d-flex flex-row align-items-center mt-2">
+                                    <!-- Add data-id attribute to store the user's ID -->
+                                    <a href="#" class="btn btn-primary btn-sm unfollow-btn" data-id="@followee.FolloweeId">Following</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div id="confirmationModal" class="confirmation-modal">
+        <div class="confirmation-modal-content">
+            <h5>Confirmation</h5>
+            <p>Are you sure you want to unfollow this user?</p>
+            <div class="confirmation-modal-btns">
+                <button class="cancel-btn">Cancel</button>
+                <button class="confirm-btn btn-primary">Unfollow</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Attach click event to the "Following" button
+            $('.unfollow-btn').click(function (event) {
+                // Prevent the default behavior of the anchor tag
+                event.preventDefault();
+
+                // Show the confirmation modal
+                $('.confirmation-modal').css('display', 'block');
+
+                // Get the user ID from the data-id attribute
+                var userId = $(this).data('id');
+
+                // If the user clicks the confirm button, redirect to the unfollow action
+                $('.confirm-btn').click(function () {
+                    window.location.href = '/Follow/UnFollow/' + userId;
+                });
+
+                // If the user clicks the cancel button, hide the modal
+                $('.cancel-btn').click(function () {
+                    $('.confirmation-modal').css('display', 'none');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

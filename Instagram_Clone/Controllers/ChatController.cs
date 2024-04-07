@@ -19,34 +19,41 @@ namespace Instagram_Clone.Controllers
         public async Task<IActionResult> Index()
         {
             ApplicationUser currentUser = await userManager.GetUserAsync(User);
+            
 
-            List<Message> messages = messageRepository.GetAll().ToList();
+            List<Chat> chats = messageRepository.GetAllChats(currentUser.Id);
 
-            ViewBag.CurrentUserName = currentUser.UserName;
 
-            return View("Index",messages);
+            ViewBag.UserName = currentUser?.UserName;
+            ViewBag.SenderId = currentUser?.Id;
+
+
+            return View("Index",chats);
 
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Create(Message message)
+        public async Task<IActionResult> OpenChat(string senderId, int chatId, string receiverId)
         {
-            if (ModelState.IsValid)
+            var userRecord = await userManager.GetUserAsync(User);
+
+            if (userRecord.Id == senderId)
             {
-                ApplicationUser sender = await userManager.GetUserAsync(User);
-                message.Sender = sender;
-
-                // Insert the message using your repository
-                await messageRepository.InsertAsync(message);
-
-                // Save changes after inserting the message
-                messageRepository.Save();
-
-                return RedirectToAction("Index");
+                var receiver = await userManager.FindByIdAsync(receiverId);
+                ViewBag.senderName = receiver?.UserName;
+            }
+            else if (userRecord.Id == receiverId)
+            {
+                var sender = await userManager.FindByIdAsync(senderId);
+                ViewBag.senderName = sender?.UserName;
             }
 
-            // If ModelState is not valid, return back to the view with the invalid message
-            return View(message);
+            ViewBag.chatId = chatId;
+            ViewBag.receiverId = receiverId;
+
+            return View();
         }
+
+
+
     }
 }

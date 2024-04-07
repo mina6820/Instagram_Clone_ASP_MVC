@@ -1,0 +1,495 @@
+﻿@using Instagram_Clone.ViewModels
+@model ProfileUserViewModel
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram</title>
+    <link rel="stylesheet" href="/sass/vender/bootstrap.css">
+    <link rel="stylesheet" href="/sass/vender/bootstrap.min.css">
+    <link rel="stylesheet" href="/owlcarousel/owl.theme.default.min.css">
+    <link rel="stylesheet" href="/owlcarousel/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.css">
+    <link rel="stylesheet" href="/sass/main.css">
+</head>
+<style>
+    .user-info {
+        display: flex;
+        justify-content: space-between; /* Add space between username and link */
+        align-items: center;
+    }
+
+    .name {
+        /* No need for margin-right */
+    }
+
+    .edit-profile-link {
+        background-color: #007bff;
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+
+        .edit-profile-link:hover {
+            background-color: #0056b3;
+        }
+
+    .profile_container .profile_info .cart .img img {
+        height: 150px;
+        width: 150px;
+        border-radius: 50%;
+    }
+
+    .cart div {
+        display: flex;
+        justify-content: flex-start;
+    }
+
+</style>
+<body>
+    <div class="post_page">
+        <div class="nav_menu">
+            <div class="fix_top">
+                <!-- nav for big->medium screen -->
+
+            </div>
+            <!-- menu in the botton for smal screen  -->
+            <div class="nav_bottom">
+            </div>
+        </div>
+        <!-- search  -->
+        <div id="search" class="search_section">
+        </div>
+        <!-- search  -->
+        <!-- notification -->
+        <div id="notification" class="notification_section">
+        </div>
+        <!--***** nav menu start ****** -->
+        <!-- search  -->
+        <div id="search" class="search_section">
+            <h2>Search</h2>
+            <form method="post">
+                <input type="text" placeholder="Search">
+            </form>
+            <div class="find">
+                <div class="desc">
+                    <h4>Recent</h4>
+                    <p><a href="#">Clear all</a></p>
+                </div>
+                <div class="account">
+                    <div class="cart">
+                        <div>
+                            <div class="img">
+                                @* <img src="~/images/@Model.ProfilePicture.Name" alt=""> *@
+                                <img src="~/images/@Model.ProfilePicture?.Name" asp-append-version="true" alt="My Image" />
+                            </div>
+                            <div class="info">
+                                <p class="name">@Model.UserName</p>
+                                <p class="second_name">@Model.FirstName  @Model.LastName</p>
+                            </div>
+                        </div>
+                        <div class="clear">
+                            <a href="#">X</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- search  -->
+        <!-- notification -->
+        <div id="notification" class="notification_section">
+            <h2>Notifications</h2>
+            <div class="notifications">
+                <div class="notif follow_notif">
+                    <div class="cart">
+                        <div>
+                            <div class="img">
+                                <img src="~/images/@Model.ProfilePicture.Name" asp-append-version="true" alt="My Image" />
+
+                                @* <img src="~/images/@Model?.ProfilePicture.Name" alt=""> *@
+                            </div>
+                            <div class="info">
+                                <p class="name">
+                                    @Model.UserName
+                                    <span class="desc">started following you.</span>
+                                    <span class="time">2h</span>
+                                </p>
+
+                            </div>
+                        </div>
+                        <div class="follow_you">
+                            <button class="follow_text">Follow</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="notif follow_notif">
+                    <div class="cart">
+                        <div>
+                            <div class="img">
+                                <img src="~/images/@Model.ProfilePicture.Name" asp-append-version="true" alt="My Image" />
+
+                                @* <img src="~/images/@Model?.ProfilePicture.Name" alt=""> *@
+                            </div>
+                            <div class="info">
+                                <p class="name">
+                                    @Model.UserName
+                                    <span class="desc">started following you.</span>
+                                    <span class="time">2h</span>
+                                </p>
+
+                            </div>
+                        </div>
+                        <div class="follow_you">
+                            <button class="follow_text">Follow</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="notif story_notif">
+                    <div class="cart">
+                        <div>
+                            <div class="img">
+                                <img src="~/images/@Model.ProfilePicture.Name" asp-append-version="true" alt="My Image" />
+
+                                @* <img src="~/images/@Model?.ProfilePicture.Name" alt=""> *@
+                            </div>
+                            <div class="info">
+                                <div class="info">
+                                    <p class="name">
+                                        @Model.UserName
+                                        <span class="desc">liked your story.</span>
+                                        <span class="time">2d</span>
+                                    </p>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="story_like">
+                            <img src="/images/img2.jpg" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="notif follow_notif">
+                    <div class="cart">
+                        <div>
+                            <div class="img" >
+                                <img src="~/images/@Model.ProfilePicture.Name" asp-append-version="true" alt="My Image" />
+
+                                @* <img src="~/images/@Model.ProfilePicture.Name" alt=""> *@
+                            </div>
+                            <div class="info">
+                                <p class="name">
+                                    @Model.UserName
+                                    <span class="desc">started following you.</span>
+                                    <span class="time">2h</span>
+                                </p>
+
+                            </div>
+                        </div>
+                        <div class="follow_you">
+                            <button class="follow_text">Follow</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="notif story_notif">
+                    <div class="cart">
+                        <div>
+                            <div class="img">
+                                @* <img src="~/images/@Model.ProfilePicture.Name" alt=""> *@
+                                <img src="~/images/@Model.ProfilePicture.Name" asp-append-version="true" alt="My Image" />
+
+                            </div>
+                            <div class="info">
+                                <div class="info">
+                                    <p class="name">
+                                        @Model.UserName
+                                        <span class="desc">liked your story.</span>
+                                        <span class="time">2d</span>
+                                    </p>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="story_like">
+                            <img src="/images/img2.jpg" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="notif follow_notif">
+                    <div class="cart">
+                        <div>
+                            <div class="img">
+                                <img src="~/images/@Model.ProfilePicture.Name" asp-append-version="true" alt="My Image" />
+
+                                @* <img src="~/images/@Model.ProfilePicture.Name" alt=""> *@
+                            </div>
+                            <div class="info">
+                                <p class="name">
+                                    @Model.UserName
+                                    <span class="desc">started following you.</span>
+                                    <span class="time">2h</span>
+                                </p>
+
+                            </div>
+                        </div>
+                        <div class="follow_you">
+                            <button class="follow_text">Follow</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--** nav menu end *** -->
+
+        <div class="profile_container">
+            <div class="profile_info">
+                <div class="cart">
+                    <div class="img">
+                        <img src="~/images/@Model.ProfilePicture.Name" asp-append-version="true" alt="My Image" />
+
+                        @* <img src="~/images/@Model.ProfilePicture.Name" alt=""> *@
+                    </div>
+                    <div class="info">
+                        <div class="user-info">
+                            <p class="name" style="font-size:17px;margin:4px">@Model.UserName</p>
+                        </div>
+                        <div class="general_info">
+                            <p><span>@Model.Posts.Count</span> post</p>
+                            <a id="FollowersCounter" href="#" style="color:black ; margin:2px" class="ClickFollowers" data-bs-toggle="modal" data-bs-target="#followersModal">@Model.Following.Count</a>
+                            <a href="#" style="color:black; margin:2px" class="ClickFollowers" data-bs-toggle="modal" data-bs-target="#followersModal">Followers</a>
+
+                            <a id="FollowingCounter" href="#" style="color:black ; margin:2px" class="ClickFollowing" data-bs-toggle="modal" data-bs-target="#followingModal">@Model.Followers.Count</a>
+                            <a href="#" style="color:black; margin:2px" class="ClickFollowing" data-bs-toggle="modal" data-bs-target="#followingModal">Following</a>
+                            @* <a id="FollowersCounter" asp-action="showFollowers" asp-controller="Follow" style="color:black ; margin:2px" class="ClickFollowers"> @Model.Followers.Count</a> <a style="color:black; margin:2px" asp-action="showFollowers" asp-controller="Follow" asp-route-ProfileUserViewModel="@Model" class="ClickFollowers"> Followers</a> *@
+                            @* <a id="FolloweesCounter" asp-action="showFollowees" asp-controller="Follow" style="color:black ; margin:2px" class="ClickFollowing"> @Model.Following.Count</a> <a style="color:black; margin:2px" asp-action="showFollowees" asp-controller="Follow" asp-route-ProfileUserViewModel="@Model" class="ClickFollowing"> Following</a> *@
+                        </div>
+                        <p class="nick_name">@Model.FirstName  @Model.LastName</p>
+                        <p class="desc">
+                            @Model.Bio
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            @*    <div id="followersListContainer">
+            <!-- Partial view will be loaded here -->
+            </div> *@
+
+            <div class="highlights">
+                <div class="highlight">
+                    <div class="img">
+                        <img src="~/images/@Model.ProfilePicture.Name" asp-append-version="true" alt="My Image" />
+
+                        @* <img src="~/images/@Model.ProfilePicture.Name" alt=""> *@
+                    </div>
+                    <p>conseils</p>
+                </div>
+                <div class="highlight highlight_add">
+                    <div class="img">
+                        <img src="/images/plus.png" alt="">
+                    </div>
+                    <p>New</p>
+                </div>
+            </div>
+            <hr>
+            <div class="posts_profile">
+                <ul class="nav-pills w-100 d-flex justify-content-center" id="pills-tab" role="tablist">
+                    <li class="nav-item mx-2" role="presentation">
+                        <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">
+                            <img src="/images/feed.png" alt="posts">
+                            POSTS
+                        </button>
+                    </li>
+                    <li class="nav-item mx-2" role="presentation">
+                        <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">
+                            <img src="/images/save-instagram.png" alt="saved posts">
+                            SAVED
+                        </button>
+                    </li>
+                    <li class="nav-item mx-2" role="presentation">
+                        <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">
+                            <img src="/images/tagged.png" alt="tagged posts">
+                            TAGGED
+                        </button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
+                        <div id="posts_sec" class="post">
+
+                            @foreach (var post in Model.Posts)
+                            {
+                                @foreach (var photo in post.PhotosPathes)
+                                {
+                                    <div class="item">
+                                        <img src="~/images/@photo" asp-append-version="true" alt="My Image" />
+
+                                        @* <img class="img-fluid item_img" src="~/images/@photo" alt=""> *@
+                                    </div>
+                                }
+                            }
+
+
+                            @* <div class="item">
+                            <img class="img-fluid item_img" src="https://i.ibb.co/2ZxBFVp/img2.jpg" alt="">
+                            </div>
+                            <div class="item">
+                            <img class="img-fluid item_img" src="https://i.ibb.co/5vQt677/img3.jpg" alt="">
+                            </div>
+                            <div class="item">
+                            <img class="img-fluid item_img" src="https://i.ibb.co/pJ8thst/account13.jpg" alt="">
+                            </div>
+                            <div class="item">
+                            <img class="img-fluid item_img" src="https://i.ibb.co/j8L7FPY/account10.jpg" alt="">
+                            </div> *@
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
+                        <div id="saved_sec" class="post">
+                            <div class="item">
+                                <img class="img-fluid item_img" src="https://i.ibb.co/6WvdZS9/account12.jpg" alt="">
+                            </div>
+                            <div class="item">
+                                <img class="img-fluid item_img" src="https://i.ibb.co/pJ8thst/account13.jpg" alt="">
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab" tabindex="0">
+                        <div id="tagged" class="post">
+                            <div class="item">
+                                <img class="img-fluid item_img" src="https://i.ibb.co/Zhc5hHp/account4.jpg" alt="">
+                            </div>
+                            <div class="item">
+                                <img class="img-fluid item_img" src="https://i.ibb.co/SPTNbJL/account5.jpg" alt="">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        @* followers popup *@
+
+        <div class="modal fade" id="followersModal" tabindex="-1" aria-labelledby="followersModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="followersModalLabel">Followers</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="followersListContainer" overflow-y: auto;">
+                        <!-- Partial view will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @* following popup *@
+        <div class="modal fade" id="followingModal" tabindex="-1" aria-labelledby="followingModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="followingModalLabel">Following</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="followingListContainer" overflow-y: auto;">
+                        <!-- Partial view will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                // Add event listener to followers count link
+                $(".ClickFollowers").on("click", function (e) {
+                    e.preventDefault(); // Prevent the default action of the link
+                    var profileId = "@Model.Id";
+                    // Make AJAX request to showFollowers action
+                    $.ajax({
+                        url: "/FriendsProfile/ShowFollowers/", // URL of the action
+                        type: "GET",
+                        data: { id: profileId },
+                        success: function (response) {
+                            console.log(response);
+                            // Update the content of the modal body with the response (partial view)
+                            $("#followersListContainer").html(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(xhr.responseText);
+                        }
+                    });
+                });
+            });
+        </script>
+
+        <script>
+            $(document).ready(function () {
+                // Add event listener to followers count link
+                $(".ClickFollowing").on("click", function (e) {
+                    e.preventDefault(); // Prevent the default action of the link
+                    var profileId = "@Model.Id";
+                    // Make AJAX request to showFollowers action
+                    $.ajax({
+                        url: "/FriendsProfile/ShowFollowees", // URL of the action
+                        type: "GET",
+                        data: { id: profileId },
+                        success: function (response) {
+                            // Update the content of the modal body with the response (partial view)
+                            $("#followingListContainer").html(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(xhr.responseText);
+                        }
+                    });
+                });
+            });
+        </script>
+        @* <script>
+        $(document).ready(function () {
+        // Add event listener to followers count link
+        $(".ClickFollowers").on("click", function (e) {
+        console.log("success");
+        e.preventDefault(); // Prevent the default action of the link
+
+        // Make AJAX request to showFollowers action
+        $.ajax({
+        url: "/Follow/ShowFollowers", // URL of the action
+        type: "GET",
+        //data: { Name: "@Model.UserName" }, // Pass any necessary data
+        success: function (response) {
+        // Update the content of a specific element with the response (partial view)
+        $("#followersListContainer").html(response);
+        console.log(response);
+        },
+        error: function (xhr, status, error) {
+        console.error(xhr.responseText);
+        }
+        });
+        });
+        });
+        </script> *@
+
+        @*
+
+        @* <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script> *@
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
+        <script src="/owlcarousel/jquery.min.js"></script>
+        <script src="/owlcarousel/owl.carousel.min.js"></script>
+        <script src="/js/carousel.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.js"></script>
+        <script src="/js/main.js"></script>
+</body>
+
+</html>

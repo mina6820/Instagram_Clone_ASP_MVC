@@ -1,4 +1,6 @@
-﻿using Instagram_Clone.ViewModels;
+﻿using Instagram_Clone.Models.photo;
+using Instagram_Clone.ViewModels;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -9,11 +11,14 @@ namespace Instagram_Clone.Controllers
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
-
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        private readonly IWebHostEnvironment webHost;
+        private readonly Context context;
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IWebHostEnvironment webHost,Context context)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.webHost = webHost;
+            this.context = context;
         }
         public IActionResult Index()
         {
@@ -25,34 +30,108 @@ namespace Instagram_Clone.Controllers
         {
             return View("Register");
         }
-        [HttpPost]
+        //[HttpPost]
+        //public async Task<IActionResult> Register(RegisterViewModel userVM)
+        //{
+
+        //        profilePhoto profilePhoto = new profilePhoto();
+        //        profilePhoto.Name = "messi.jpg";
+        //        profilePhoto.Path = Path.Combine(webHost.WebRootPath, "Images");
+
+
+        //    if (ModelState.IsValid) {
+        //        ApplicationUser user = new ApplicationUser()
+        //        {
+
+        //            UserName = userVM.UserName,
+        //            Email = userVM.Email,
+        //            FirstName = userVM.FirstName,
+        //            LastName = userVM.LastName,
+        //            PasswordHash = userVM.Password,
+        //            ProfilePicture = profilePhoto,
+
+        //        };
+
+        //        //Save
+        //       IdentityResult result= await userManager.CreateAsync(user ,userVM.Password);
+        //        if (result.Succeeded)
+        //        {
+        //            profilePhoto.UserId = user.Id;
+        //            await signInManager.SignInAsync(user,false);
+
+        //            profilePhoto.User = user;
+
+        //            return RedirectToAction("Login");
+        //        }
+        //        foreach (var item in result.Errors)
+        //        {
+        //            ModelState.AddModelError(string.Empty, item.Description);
+        //        }
+        //        //save db add
+
+        //    }
+        //    return View("Register", userVM);
+        //}
+
         public async Task<IActionResult> Register(RegisterViewModel userVM)
         {
-            if (ModelState.IsValid) {
+            if (ModelState.IsValid)
+            {
                 ApplicationUser user = new ApplicationUser()
                 {
                     UserName = userVM.UserName,
                     Email = userVM.Email,
                     FirstName = userVM.FirstName,
                     LastName = userVM.LastName,
-                    PasswordHash = userVM.Password
+                    PasswordHash = userVM.Password,
                 };
-                //Save
-               IdentityResult result= await userManager.CreateAsync(user ,userVM.Password);
+
+
+
+                // Save user
+                IdentityResult result = await userManager.CreateAsync(user, userVM.Password);
                 if (result.Succeeded)
                 {
-                    await signInManager.SignInAsync(user,false);
+                    await userManager.AddClaimAsync(user, new Claim(ClaimTypes.Email, userVM.Email));
+
+                    // Create profile photo
+                    profilePhoto profilePhoto = new profilePhoto
+                    {
+                        Name = "profileuser.jpeg",
+                        Path = Path.Combine(webHost.WebRootPath, "Images"),
+                        UserId = user.Id // Set UserId to the newly created user's ID
+                    };
+
+                    // Save profile photo
+                    context.ProfilePhoto.Add(profilePhoto);
+                    await context.SaveChangesAsync();
+
+                    // Assign profile photo to user
+                    user.ProfilePicture = profilePhoto;
+
+                    // Update user
+                    await userManager.UpdateAsync(user);
+
+                    // Sign in user
+                    await signInManager.SignInAsync(user, false);
+
                     return RedirectToAction("Login");
                 }
-                foreach (var item in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, item.Description);
-                }
-                //save db add
 
+                // Handle errors
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
             }
+
+            // If ModelState is not valid or if user creation failed, return to the Register view
             return View("Register", userVM);
         }
+
+
+
+
         //Login
         [HttpGet]
         public IActionResult Login()

@@ -106,6 +106,31 @@ namespace Instagram_Clone.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("Instagram_Clone.Models.Chat", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<string>("RecieverId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SenderId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("RecieverId");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("Chats");
+                });
+
             modelBuilder.Entity("Instagram_Clone.Models.Comment", b =>
                 {
                     b.Property<int>("Id")
@@ -181,22 +206,15 @@ namespace Instagram_Clone.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("RecieverId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("SenderId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("chatId")
+                        .HasColumnType("int");
 
                     b.Property<int?>("photoId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RecieverId");
-
-                    b.HasIndex("SenderId");
+                    b.HasIndex("chatId");
 
                     b.HasIndex("photoId");
 
@@ -221,7 +239,6 @@ namespace Instagram_Clone.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("PhotosPathes")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
@@ -578,6 +595,25 @@ namespace Instagram_Clone.Migrations
                     b.Navigation("ProfilePicture");
                 });
 
+            modelBuilder.Entity("Instagram_Clone.Models.Chat", b =>
+                {
+                    b.HasOne("Instagram_Clone.Authentication.ApplicationUser", "Reciever")
+                        .WithMany()
+                        .HasForeignKey("RecieverId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Instagram_Clone.Authentication.ApplicationUser", "Sender")
+                        .WithMany()
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Reciever");
+
+                    b.Navigation("Sender");
+                });
+
             modelBuilder.Entity("Instagram_Clone.Models.Comment", b =>
                 {
                     b.HasOne("Instagram_Clone.Models.Post", "Post")
@@ -618,15 +654,9 @@ namespace Instagram_Clone.Migrations
 
             modelBuilder.Entity("Instagram_Clone.Models.Message", b =>
                 {
-                    b.HasOne("Instagram_Clone.Authentication.ApplicationUser", "Reciever")
-                        .WithMany()
-                        .HasForeignKey("RecieverId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Instagram_Clone.Authentication.ApplicationUser", "Sender")
-                        .WithMany()
-                        .HasForeignKey("SenderId")
+                    b.HasOne("Instagram_Clone.Models.Chat", "chat")
+                        .WithMany("messages")
+                        .HasForeignKey("chatId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -636,9 +666,7 @@ namespace Instagram_Clone.Migrations
 
                     b.Navigation("Photo");
 
-                    b.Navigation("Reciever");
-
-                    b.Navigation("Sender");
+                    b.Navigation("chat");
                 });
 
             modelBuilder.Entity("Instagram_Clone.Models.Post", b =>
@@ -809,6 +837,11 @@ namespace Instagram_Clone.Migrations
                     b.Navigation("Posts");
 
                     b.Navigation("Stories");
+                });
+
+            modelBuilder.Entity("Instagram_Clone.Models.Chat", b =>
+                {
+                    b.Navigation("messages");
                 });
 
             modelBuilder.Entity("Instagram_Clone.Models.Post", b =>

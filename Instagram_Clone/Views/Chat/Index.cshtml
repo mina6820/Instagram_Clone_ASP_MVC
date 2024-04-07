@@ -1,59 +1,95 @@
-﻿@model List<Instagram_Clone.Models.Message>
+﻿ @model List<Chat>
 
 <!DOCTYPE html>
 <html>
 <head>
     <title>Chat</title>
     <!-- Include the SignalR library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.8/signalr.min.js"></script>
+    @* <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.8/signalr.min.js"></script> *@
 </head>
 <body>
-    <h1>Chat</h1>
 
-    <div id="messageContainer">
-        @foreach (var message in Model.OrderBy(m => m.Date))
-        {
-            <div>
-                <strong>@message.Sender.UserName:</strong>
-                <span>@message.Content</span>
+    <div id="message" style="margin-left=0px">
+        <div class="message_container">
+            <div class="persons">
+                <div class="account_name">
+                    <p>@ViewBag.UserName</p>
+                </div>
+                <div class="account_message">
+                    <div class="desc">
+                        <p>Chats</p>
+                    </div>
+
+                    @foreach (var chat in Model)
+                    {
+
+                        // Determine which user's name to display based on the current user's ID
+                        var currentUserId = ViewBag.SenderId;
+                        var userName = currentUserId == chat.SenderId ? chat.Reciever.UserName : chat.Sender.UserName;
+                        var profilePicture = currentUserId == chat.SenderId ? chat.Reciever.ProfilePicture.Name : chat.Sender.ProfilePicture.Name;
+
+                        <div class="cart">
+                            <div>
+                                <div class="img">
+                                    <img src="~/images/profilePicture.Name" alt="">
+                                </div>
+                                <div class="info">
+                                    <a class="name" asp-controller="Chat" asp-action="OpenChat" asp-route-senderId="@chat.SenderId" asp-route-chatId="@chat.id" asp-route-receiverId="@chat.RecieverId">@userName</a>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                    }
+
+
+                </div>
             </div>
-        }
+            <div class="message">
+                <div class="options">
+                    <div class="cart">
+                        <div>
+                            <div class="img">
+                                <img src="./images/profile_img.jpg" alt="">
+                            </div>
+                            <div class="info">
+                                <p class="name">Zineb_essoussi</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="other">
+                        <a href="#">
+                            <img src="./images/telephone.png" alt="call">
+                        </a>
+                        <a href="#">
+                            <img src="./images/video_call.png" alt="video call">
+                        </a>
+                    </div>
+                </div>
+                <div class="content">
+                    <div class="my_message">
+                        <p class="p_message">hello how are you?</p>
+                    </div>
+                    <div class="response_message">
+                        <p class="p_message">hi! i'm fine and you?</p>
+                    </div>
+                    <div class="my_message">
+                        <p class="p_message">I'm good </p>
+                    </div>
+                    <div class="response_message">
+                        <p class="p_message">I'll come tomorrow</p>
+                    </div>
+
+                </div>
+                <form>
+                    <input type="text" id="emoji" placeholder="write your email" />
+                </form>
+
+            </div>
+        </div>
     </div>
 
-    <!-- Your form for sending messages can be added here -->
-    <form id="messageForm">
-        <input type="text" id="messageInput" />
-        <button type="button" onclick="sendMessage()">Send</button>
-    </form>
 
-    <script>
-        // Establish a connection to the SignalR hub
-        var connection = new signalR.HubConnectionBuilder()
-            .withUrl("/chat/index")
-            .build();
-
-        connection.start().then(function () {
-            console.log("SignalR Connected");
-        }).catch(function (err) {
-            console.error("SignalR Connection Error: " + err);
-        });
-
-        // Function to send a message
-        function sendMessage() {
-            var messageInput = document.getElementById("messageInput").value;
-            var receiverId = @Model[0].RecieverId;
-
-            connection.invoke("SendMessage", messageInput, receiverId)
-                .catch(function (err) {
-                    console.error("Error sending message: " + err);
-                });
-        }
-
-        // Receive message from the server
-        connection.on("ReceiveMessage", function (message) {
-            // Handle received message
-            console.log("Received message:", message);
-        });
-    </script>
 </body>
 </html>

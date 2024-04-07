@@ -12,18 +12,14 @@ namespace Instagram_Clone.Models
 
         public DateTime Date { get; set; } = DateTime.Now;
 
-
-        [ForeignKey("Sender")]
-        public string SenderId { get; set; }
-        public ApplicationUser Sender { get; set; }
-
-        [ForeignKey("Reciever")]
-        public string RecieverId { get; set; }
-        public ApplicationUser Reciever { get; set; }
-
         [ForeignKey("Photo")]
         public int? photoId { get; set; }
         public messagePhoto? Photo { get; set; }
+
+
+        [ForeignKey("chat")]
+        public int chatId { get; set; }
+        public Chat chat { get; set; }
 
     }
 }
