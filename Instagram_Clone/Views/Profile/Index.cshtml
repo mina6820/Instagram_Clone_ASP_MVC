@@ -51,6 +51,20 @@
         justify-content:flex-start;
     }
 
+  .profile_container .highlights .img img {
+      height:88px;
+  }
+
+    .ClickFollowers,.ClickFollowing{
+        text-decoration:none;
+    }
+
+    .nav .menu ul li a {
+        text-decoration:none;
+        padding-left:20px;
+    }
+
+
 </style>
 <body>
     <div class="post_page">
@@ -284,8 +298,9 @@
 
             <div class="highlights">
                 <div class="highlight">
+
                     <div class="img">
-                          <img src="~/images/@Model.ProfilePicture.Name" asp-append-version="true" alt="My Image" />
+                        <img src="~/images/@Model.ProfilePicture.Name" asp-append-version="true" alt="My Image" />
 
                         @* <img src="~/images/@Model.ProfilePicture.Name" alt=""> *@
                     </div>
