@@ -14,7 +14,7 @@ namespace Instagram_Clone.ViewModels
 
 
         public List<Story>? Stories { get; set; }
-        public List<StoryView>? StoryViews { get; set; }
+        public List<StoryViewer>? StoryViews { get; set; }
         public List<Post>? Posts { get; set; }
 
         public profilePhoto? ProfilePicture { get; set; }

@@ -11,14 +11,17 @@
     <link rel="stylesheet" href="/owlcarousel/owl.carousel.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.css">
     <link rel="stylesheet" href="/sass/main.css">
+    <link rel="icon" type="image/x-icon" href="/images/insta.jpeg">
+
 </head>
 
 <body>
     @if (!Context.Request.Path.StartsWithSegments("/Account/Login")&&
     !Context.Request.Path.StartsWithSegments("/Follow/showFollowers")&&
     !Context.Request.Path.StartsWithSegments("/Follow/showFollowees")&&
-    !Context.Request.Path.StartsWithSegments("/Account/Register")
-    
+    !Context.Request.Path.StartsWithSegments("/Account/Register")&&
+    !Context.Request.Path.StartsWithSegments("/story/add")
+     
 
     )
     {
@@ -35,11 +38,12 @@
                     <div class="menu">
                         <ul>
                             <li>
-                                <a class="active" href="home.html">
-                                    <img src="/images/accueil.png">
-                                    <span class="d-none d-lg-block ">Home</span>
+                                <a class="active" asp-controller="Home" asp-action="Index">
+                                    <img src="/images/accueil.png" alt="Home">
+                                    <span class="d-none d-lg-block">Home</span>
                                 </a>
                             </li>
+
                             <li id="search_icon">
                                 <a href="#">
                                     <img src="/images/search.png">

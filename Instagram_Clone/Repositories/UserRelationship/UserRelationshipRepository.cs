@@ -77,7 +77,12 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
                 .Where(u =>u.UserName.ToLower().Contains(lowerName) ).ToList();
             return searchedUsers;
         }
-
+        /// <summary>
+        /// ///
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
        public List<UserRelationship> searchFollowers2(string Name, string id)
         {
             
@@ -160,6 +165,8 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
         //    var Relation = context.UserRelationship
         //   .FirstOrDefault(ur=>ur.user.Id == LoginUserID && ur=>ur.Follower.Id == FollowerID);
         //}
+
+
         public void GetFollowingRelationship(string followeeId, string LoginUsrer)
         {
             var relation= context.UserRelationship
@@ -168,7 +175,8 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
             if (relation != null)
             {
                 relation.IsDeleted=true;
-                context.SaveChanges();
+                Save();
+                //context.SaveChanges();
             }
         }
 
@@ -180,7 +188,9 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
             if (relation != null)
             {
                 relation.IsDeleted = true;
-                context.SaveChanges();
+                Save();
+
+                //context.SaveChanges();
             }
 
         }
