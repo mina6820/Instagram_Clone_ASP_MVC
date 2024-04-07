@@ -23,7 +23,10 @@ namespace Instagram_Clone.Controllers
 
             List<Chat> chats = messageRepository.GetAllChats(currentUser.Id);
 
-            ViewBag.CurrentUserName = currentUser.UserName;
+
+            ViewBag.UserName = currentUser?.UserName;
+            ViewBag.SenderId = currentUser?.Id;
+
 
             return View("Index",chats);
 
@@ -31,8 +34,18 @@ namespace Instagram_Clone.Controllers
 
         public async Task<IActionResult> OpenChat(string senderId, int chatId, string receiverId)
         {
-            var userRecord = await userManager.FindByIdAsync(senderId);
-            ViewBag.senderName = userRecord?.UserName;
+            var userRecord = await userManager.GetUserAsync(User);
+
+            if (userRecord.Id == senderId)
+            {
+                var receiver = await userManager.FindByIdAsync(receiverId);
+                ViewBag.senderName = receiver?.UserName;
+            }
+            else if (userRecord.Id == receiverId)
+            {
+                var sender = await userManager.FindByIdAsync(senderId);
+                ViewBag.senderName = sender?.UserName;
+            }
 
             ViewBag.chatId = chatId;
             ViewBag.receiverId = receiverId;
@@ -41,25 +54,6 @@ namespace Instagram_Clone.Controllers
         }
 
 
-        //[HttpPost]
-        //public async Task<IActionResult> Create(Message message)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        ApplicationUser sender = await userManager.GetUserAsync(User);
-        //        message.Sender = sender;
 
-        //        // Insert the message using your repository
-        //        await messageRepository.InsertAsync(message);
-
-        //        // Save changes after inserting the message
-        //        messageRepository.Save();
-
-        //        return RedirectToAction("Index");
-        //    }
-
-        //    // If ModelState is not valid, return back to the view with the invalid message
-        //    return View(message);
-        //}
     }
 }
