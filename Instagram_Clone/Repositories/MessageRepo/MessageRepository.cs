@@ -20,6 +20,7 @@ namespace Instagram_Clone.Repositories.MessageRepo
         public List<Chat> GetAllChats(string userId)
         {
             return context.Chats
+                .Include(ch => ch.Reciever)
                 .Include(ch => ch.Sender)
                 .Where(ch => (ch.RecieverId == userId || ch.SenderId == userId))
                 .ToList();
