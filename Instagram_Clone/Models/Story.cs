@@ -11,16 +11,20 @@ namespace Instagram_Clone.Models
 
         public Story()
         {
-          Date = DateTime.Now;
-          Duration = TimeSpan.FromSeconds(30);
+            CreatedAt = DateTime.Now;
+         // Duration = TimeSpan.FromSeconds(30);
           LifeTime  = TimeSpan.FromHours(24);
           IsDeleted = false;
         }
 
         public int Id { get; set; }
 
-        public DateTime Date { get; set; }
-        public TimeSpan Duration { get; set; }
+        public DateTime CreatedAt { get; set; }
+
+        //Handle the duration using JS
+        //public TimeSpan Duration { get; set; }
+
+
         public TimeSpan LifeTime { get; set; }
         public bool IsDeleted { get; set; }
 
@@ -30,8 +34,10 @@ namespace Instagram_Clone.Models
         [ForeignKey("User")]
         public string UserId { get; set; }
         public ApplicationUser User { get; set; }
+
+
         //habeba
-        public List<StoryView>? StoryViews { get; set; }
+       // public List<StoryView>? StoryViews { get; set; }
 
 
         [ForeignKey("Photo")]

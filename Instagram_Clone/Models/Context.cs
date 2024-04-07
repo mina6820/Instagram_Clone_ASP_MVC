@@ -27,6 +27,8 @@ namespace Instagram_Clone
 
         public DbSet<Post> Posts { get; set; }
         public DbSet<Story> Stories { get; set; }
+        public DbSet<StoryViewer> StoryViewers { get; set; }
+
         public DbSet<ApplicationUser> Users { get; set; }
 
 

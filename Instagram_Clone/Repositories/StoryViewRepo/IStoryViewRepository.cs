@@ -1,6 +1,6 @@
 ﻿namespace Instagram_Clone.Repositories.StoryViewRepo
 {
-    public interface IStoryViewRepository :IRepository<StoryView>
+    public interface IStoryViewRepository :IRepository<StoryViewer>
     {
     }
 }

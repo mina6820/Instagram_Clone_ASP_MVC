@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Instagram_Clone.Models
 {
-    public class StoryView
+    public class StoryViewer
     {
         public int Id { get; set; }
 
