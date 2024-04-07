@@ -47,6 +47,7 @@ namespace Instagram_Clone.Controllers
                 postViewModel.ImagesNames = post.PhotosPathes;
                 postViewModel.Likes = post.Likes;
                 postViewModel.Comments = post.Comments;
+                postViewModel.CreatedAt = post.Date;
                 //postViewModel.ProfilePhoto = post.User.ProfilePicture;
 
 

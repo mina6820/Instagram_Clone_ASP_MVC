@@ -11,7 +11,6 @@ namespace Instagram_Clone.Models.photo
         public string Name { get; set; }
         public bool IsDeleted { get; set; } = false;
 
-        // Navigation property
         
 
     }
