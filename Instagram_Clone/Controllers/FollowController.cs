@@ -238,6 +238,7 @@ namespace Instagram_Clone.Controllers
             {
                 Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
                 ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+                //ViewBag.LoggedInUserId= user2.Id;
                 userRelationshipRepository.GetFollowingRelationship(id,user2.Id);
              
             }
@@ -246,8 +247,8 @@ namespace Instagram_Clone.Controllers
 
         public IActionResult RemoveFollower(string id)
         {
-            // user.id (login user)
-            // id (id of the follower)
+            // id (login user)
+            //  user.id (id of the follower)
             if (id != null)
 
             {
@@ -259,7 +260,36 @@ namespace Instagram_Clone.Controllers
             return RedirectToAction("Index", "Profile");
         }
 
+        //public IActionResult GetFollowersAndFollowings()
+        //{
+        //    Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+        //    ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+        //    List<UserRelationship> AllUsers = userRelationshipRepository.GetFollowersAndFollowings(user2.Id);
+        //    return RedirectToAction("Index", "Home", AllUsers);
+        //    //return PartialView("_DataBaseUsersPartial", AllUsers);
+        //}
 
+        //public IActionResult GetFollowersAndFollowings()
+        //{
+        //    Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+        //    ApplicationUser user = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+        //    List<ApplicationUser> allUsers = userRelationshipRepository.GetFollowersAndFollowings(user.Id);
+        //    return PartialView("_DataBaseUsersPartial", allUsers);
+
+        //}
+
+        //public IActionResult GetFollowersAndFollowings()
+        //{
+        //    Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+        //    ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+        //    List<UserRelationship> AllUsers = userRelationshipRepository.GetFollowersAndFollowings(user2.Id);
+        //    //return View("Index", AllUsers);
+        //    List<UserRelationship> test = new List<UserRelationship>();
+        //    test.Add(AllUsers.First());
+           
+        //    ViewBag.Users = test;
+        //    return PartialView("_DataBaseUsersPartial");
+        //}
 
 
     }

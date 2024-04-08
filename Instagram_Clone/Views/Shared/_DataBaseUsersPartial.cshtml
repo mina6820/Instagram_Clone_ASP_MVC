@@ -1,0 +1,47 @@
+﻿@model List<UserRelationship>
+
+<div id="search" class="search_section">
+    <h2>Search</h2>
+    <form method="post">
+        <input type="text" placeholder="Search">
+    </form>
+    <div class="find">
+        <div class="desc">
+            <h4>Recent</h4>
+            <p><a href="#">Clear all</a></p>
+        </div>
+        <div class="account">
+            @if (ViewBag.Users != null)
+            {
+                @foreach (var relationship in ViewBag.Users)
+                {
+                    <div class="cart">
+                        <div>
+                            <div class="img">
+                                <img src="/images/profile_img.jpg" alt="">
+                            </div>
+                            <div class="info">
+                                @if (relationship.Follower != null)
+                                {
+                                    <p class="name">@relationship.Follower.UserName</p>
+                                    @* <p class="second_name">@relationship.Follower.DisplayName</p> *@
+                                }
+                                else
+                                {
+                                    <p class="name">Unknown</p> @* Provide a default value or handle differently as needed *@
+                                }
+                            </div>
+                        </div>
+                        <div class="clear">
+                            <a href="#">X</a>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p>No data available.</p> @* Handle case where Model is null *@
+            }
+        </div>
+    </div>
+</div>
