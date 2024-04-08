@@ -16,33 +16,56 @@
 <body>
     <form class="form-inline" id="searchForm" method="get" asp-action="ShowFollowers" asp-controller="Follow">
         <input class="form-control me-2" placeholder="Search..." id="NameSearch" name="Name" type="text">
-        <input type="submit" class="btn btn-primary btn-sm mt-1" value="Search">
+        <button type="submit" class="btn btn-primary">Search</button>
     </form>
-    <div class="container mt-5" ">
+    <div class="container mt-5">
         <div class="d-flex justify-content-center row">
-            <div class="col-md-6">
-   
-        @foreach (var follower in Model.Followers)
-        {
-                        <div class="p-3 bg-white text-center">
-
-                            <div class="d-flex flex-row justify-content-between align-items-center mt-2">
-                                <img class="rounded-circle" src="/images/@follower.Follower.ProfilePicture.Name" width="55">
-                            <div class="d-flex flex-column align-items-start ml-2"><a class="font-weight-bold" href="/FriendsProfile/index/@follower.FollowerId" >@follower.Follower.UserName</a><span class="followers"><span style="margin:2px">follower.Id @follower.Id</span><span style="margin:2px">follower.Follower.Id @follower.Follower.Id</span><span style="margin:2px">follower.FolloweeId @follower.FolloweeId</span></span></div>
-                                <div class="d-flex flex-row align-items-center">
-                                <div class="d-flex flex-row align-items-center mt-2"><a href="Follow/RemoveFollower/@follower.FollowerId" class="btn btn-primary btn-sm" type="button">Remove</a></div>
+            <div class="col-md-6" id="searchResults">
+                @foreach (var follower in Model.Followers)
+                {
+                    <div class="p-3 bg-white text-center">
+                        <div class="d-flex flex-row justify-content-between align-items-center mt-2">
+                            <img class="rounded-circle" src="/images/@follower.Follower.ProfilePicture.Name" width="55">
+                            <div class="d-flex flex-column align-items-start ml-2">
+                                <a class="font-weight-bold" href="/FriendsProfile/index/@follower.FollowerId">@follower.Follower.UserName</a>
+                                <span class="followers">
+                                    <span style="margin:2px">follower.Id @follower.Id</span>
+                                    <span style="margin:2px">follower.Follower.Id @follower.Follower.Id</span>
+                                    <span style="margin:2px">follower.FolloweeId @follower.FolloweeId</span>
+                                </span>
+                            </div>
+                            <div class="d-flex flex-row align-items-center">
+                                <div class="d-flex flex-row align-items-center mt-2">
+                                    <a href="/Follow/RemoveFollower/@follower.FollowerId" class="btn btn-primary btn-sm" type="button">Remove</a>
                                 </div>
                             </div>
                         </div>
-        }
-    
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="/resources/demos/style.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var input = document.getElementById("NameSearch")
+            input.addEventListener("input", function () {
+                // Fetch data using AJAX based on the search input
+                var searchTerm = input.value;
+                // Example AJAX call
+                // Replace this with your actual AJAX call to fetch followers based on search term
+                fetch("/Follow/SearchFollower?Name=" + searchTerm)
+                    .then(response => response.text())
+                    .then(data => {
+                        document.getElementById("searchResults").innerHTML = data;
+                        this.contains.log(data);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            });
+        });
+    </script>
 </body>
 </html>
