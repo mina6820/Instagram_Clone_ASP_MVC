@@ -69,6 +69,7 @@ namespace Instagram_Clone.Controllers
                 postViewModel.ImagesNames = post.PhotosPathes;
                 postViewModel.Likes = post.Likes;
                 postViewModel.Comments = post.Comments;
+                postViewModel.CreatedAt = post.Date;
                 //postViewModel.ProfilePhoto = post.User.ProfilePicture;
 
 
@@ -92,15 +93,24 @@ namespace Instagram_Clone.Controllers
 
                 postsViewModel.Add(postViewModel);
             }
-            return PartialView("_PostPartial", postsViewModel);
+            ViewBag.postsList = postsViewModel;
+            return View();
         }
-        //public IActionResult GetFollowersAndFollowings()
+
+        //public IActionResult Index()
         //{
-        //    Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
-        //    ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim.Value);
-        //    List<UserRelationship> AllUsers = userRelationshipRepository.GetFollowersAndFollowings(user2.Id);
-        //    return View("Index", AllUsers);
-        //    //return PartialView("_DataBaseUsersPartial", AllUsers);
+        //    return View();
         //}
+
+        public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
     }
 }

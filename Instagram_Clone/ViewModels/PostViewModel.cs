@@ -9,6 +9,7 @@
 
         public string? TimeAgo { get; set; }
 
+        public DateTime CreatedAt { get; set; }
         public List<string>? ImagesNames { get; set; } = new List<string>();
 
         public List<Like>? Likes { get; set; }
@@ -19,6 +20,7 @@
 
         public profilePhoto ProfilePhoto { get; set; }
 
+        public List<UserRelationship>? Followers { get; set; }
 
 
     }
