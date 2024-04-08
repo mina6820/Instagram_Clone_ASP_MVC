@@ -1,4 +1,4 @@
-﻿@model List<UserRelationship>
+﻿@model List<ApplicationUser>
 
 <div id="search" class="search_section">
     <h2>Search</h2>
@@ -13,23 +13,15 @@
         <div class="account">
             @if (ViewBag.Users != null)
             {
-                @foreach (var relationship in ViewBag.Users)
+                @foreach (ApplicationUser relationship in ViewBag.Users)
                 {
                     <div class="cart">
                         <div>
                             <div class="img">
-                                <img src="/images/profile_img.jpg" alt="">
+                                <img src="/images/@relationship.ProfilePicture.Name" alt="">
                             </div>
                             <div class="info">
-                                @if (relationship.Follower != null)
-                                {
-                                    <p class="name">@relationship.Follower.UserName</p>
-                                    @* <p class="second_name">@relationship.Follower.DisplayName</p> *@
-                                }
-                                else
-                                {
-                                    <p class="name">Unknown</p> @* Provide a default value or handle differently as needed *@
-                                }
+                                <a href="/FriendsProfile/Index/@relationship.Id" class="name">@relationship.UserName</a>
                             </div>
                         </div>
                         <div class="clear">

@@ -40,43 +40,46 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
             return Following;
         }
 
-        public List<UserRelationship> GetFollowersAndFollowings(string id)
+        //public List<UserRelationship> GetFollowersAndFollowings(string id)
+        //{
+        //    List<UserRelationship> followers = context.UserRelationship
+        //        .Where(ur => ur.FolloweeId == id && ur.Follower.IsDeleted == false && ur.IsDeleted == false)
+        //        .Include(ur => ur.Follower)
+        //        .Include(ur => ur.Follower.ProfilePicture)
+        //        .ToList();
+
+        //    List<UserRelationship> followings = context.UserRelationship
+        //        .Where(ur => ur.FollowerId == id && ur.Followee.IsDeleted == false && ur.IsDeleted == false)
+        //        .Include(ur => ur.Followee)
+        //        .Include(ur => ur.Followee.ProfilePicture)
+        //        .ToList();
+
+        //    List<UserRelationship> followersAndFollowings = followers.Concat(followings).ToList();
+
+        //    return followersAndFollowings;
+        //}
+
+        public List<ApplicationUser> GetFollowersAndFollowings(string id)
         {
-            List<UserRelationship> followers = context.UserRelationship
+            List<ApplicationUser> followers = context.UserRelationship
                 .Where(ur => ur.FolloweeId == id && ur.Follower.IsDeleted == false && ur.IsDeleted == false)
-                .Include(ur => ur.Follower)
-                .Include(ur => ur.Follower.ProfilePicture)
+                .Select(ur => ur.Follower)
+                .Include(u => u.ProfilePicture)
                 .ToList();
 
-            List<UserRelationship> followings = context.UserRelationship
+            List<ApplicationUser> followings = context.UserRelationship
                 .Where(ur => ur.FollowerId == id && ur.Followee.IsDeleted == false && ur.IsDeleted == false)
-                .Include(ur => ur.Followee)
-                .Include(ur => ur.Followee.ProfilePicture)
+                .Select(ur => ur.Followee)
+                .Include(u => u.ProfilePicture)
                 .ToList();
 
-            List<UserRelationship> followersAndFollowings = followers.Concat(followings).ToList();
+            List<ApplicationUser> followersAndFollowings = followers.Concat(followings).ToList();
 
             return followersAndFollowings;
         }
 
-        //public List<ApplicationUser> GetFollowersAndFollowings(string id)
-        //{
-        //    List<ApplicationUser> followers = context.UserRelationship
-        //        .Where(ur => ur.FolloweeId == id && ur.Follower.IsDeleted == false && ur.IsDeleted == false)
-        //        .Select(ur => ur.Follower)
-        //        .Include(u => u.ProfilePicture)
-        //        .ToList();
 
-        //    List<ApplicationUser> followings = context.UserRelationship
-        //        .Where(ur => ur.FollowerId == id && ur.Followee.IsDeleted == false && ur.IsDeleted == false)
-        //        .Select(ur => ur.Followee)
-        //        .Include(u => u.ProfilePicture)
-        //        .ToList();
-
-        //    List<ApplicationUser> followersAndFollowings = followers.Concat(followings).ToList();
-
-        //    return followersAndFollowings;
-        //}
+        
 
 
         //انا هديك ال فلويي و انت تبعتلى الفلور

@@ -286,10 +286,12 @@ namespace Instagram_Clone.Controllers
         //    //return View("Index", AllUsers);
         //    List<UserRelationship> test = new List<UserRelationship>();
         //    test.Add(AllUsers.First());
-           
+
         //    ViewBag.Users = test;
         //    return PartialView("_DataBaseUsersPartial");
         //}
+
+       
 
 
     }
