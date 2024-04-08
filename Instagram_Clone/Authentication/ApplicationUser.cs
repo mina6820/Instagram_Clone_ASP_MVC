@@ -31,6 +31,5 @@ namespace Instagram_Clone.Authentication
 
 
 
-
     }
 }

@@ -1,15 +1,14 @@
-﻿ @model List<Chat>
+﻿@model List<Chat>
 
 <!DOCTYPE html>
 <html>
 <head>
     <title>Chat</title>
-    <!-- Include the SignalR library -->
-    @* <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.8/signalr.min.js"></script> *@
+
 </head>
 <body>
 
-    <div id="message" style="margin-left=0px">
+    <div id="message">
         <div class="message_container">
             <div class="persons">
                 <div class="account_name">
@@ -22,74 +21,81 @@
 
                     @foreach (var chat in Model)
                     {
-
-                        // Determine which user's name to display based on the current user's ID
+                        <!-- Determine which user's name to display based on the current user's ID -->
                         var currentUserId = ViewBag.SenderId;
                         var userName = currentUserId == chat.SenderId ? chat.Reciever.UserName : chat.Sender.UserName;
-                        var profilePicture = currentUserId == chat.SenderId ? chat.Reciever.ProfilePicture.Name : chat.Sender.ProfilePicture.Name;
 
                         <div class="cart">
                             <div>
                                 <div class="img">
-                                    <img src="~/images/profilePicture.Name" alt="">
+                                    <!-- Make sure to use proper syntax to render the profile picture -->
+                                    @* <img src="~/images/@(currentUserId == chat.SenderId ? chat.Reciever.ProfilePicture.Name : chat.Sender.ProfilePicture.Name)" alt=""> *@
                                 </div>
+                                @*asp-route-senderId="@chat.SenderId" asp-route-chatId="@chat.id" asp-route-receiverId="@chat.RecieverId" *@
                                 <div class="info">
-                                    <a class="name" asp-controller="Chat" asp-action="OpenChat" asp-route-senderId="@chat.SenderId" asp-route-chatId="@chat.id" asp-route-receiverId="@chat.RecieverId">@userName</a>
+                                    <a class="name">@userName</a>
+                                    <input type="hidden" class="senderId" value="@chat.SenderId" />
+                                    <input type="hidden" class="chatId" value="@chat.id" />
+                                    <input type="hidden" class="receiverId" value="@chat.RecieverId" />
+
 
                                 </div>
                             </div>
                         </div>
-
-                        
                     }
-
-
                 </div>
-            </div>
-            <div class="message">
-                <div class="options">
-                    <div class="cart">
-                        <div>
-                            <div class="img">
-                                <img src="./images/profile_img.jpg" alt="">
-                            </div>
-                            <div class="info">
-                                <p class="name">Zineb_essoussi</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="other">
-                        <a href="#">
-                            <img src="./images/telephone.png" alt="call">
-                        </a>
-                        <a href="#">
-                            <img src="./images/video_call.png" alt="video call">
-                        </a>
-                    </div>
-                </div>
-                <div class="content">
-                    <div class="my_message">
-                        <p class="p_message">hello how are you?</p>
-                    </div>
-                    <div class="response_message">
-                        <p class="p_message">hi! i'm fine and you?</p>
-                    </div>
-                    <div class="my_message">
-                        <p class="p_message">I'm good </p>
-                    </div>
-                    <div class="response_message">
-                        <p class="p_message">I'll come tomorrow</p>
-                    </div>
-
-                </div>
-                <form>
-                    <input type="text" id="emoji" placeholder="write your email" />
-                </form>
 
             </div>
+            <div id="openChatContainer" class="message">
+
+            </div>
+
         </div>
     </div>
-
+    <!-- Index.cshtml -->
 
 </body>
 </html>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Include the SignalR library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.8/signalr.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"
+        integrity="sha512-7rhBJh1om/W5Ztx7WiYOR9h2wlSaTmPyQMoHFtbT/FVNIA12y6S6I8HY9mrBS1uJ3dSU/R3qaSAXsGYuRjMDxg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+<script>
+    $(document).ready(function () {
+        $('.name').click(function (e) {
+            // Prevent the default behavior of the link
+            e.preventDefault();
+
+            // Get the values of asp-route-... attributes
+@*             var senderId = $(this).attr('asp-route-senderId');
+            var chatId = $(this).attr('asp-route-chatId');
+            var receiverId = $(this).attr('asp-route-receiverId'); *@
+
+            // Get the values of senderId, chatId, and receiverId relative to the clicked link
+            var senderId = $(this).closest('.info').find('.senderId').val();
+            var chatId = $(this).closest('.info').find('.chatId').val();
+            var receiverId = $(this).closest('.info').find('.receiverId').val();
+
+
+
+            // Send AJAX request to load the open chat partial view
+            $.ajax({
+                url: "/chat/openchat/",
+                type: 'GET',
+                data: { senderId: senderId, chatId: chatId, receiverId: receiverId },
+                success: function (response) {
+                    console.log('Response from server:', response);
+                    $('#openChatContainer').html(response); // Load the response into the container
+                },
+                error: function (xhr, status, error) {
+                    console.error(error); // Log any errors to the console
+                }
+            });
+        });
+    });
+</script>
