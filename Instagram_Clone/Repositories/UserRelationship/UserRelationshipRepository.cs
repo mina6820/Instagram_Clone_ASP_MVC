@@ -39,11 +39,54 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
                 .ToList();
             return Following;
         }
+
+        //public List<UserRelationship> GetFollowersAndFollowings(string id)
+        //{
+        //    List<UserRelationship> followers = context.UserRelationship
+        //        .Where(ur => ur.FolloweeId == id && ur.Follower.IsDeleted == false && ur.IsDeleted == false)
+        //        .Include(ur => ur.Follower)
+        //        .Include(ur => ur.Follower.ProfilePicture)
+        //        .ToList();
+
+        //    List<UserRelationship> followings = context.UserRelationship
+        //        .Where(ur => ur.FollowerId == id && ur.Followee.IsDeleted == false && ur.IsDeleted == false)
+        //        .Include(ur => ur.Followee)
+        //        .Include(ur => ur.Followee.ProfilePicture)
+        //        .ToList();
+
+        //    List<UserRelationship> followersAndFollowings = followers.Concat(followings).ToList();
+
+        //    return followersAndFollowings;
+        //}
+
+        public List<ApplicationUser> GetFollowersAndFollowings(string id)
+        {
+            List<ApplicationUser> followers = context.UserRelationship
+                .Where(ur => ur.FolloweeId == id && ur.Follower.IsDeleted == false && ur.IsDeleted == false)
+                .Select(ur => ur.Follower)
+                .Include(u => u.ProfilePicture)
+                .ToList();
+
+            List<ApplicationUser> followings = context.UserRelationship
+                .Where(ur => ur.FollowerId == id && ur.Followee.IsDeleted == false && ur.IsDeleted == false)
+                .Select(ur => ur.Followee)
+                .Include(u => u.ProfilePicture)
+                .ToList();
+
+            List<ApplicationUser> followersAndFollowings = followers.Concat(followings).ToList();
+
+            return followersAndFollowings;
+        }
+
+
+        
+
+
         //انا هديك ال فلويي و انت تبعتلى الفلور
         //public List<UserRelationship> searchFollowers(string Name)
         //{
 
-            
+
         //   List< UserRelationship> searchedUsers =
         //        context.UserRelationship
         //        .Include(ur => ur.Follower)
@@ -96,6 +139,7 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
                     searchedUsers.Add(item);
                 }
             }
+
 
 
             return searchedUsers;

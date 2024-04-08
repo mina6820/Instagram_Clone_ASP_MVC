@@ -1,4 +1,5 @@
 ﻿
+
 @*
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
@@ -6,7 +7,7 @@
 @model List<PostViewModel>
 
 <input type="hidden" id="hiddenID" value="@ViewBag.CurrentUserId" />
-@foreach(var post in Model.OrderByDescending(post => post.CreatedAt))
+@foreach (var post in ViewBag.postsList)@* postsListByDescending(post => post.CreatedAt) *@
 {
     
     <div class="post">
@@ -59,13 +60,13 @@
                         <img class="loved" src="./images/heart.png">
                     </div> *@
 
-                    <button  class="like" onclick="Like(@post.ID)">
+                    <button style="background-color:transparent;border:none;" class="like" onclick="Like(@post.ID)">
                         <img class="not-loved" id="not-Loved-@post.ID" src="./images/love.png">
                         <img class="loved" id="loved-@post.ID" src="./images/heart.png">
                     </button>
 
                     <div class="chat">
-                        <button type="button" class="btn p-0" data-bs-toggle="modal" data-bs-target="#message_modal">
+                        <button type="button" class="btn p-0" onclick="comment(@post.ID)" data-bs-toggle="modal" data-bs-target="#message_modal">
                             <img src="./images/bubble-chat.png">
                         </button>
                     </div>
@@ -87,40 +88,54 @@
                 <p>
                     <a class="bold" href="#">@post.UserName</a>
                         @post.Caption
-@*                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima accusantium aperiam quod non minus cumque, recusandae hic soluta harum aut nulla...
- *@                </p>    
-                <p><a class="gray" href="#">View all 2 comments</a></p>
-                <input type="text" placeholder="Add a comments...">
+                    </p>
+                    <p><a class="gray" href="#">View all 2 comments</a></p>
+                    <input type="text" placeholder="Add a comments...">
+                </div>
             </div>
         </div>
-    </div>
-
-}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.12/signalr.min.js"></script>
-
-<script>
-    var currentUserID = document.getElementById("hiddenID").value;
-    console.log(`the ID =  ${currentUserID}`);
-    var hub = new signalR.HubConnectionBuilder().withUrl("/PostH").build();
-
-    hub.start().then(function () {
-        console.log("success");
-    });
-
-    function Like(postID){
-        var imgElement = document.getElementById(`not-Loved-${postID}`)
-        if (!imgElement.classList.contains("hide_img")) {
-            hub.invoke("AddLike", postID, currentUserID);
-        }
-        else {
-            hub.invoke("DeleteLike", postID, currentUserID);
-        }
-            
     }
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.12/signalr.min.js"></script>
+
+    <script>
+        var currentUserID = document.getElementById("hiddenID").value;
+        console.log(`the ID =  ${currentUserID}`);
+        var hub = new signalR.HubConnectionBuilder().withUrl("/PostH").build();
+
+        hub.start().then(function () {
+            console.log("success");
+        });
+
+        function Like(postID) {
+            var imgElement = document.getElementById(`not-Loved-${postID}`)
+            if (!imgElement.classList.contains("hide_img")) {
+                hub.invoke("AddLike", postID, currentUserID);
+            }
+            else {
+                hub.invoke("DeleteLike", postID, currentUserID);
+            }
+
+        }
 
     hub.on("ReceiveLikes", function (postID, likesCount) {
         var element = document.getElementById(`likedCount-${postID}`);
         element.textContent = likesCount + " Likes" ;
     })
+
+
+    function comment(postId){
+       
+            $.ajax({
+                url: "/Post/Comment",
+                success: function () {
+                    console.log("successhdhdh");
+
+                },
+            data: { PostID: postId }
+            });
+        
+    }
+
 </script>
 

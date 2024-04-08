@@ -46,10 +46,35 @@ namespace Instagram_Clone.Repositories.PostRepo
                 .ThenInclude(p => p.ProfilePicture)
                 .ToList();
         }
+
+
+        //public Post? GetPostwithUserAndCommentsAndFollowersById(int id)
+        //{
+        //    return context.Posts.Include(p => p.Comments)
+
+        //        .Include(p => p.User)
+        //        .ThenInclude(u => u.ProfilePicture)
+        //        .Include(p => p.User)
+        //        .ThenInclude(u => u.Followers)
+        //        .FirstOrDefault(p => p.Id == id && p.IsDeleted == false);
+        //}
+
+        public Post? GetPostwithUserAndCommentsAndFollowersById(int id)
+        {
+            return context.Posts.Include(p => p.Comments)
+                .ThenInclude(c => c.User) // Include users from comments
+                .Include(p => p.User)
+                .ThenInclude(u => u.ProfilePicture)
+                .Include(p => p.User)
+                .ThenInclude(u => u.Followers)
+                .FirstOrDefault(p => p.Id == id && p.IsDeleted == false);
+        }
+
+
         //public List<Post> getyyy(string userid)
         //{
-        //    dfkjvdnnvnd
-        //    return context.Posts.Where(p => p.UserId == userid).Include(p=> p.User).ThenInclude(p => p.Following).ToList();
+
+        //    return context.Posts.Where(p => p.UserId == userid).Include(p => p.User).ThenInclude(p => p.Following).ToList();
         //}
 
 
