@@ -8,7 +8,7 @@ namespace Instagram_Clone.Repositories.PostRepo
      
         public List<Post> GetAllPostsByUserID(string userID);
 
-        public List<Post> GetAllPostsWithPhotosAndLikes();
+        public List<Post> GetAllPostsWithPhotosAndLikes(string id);
 
 
         public Post? GetPostByIDWithLikes(int id);

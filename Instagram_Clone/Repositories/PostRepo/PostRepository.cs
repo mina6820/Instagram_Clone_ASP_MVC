@@ -23,25 +23,36 @@ namespace Instagram_Clone.Repositories.PostRepo
         }
 
        
-        public List<Post>? GetAllPostsWithPhotosAndLikes()
+        //public List<Post>? GetAllPostsWithPhotosAndLikes()
+        //{
+        //    return context.Posts.Where(p => p.IsDeleted == false)
+        //        .Include(p => p.Likes.Where(l => l.IsDeleted == false))
+        //        .Include(p => p.Comments)
+        //        .Include(p => p.User)
+        //        .ThenInclude(p => p.ProfilePicture)
+
+        //        .Include(p => p.User)
+        //        .ThenInclude(p => p.Following)
+
+        //        .ToList();
+        //}
+        public List<Post>? GetAllPostsWithPhotosAndLikes(string id)
         {
-            return context.Posts.Where(p => p.IsDeleted == false)
+            return context.Posts
+                .Where(p => p.IsDeleted == false && context.Users.FirstOrDefault(u => u.Id == id).Following.Any(f => f.FolloweeId == p.UserId))
                 .Include(p => p.Likes.Where(l => l.IsDeleted == false))
                 .Include(p => p.Comments)
                 .Include(p => p.User)
                 .ThenInclude(p => p.ProfilePicture)
-                .Include(p => p.User)
-                .ThenInclude(p => p.Following)
                 .ToList();
         }
-
         //public List<Post> getyyy(string userid)
         //{
         //    dfkjvdnnvnd
         //    return context.Posts.Where(p => p.UserId == userid).Include(p=> p.User).ThenInclude(p => p.Following).ToList();
         //}
 
-        
+
 
     }
 }

@@ -27,7 +27,11 @@ namespace Instagram_Clone.Controllers
 
         public IActionResult Index()
         {
-            List<Post> posts = postRepository.GetAllPostsWithPhotosAndLikes();
+            // get the current user
+            Claim? claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+            ApplicationUser? user = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+
+            List<Post> posts = postRepository.GetAllPostsWithPhotosAndLikes(user.Id);
             List<PostViewModel> postsViewModel = new List<PostViewModel>();
             foreach(Post post in posts)
             {
@@ -51,9 +55,7 @@ namespace Instagram_Clone.Controllers
                 //postViewModel.ProfilePhoto = post.User.ProfilePicture;
 
 
-                // get the current user
-                Claim? claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
-                ApplicationUser? user = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+               
                 ViewBag.CurrentUserId = user?.Id;
 
                 TimeSpan TimeSincePost = DateTime.Now - post.Date;
