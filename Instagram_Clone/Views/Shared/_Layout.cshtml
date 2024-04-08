@@ -19,9 +19,9 @@
     @if (!Context.Request.Path.StartsWithSegments("/Account/Login")&&
     !Context.Request.Path.StartsWithSegments("/Follow/showFollowers")&&
     !Context.Request.Path.StartsWithSegments("/Follow/showFollowees")&&
-    !Context.Request.Path.StartsWithSegments("/Account/Register")
-@*     !Context.Request.Path.StartsWithSegments("/Profile/Edit")
- *@    
+    !Context.Request.Path.StartsWithSegments("/Account/Register")&&
+    !Context.Request.Path.StartsWithSegments("/story/add")
+     
 
     )
     {
@@ -191,6 +191,7 @@
                     </div>
                 </div>
 
+
                 <!-- nav for ex-small screen  -->
                 <div class="nav_xm">
                     <div class="dropdown">
@@ -233,9 +234,10 @@
             </div>
         </div>
         <!-- search  -->
-        <div id="search" class="search_section">
+        @* <div id="search" class="search_section">
             <h2>Search</h2>
             <form method="post">
+
                 <input type="text" placeholder="Search">
             </form>
             <div class="find">
@@ -260,7 +262,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> *@
         <!-- search  -->
         <!-- notification -->
         <div id="notification" class="notification_section">

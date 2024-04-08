@@ -15,7 +15,6 @@ namespace Instagram_Clone.Authentication
 
 
         public List<Story>? Stories { get; set; }
-        public List<StoryView>? StoryViews { get; set; }
         public List<Post>? Posts { get; set; }
 
 

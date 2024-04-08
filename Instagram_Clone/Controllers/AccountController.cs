@@ -86,10 +86,14 @@ namespace Instagram_Clone.Controllers
                     PasswordHash = userVM.Password,
                 };
 
+
+
                 // Save user
                 IdentityResult result = await userManager.CreateAsync(user, userVM.Password);
                 if (result.Succeeded)
                 {
+                    await userManager.AddClaimAsync(user, new Claim(ClaimTypes.Email, userVM.Email));
+
                     // Create profile photo
                     profilePhoto profilePhoto = new profilePhoto
                     {

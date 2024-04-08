@@ -77,7 +77,33 @@ namespace Instagram_Clone.Controllers
 
         }
 
+        public IActionResult Comment(int postId)
+        {
+            //List<PostViewModel> posts = new List<PostViewModel>();
+            //PostViewModel post = new PostViewModel();
+            //post.Caption = "kerollos";
+            //posts.Add(post);   
+            //List<PostViewModel> postList = new List<PostViewModel>();
+            //postList.Add(postViewModel);
 
-        
+            Post? post =  postRepository.GetPostwithUserAndCommentsAndFollowersById(postId);
+            PostViewModel postViewModel = new PostViewModel();
+            postViewModel.UserName = post.User.UserName;
+            postViewModel.ProfilePhoto = post.User.ProfilePicture;
+            postViewModel.Comments = post.Comments;
+            postViewModel.Followers = post.User.Followers;
+            
+            List<PostViewModel> posts = new List<PostViewModel>();  
+            posts.Add(postViewModel);
+
+
+            return View("_CommentPartial" , posts);
+        }
+
+
+        public IActionResult SaveComment()
+        {
+            return Content("success");
+        }
     }
 }

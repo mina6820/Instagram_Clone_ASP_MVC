@@ -259,20 +259,14 @@ namespace Instagram_Clone.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<TimeSpan>("Duration")
-                        .HasColumnType("time");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<TimeSpan>("LifeTime")
-                        .HasColumnType("time");
-
-                    b.Property<int>("PhotoId")
-                        .HasColumnType("int");
+                    b.Property<long>("LifeTimeTicks")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -280,14 +274,12 @@ namespace Instagram_Clone.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PhotoId");
-
                     b.HasIndex("UserId");
 
                     b.ToTable("Stories");
                 });
 
-            modelBuilder.Entity("Instagram_Clone.Models.StoryView", b =>
+            modelBuilder.Entity("Instagram_Clone.Models.StoryViewer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -308,7 +300,7 @@ namespace Instagram_Clone.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("StoryView");
+                    b.ToTable("StoryViewers");
                 });
 
             modelBuilder.Entity("Instagram_Clone.Models.UserRelationship", b =>
@@ -451,7 +443,8 @@ namespace Instagram_Clone.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("storyId");
+                    b.HasIndex("storyId")
+                        .IsUnique();
 
                     b.ToTable("StoryPhoto");
                 });
@@ -683,33 +676,25 @@ namespace Instagram_Clone.Migrations
 
             modelBuilder.Entity("Instagram_Clone.Models.Story", b =>
                 {
-                    b.HasOne("Instagram_Clone.Models.photo.storyPhoto", "Photo")
-                        .WithMany()
-                        .HasForeignKey("PhotoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Instagram_Clone.Authentication.ApplicationUser", "User")
                         .WithMany("Stories")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Photo");
-
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Instagram_Clone.Models.StoryView", b =>
+            modelBuilder.Entity("Instagram_Clone.Models.StoryViewer", b =>
                 {
                     b.HasOne("Instagram_Clone.Models.Story", "Story")
-                        .WithMany("StoryViews")
+                        .WithMany()
                         .HasForeignKey("StoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Instagram_Clone.Authentication.ApplicationUser", "User")
-                        .WithMany("StoryViews")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -772,8 +757,8 @@ namespace Instagram_Clone.Migrations
             modelBuilder.Entity("Instagram_Clone.Models.photo.storyPhoto", b =>
                 {
                     b.HasOne("Instagram_Clone.Models.Story", "story")
-                        .WithMany()
-                        .HasForeignKey("storyId")
+                        .WithOne("Photo")
+                        .HasForeignKey("Instagram_Clone.Models.photo.storyPhoto", "storyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -840,8 +825,6 @@ namespace Instagram_Clone.Migrations
                     b.Navigation("Posts");
 
                     b.Navigation("Stories");
-
-                    b.Navigation("StoryViews");
                 });
 
             modelBuilder.Entity("Instagram_Clone.Models.Chat", b =>
@@ -858,7 +841,8 @@ namespace Instagram_Clone.Migrations
 
             modelBuilder.Entity("Instagram_Clone.Models.Story", b =>
                 {
-                    b.Navigation("StoryViews");
+                    b.Navigation("Photo")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
