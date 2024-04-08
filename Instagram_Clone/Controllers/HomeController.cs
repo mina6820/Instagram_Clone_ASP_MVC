@@ -29,7 +29,7 @@ namespace Instagram_Clone.Controllers
         {
             List<Post> posts = postRepository.GetAllPostsWithPhotosAndLikes();
             List<PostViewModel> postsViewModel = new List<PostViewModel>();
-            foreach(Post post in posts)
+            foreach (Post post in posts)
             {
                 PostViewModel postViewModel = new PostViewModel();
                 postViewModel.Caption = post.Caption;
@@ -67,12 +67,18 @@ namespace Instagram_Clone.Controllers
                     postViewModel.TimeAgo = $"{(int)TimeSincePost.TotalDays} day ago";
 
                 //postViewModel.TimeAgo = post.Date;
-                
-                
+
+
                 postsViewModel.Add(postViewModel);
             }
-            return View(postsViewModel);
+            ViewBag.postsList = postsViewModel;
+            return View();
         }
+
+        //public IActionResult Index()
+        //{
+        //    return View();
+        //}
 
         public IActionResult Privacy()
         {

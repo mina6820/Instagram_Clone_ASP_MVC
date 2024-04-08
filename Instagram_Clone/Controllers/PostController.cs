@@ -96,6 +96,7 @@ namespace Instagram_Clone.Controllers
             List<PostViewModel> posts = new List<PostViewModel>();  
             posts.Add(postViewModel);
 
+
             return View("_CommentPartial" , posts);
         }
 

@@ -6,7 +6,7 @@
 @model List<PostViewModel>
 
 <input type="hidden" id="hiddenID" value="@ViewBag.CurrentUserId" />
-@foreach(var post in Model.OrderByDescending(post => post.CreatedAt))
+@foreach (var post in ViewBag.postsList)@* postsListByDescending(post => post.CreatedAt) *@
 {
     
     <div class="post">
