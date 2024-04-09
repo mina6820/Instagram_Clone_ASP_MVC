@@ -50,10 +50,23 @@
             margin-bottom: 1rem;
         }
 
+        
+
+        .user-avatar img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+        }
+
         .container {
             padding-top: 20px;
             background: #f5f6fa;
         }
+
+        .nav {
+            padding-left: 24px;
+        }
+
     </style>
 </head>
 
@@ -116,7 +129,7 @@
                                         <span asp-validation-for="Bio" class="text-danger"></span>
                                     </div>
                                 </div>
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                               @*  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div class="form-group">
                                         <label asp-for="CurrentPassword">Current Password</label>
                                         <input type="password" asp-for="CurrentPassword" class="form-control" />
@@ -136,7 +149,8 @@
                                         <input type="password" asp-for="ConfirmPassword" class="form-control" />
                                         <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                                     </div>
-                                </div>
+                                </div> *@
+                                
                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                     <div class="form-group">
                                         <label for="profilePicture">Profile Picture</label>

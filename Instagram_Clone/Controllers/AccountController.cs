@@ -170,61 +170,40 @@ namespace Instagram_Clone.Controllers
             await signInManager.SignOutAsync();
             return RedirectToAction("Login");
         }
+        public IActionResult ChangePasword()
+        {
+            ResetPasswordViewMode restPass=new ResetPasswordViewMode();
+            return View(restPass);
+        }
 
-        
+        public async Task<IActionResult> SaveChangePassword(ResetPasswordViewMode editUserViewModel)
+        {
+            Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+            ApplicationUser user = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+            if(ModelState!.IsValid)
+            {
+                if (editUserViewModel.CurrentPassword != null && editUserViewModel.ConfirmPassword != null && editUserViewModel.NewPassword != null)
+                {
+                    if (await userManager.CheckPasswordAsync(user, editUserViewModel.CurrentPassword))
+                    {
+                        await userManager.ChangePasswordAsync(user, editUserViewModel.CurrentPassword, editUserViewModel.NewPassword);
+                    }
+                }
+                context.Users.Update(user);
+                context.SaveChanges();
+                return RedirectToAction("Index","Profile");
+            }
+            else
+            {
+                return View("ChangePasword");
+            }
+           
+          
+           
+        }
 
 
-        ////Reset password
-        //// POST: /Account/ForgotPassword
-        //[HttpPost]
-        //[AllowAnonymous]
-        //[ValidateAntiForgeryToken]
-        //public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var user = await UserManager.FindByNameAsync(model.Username);
-        //        if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
-        //        {
-        //            // Don't reveal that the user does not exist or is not confirmed
-        //            return View("ForgotPasswordConfirmation");
-        //        }
 
-        //        string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-        //        var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-        //        await UserManager.SendEmailAsync(user.Id, "Reset Password", $"Please reset your password by clicking <a href =\"{callbackUrl}\">here</a>");
-
-        //        return RedirectToAction("ForgotPasswordConfirmation", "Account");
-        //    }
-
-        //    // If we got this far, something failed, redisplay form
-        //    return View(model);
-        //}
-
-        //// POST: /Account/ResetPassword
-        //[HttpPost]
-        //[AllowAnonymous]
-        //[ValidateAntiForgeryToken]
-        //public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View(model);
-        //    }
-        //    var user = await UserManager.FindByNameAsync(model.Username);
-        //    if (user == null)
-        //    {
-        //        // Don't reveal that the user does not exist
-        //        return RedirectToAction("ResetPasswordConfirmation", "Account");
-        //    }
-        //    var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
-        //    if (result.Succeeded)
-        //    {
-        //        return RedirectToAction("ResetPasswordConfirmation", "Account");
-        //    }
-        //    AddErrors(result);
-        //    return View();
-        //}
 
     }
 
