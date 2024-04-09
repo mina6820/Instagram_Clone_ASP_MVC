@@ -33,7 +33,6 @@ namespace Instagram_Clone.Controllers
 
         public IActionResult Index()
         {
-            // get the current user
             Claim? claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
             ApplicationUser? user = context.Users.FirstOrDefault(u => u.Id == claim.Value);
 
@@ -58,10 +57,7 @@ namespace Instagram_Clone.Controllers
                 postViewModel.Likes = post.Likes;
                 postViewModel.Comments = post.Comments;
                 postViewModel.CreatedAt = post.Date;
-                //postViewModel.ProfilePhoto = post.User.ProfilePicture;
-
-
-               
+                
                 ViewBag.CurrentUserId = user?.Id;
 
                 TimeSpan TimeSincePost = DateTime.Now - post.Date;
@@ -73,9 +69,6 @@ namespace Instagram_Clone.Controllers
                     postViewModel.TimeAgo = $"{(int)TimeSincePost.TotalHours} hour ago";
                 else
                     postViewModel.TimeAgo = $"{(int)TimeSincePost.TotalDays} day ago";
-
-                //postViewModel.TimeAgo = post.Date;
-
 
                 postsViewModel.Add(postViewModel);
             }
