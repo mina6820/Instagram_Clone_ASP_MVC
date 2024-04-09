@@ -1,0 +1,37 @@
+﻿@model List<ApplicationUser>
+
+<div id="search" class="search_section">
+    <h2>Search</h2>
+    <form method="post">
+        <input type="text" placeholder="Search">
+    </form>
+    <div class="find">
+        <div class="desc">
+        </div>
+        <div class="account" style="max-height: 300px; overflow-y: auto;">
+            @if (ViewBag.Users != null)
+            {
+                @foreach (ApplicationUser relationship in ViewBag.Users)
+                {
+                    <div class="cart">
+                        <div>
+                            <div class="img">
+                                @* <img src="/images/@relationship.ProfilePicture.Name" alt=""> *@
+                            </div>
+                            <div class="info">
+                                <a href="/FriendsProfile/Index/@relationship.Id" class="name" style="color:black;text-decoration:none">@relationship.UserName</a>
+                            </div>
+                        </div>
+                       @*  <div class="clear">
+                            <a href="#">X</a>
+                        </div> *@
+                    </div>
+                }
+            }
+            else
+            {
+                <p>No data available.</p> @* Handle case where Model is null *@
+            }
+        </div>
+    </div>
+</div>

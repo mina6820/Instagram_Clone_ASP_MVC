@@ -29,9 +29,38 @@
             </div>
         </div>
         <!-- search  -->
-        <div id="search" class="search_section">
-            
-        </div>
+      @*   <partial name="_DataBaseUsersPartial" model="Model" /> *@
+       <partial name="_DataBaseUsersPartial" />
+
+         @* <div id="search" class="search_section">
+            <h2>Search</h2>
+            <form method="post">
+
+                <input type="text" placeholder="Search">
+            </form>
+            <div class="find">
+                <div class="desc">
+                    <h4>Recent</h4>
+                    <p><a href="#">Clear all</a></p>
+                </div>
+                <div class="account">
+                    <div class="cart">
+                        <div>
+                            <div class="img">
+                                <img src="/images/profile_img.jpg" alt="">
+                            </div>
+                            <div class="info">
+                                <p class="name">Zineb_essoussi</p>
+                                <p class="second_name">Zim Ess</p>
+                            </div>
+                        </div>
+                        <div class="clear">
+                            <a href="#">X</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> *@
         <!-- search  -->
         <!-- notification -->
         <div id="notification" class="notification_section">

@@ -1,4 +1,5 @@
 ﻿
+
 @*
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
@@ -87,36 +88,35 @@
                 <p>
                     <a class="bold" href="#">@post.UserName</a>
                         @post.Caption
-@*                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima accusantium aperiam quod non minus cumque, recusandae hic soluta harum aut nulla...
- *@                </p>    
-                <p><a class="gray" href="#">View all 2 comments</a></p>
-                <input type="text" placeholder="Add a comments...">
+                    </p>
+                    <p><a class="gray" href="#">View all 2 comments</a></p>
+                    <input type="text" placeholder="Add a comments...">
+                </div>
             </div>
         </div>
-    </div>
-
-}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.12/signalr.min.js"></script>
-
-<script>
-    var currentUserID = document.getElementById("hiddenID").value;
-    console.log(`the ID =  ${currentUserID}`);
-    var hub = new signalR.HubConnectionBuilder().withUrl("/PostH").build();
-
-    hub.start().then(function () {
-        console.log("success");
-    });
-
-    function Like(postID){
-        var imgElement = document.getElementById(`not-Loved-${postID}`)
-        if (!imgElement.classList.contains("hide_img")) {
-            hub.invoke("AddLike", postID, currentUserID);
-        }
-        else {
-            hub.invoke("DeleteLike", postID, currentUserID);
-        }
-            
     }
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.12/signalr.min.js"></script>
+
+    <script>
+        var currentUserID = document.getElementById("hiddenID").value;
+        console.log(`the ID =  ${currentUserID}`);
+        var hub = new signalR.HubConnectionBuilder().withUrl("/PostH").build();
+
+        hub.start().then(function () {
+            console.log("success");
+        });
+
+        function Like(postID) {
+            var imgElement = document.getElementById(`not-Loved-${postID}`)
+            if (!imgElement.classList.contains("hide_img")) {
+                hub.invoke("AddLike", postID, currentUserID);
+            }
+            else {
+                hub.invoke("DeleteLike", postID, currentUserID);
+            }
+
+        }
 
     hub.on("ReceiveLikes", function (postID, likesCount) {
         var element = document.getElementById(`likedCount-${postID}`);

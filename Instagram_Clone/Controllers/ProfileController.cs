@@ -78,7 +78,8 @@ namespace Instagram_Clone.Controllers
             editUserViewMode.Email = user.Email;
             editUserViewMode.PhoneNumber = user.PhoneNumber;
             editUserViewMode.Bio = user.Bio;
-
+            
+            //editUserViewMode.CurrentPassword=user.PasswordHash;
             //if (user.ProfilePicture == null)
             //{
             //    profilePhoto profilePhoto = new profilePhoto();
@@ -96,7 +97,7 @@ namespace Instagram_Clone.Controllers
 
 
         [HttpPost]
-        public IActionResult Edit(EditUserViewModel editUserViewModel)
+        public async Task <IActionResult> Edit(EditUserViewModel editUserViewModel)
         {
             Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
             ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim.Value);
@@ -111,7 +112,18 @@ namespace Instagram_Clone.Controllers
                 user.Bio = editUserViewModel.Bio;
                 user.FirstName = editUserViewModel.FirstName;
                 user.LastName = editUserViewModel.LastName;
+                if(editUserViewModel.CurrentPassword != null)
+                {
+                    if (await userManager.CheckPasswordAsync(user, editUserViewModel.CurrentPassword))
+                    {
+                        await userManager.ChangePasswordAsync(user, editUserViewModel.CurrentPassword, editUserViewModel.NewPassword);
+                    }
+                }
+                
+
+
                 context.Users.Update(user);
+
                 context.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -139,6 +151,14 @@ namespace Instagram_Clone.Controllers
                 profileImage.UserId = user.Id;
                 profileImage.User= user;
                 user.ProfilePicture = profileImage; //editUserViewModel.ProfilePicture.Name;
+
+                if (editUserViewModel.CurrentPassword != null && editUserViewModel.ConfirmPassword!=null && editUserViewModel.NewPassword!=null)
+                {
+                    if (await userManager.CheckPasswordAsync(user, editUserViewModel.CurrentPassword))
+                    {
+                        await userManager.ChangePasswordAsync(user, editUserViewModel.CurrentPassword, editUserViewModel.NewPassword);
+                    }
+                }
                 context.Users.Update(user);
                 context.SaveChanges();
                 return RedirectToAction("Index");
