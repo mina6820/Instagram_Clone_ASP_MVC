@@ -21,9 +21,8 @@
     !Context.Request.Path.StartsWithSegments("/Follow/showFollowers")&&
     !Context.Request.Path.StartsWithSegments("/Follow/showFollowees")&&
     !Context.Request.Path.StartsWithSegments("/Account/Register")&&
-    !Context.Request.Path.StartsWithSegments("/story/add")
-     
-
+    !Context.Request.Path.StartsWithSegments("/story/add")&&
+    !Context.Request.Path.StartsWithSegments("/Account/ForgetPassword")
     )
     {
         <div class="nav_menu">
@@ -96,7 +95,7 @@
                     </div>
                     <div class="more">
 
-                        @* <div class="btn-group dropup">
+                        <div class="btn-group dropup">
                             <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown"
                             aria-expanded="false">
                                 <img src="/images/menu.png">
@@ -151,7 +150,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <!--   *@
+                     
 
                     </div>
                 </div>
