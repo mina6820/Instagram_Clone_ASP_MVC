@@ -239,6 +239,27 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
 
         }
 
+        public void AddUserRelation(string followeeId, string loginUser)
+        {
+            // Assuming context is your DbContext instance
+            var followerUser  = context.Users.FirstOrDefault(u => u.UserName == loginUser);
+            var followingUser = context.Users.FirstOrDefault(u => u.Id == followeeId);
+
+            if (followingUser != null && followerUser != null)
+            {
+                var relation = new UserRelationship
+                {
+                    IsDeleted = false, // Assuming default value
+                    FolloweeId = followingUser.Id,
+                    FollowerId = followerUser.Id
+                };
+
+                context.UserRelationship.Add(relation);
+                context.SaveChanges();
+            }
+        }
+
+
 
     }
 }

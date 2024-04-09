@@ -1,0 +1,52 @@
+﻿@model UserRequestFollowVM
+@{
+    ViewData["Title"] = "FollowUser";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <style>
+        .follow-request {
+            margin: 50px auto;
+            padding: 20px;
+            max-width: 400px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            text-align: center;
+        }
+
+        .action-links a {
+            display: inline-block;
+            margin: 10px;
+            padding: 8px 16px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .accept-btn {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        .reject-btn {
+            background-color: #f44336;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="follow-request">
+        <p><strong>@Model.userName</strong> wants to follow you.</p>
+        <div class="action-links">
+            <a href="@Url.Action("AcceptRequest", "Follow", new { followId = Model.followID, userId = Model.userID })" class="accept-btn">Accept</a>
+            <a href="@Url.Action("RejectRequest", "Follow", new { requestId = Model.followID })" class="reject-btn">Reject</a>
+        </div>
+    </div>
+
+</body>
+</html>
