@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Runtime.Intrinsics.X86;
 using System.Security.Claims;
 
 namespace Instagram_Clone.Controllers
@@ -95,16 +96,38 @@ namespace Instagram_Clone.Controllers
 
             AllUsers.Remove(user2);
 
-            //List<ApplicationUser> allUsers = userRelationshipRepository.GetFollowersAndFollowings(user3.Id);
-            //return View("Index", AllUsers);
-            //List<UserRelationship> test = new List<UserRelationship>();
-            //test.Add(AllUsers.First());
-
             ViewBag.Users = AllUsers;
             ViewBag.UserName = user3.UserName;
             return View();
 
         }
+
+        public IActionResult SearchUsers(string Name)
+        {
+            Claim claim2 = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+            ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim2.Value);
+            ApplicationUser user3 = context.Users.Include(u => u.ProfilePicture).FirstOrDefault(u => u.Id == user2.Id);
+
+            List<ApplicationUser> AllUsers = context.Users
+                .Include(u => u.ProfilePicture)
+                .ToList();
+
+            AllUsers.Remove(user2);
+
+            List<ApplicationUser> searchResults = AllUsers;
+
+            if (Name != null)
+            {
+                searchResults = AllUsers
+                    .Where(u => u.UserName.Contains(Name)) // Example search logic, modify according to your requirements
+                    .ToList();
+            }
+
+            return PartialView("_DataBaseUsersPartial", searchResults);
+        }
+
+
+
 
         public IActionResult Privacy()
         {
