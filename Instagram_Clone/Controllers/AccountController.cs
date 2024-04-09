@@ -1,6 +1,7 @@
 ﻿using Instagram_Clone.Models.photo;
 using Instagram_Clone.ViewModels;
 using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -147,6 +148,7 @@ namespace Instagram_Clone.Controllers
                 ApplicationUser applicationUserDB = await userManager.FindByNameAsync(loginViewModel.Username);
                 if (applicationUserDB != null)
                 {
+                    
                     bool found = await userManager.CheckPasswordAsync(applicationUserDB, loginViewModel.Password);
                     if (found == true)
                     {
@@ -168,5 +170,44 @@ namespace Instagram_Clone.Controllers
             await signInManager.SignOutAsync();
             return RedirectToAction("Login");
         }
+        public IActionResult ChangePasword()
+        {
+            ResetPasswordViewMode restPass=new ResetPasswordViewMode();
+            return View(restPass);
+        }
+
+        public async Task<IActionResult> SaveChangePassword(ResetPasswordViewMode editUserViewModel)
+        {
+            Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+            ApplicationUser user = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+            if(ModelState!.IsValid)
+            {
+                if (editUserViewModel.CurrentPassword != null && editUserViewModel.ConfirmPassword != null && editUserViewModel.NewPassword != null)
+                {
+                    if (await userManager.CheckPasswordAsync(user, editUserViewModel.CurrentPassword))
+                    {
+                        await userManager.ChangePasswordAsync(user, editUserViewModel.CurrentPassword, editUserViewModel.NewPassword);
+                    }
+                }
+                context.Users.Update(user);
+                context.SaveChanges();
+                return RedirectToAction("Index","Profile");
+            }
+            else
+            {
+                return View("ChangePasword");
+            }
+           
+          
+           
+        }
+
+
+
+
     }
+
+
+
+
 }
