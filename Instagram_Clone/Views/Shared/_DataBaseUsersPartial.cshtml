@@ -9,7 +9,7 @@
         <div class="desc">
            
         </div>
-        <div class="account">
+        <div class="account" style="max-height: 300px; overflow-y: auto;">
             @if (ViewBag.Users != null)
             {
                 @foreach (ApplicationUser relationship in ViewBag.Users)
@@ -17,7 +17,7 @@
                     <div class="cart">
                         <div>
                             <div class="img">
-                                <img src="/images/@relationship.ProfilePicture.Name" alt="">
+                                @* <img src="/images/@relationship.ProfilePicture.Name" alt=""> *@
                             </div>
                             <div class="info">
                                 <a href="/FriendsProfile/Index/@relationship.Id" class="name">@relationship.UserName</a>
