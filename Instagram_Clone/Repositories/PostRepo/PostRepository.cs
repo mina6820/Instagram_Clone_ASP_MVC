@@ -47,10 +47,22 @@ namespace Instagram_Clone.Repositories.PostRepo
         //        .FirstOrDefault(p => p.Id == id && p.IsDeleted == false);
         //}
 
+        //public Post? GetPostwithUserAndCommentsAndFollowersById(int id)
+        //{
+        //    return context.Posts.Include(p => p.Comments)
+        //        .ThenInclude(c => c.User) // Include users from comments
+        //        .Include(p => p.User)
+        //        .ThenInclude(u => u.ProfilePicture)
+        //        .Include(p => p.User)
+        //        .ThenInclude(u => u.Followers)
+        //        .FirstOrDefault(p => p.Id == id && p.IsDeleted == false);
+        //}
+
         public Post? GetPostwithUserAndCommentsAndFollowersById(int id)
         {
-            return context.Posts.Include(p => p.Comments)
-                .ThenInclude(c => c.User) // Include users from comments
+            return context.Posts.Include(p => p.Comments.Where(c=> c.IsDeleted== false && c.PostId == id))
+                .ThenInclude(c => c.User)
+                .ThenInclude(u => u.ProfilePicture)// Include users from comments
                 .Include(p => p.User)
                 .ThenInclude(u => u.ProfilePicture)
                 .Include(p => p.User)

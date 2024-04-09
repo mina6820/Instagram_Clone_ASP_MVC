@@ -11,41 +11,55 @@
                 <div class="modal-body">
                     <div class="comments">
                         <div class="comment">
-                            <div class="d-flex">
-                                <div class="img">
-                                    <img src="/images/profile_img.jpg" alt="">
+                        @if(ViewBag.Comments != null)
+                        {
+                            
+                        
+                            @foreach(var comment in ViewBag.Comments)
+                            {
+                                <div class="d-flex">
+                                    <div class="img">
+                                        <img src="/images/profile_img.jpg" alt="">
+                                    </div>
+                                    <div class="content">
+                                        <div class="person">
+                                            <span>3j</span>
+
+
+                                        </div>
+                                        @* <p>Wow amzing shot</p> *@
+                                        <p>@comment.Content</p>
+                                        <div class="replay">
+                                            <button class="replay">replay</button>
+                                            <button class="translation">see translation</button>
+                                        </div>
+                                        <div class="answers">
+                                            <button class="see_comment">
+                                                <span class="hide_com">Hide all responses</span>
+                                                <span class="show_c">
+                                                    <span class="line"></span> See the <span>
+                                                        1
+                                                    </span> answers
+                                                </span>
+                                            </button>
+                                        </div>
+
+                                    </div>
                                 </div>
-                                <div class="content">
-                                    <div class="person">
-                                        <span>3j</span>
-
-
-                                    </div>
-                                    <p>Wow amzing shot</p>
-                                    <div class="replay">
-                                        <button class="replay">replay</button>
-                                        <button class="translation">see translation</button>
-                                    </div>
-                                    <div class="answers">
-                                        <button class="see_comment">
-                                            <span class="hide_com">Hide all responses</span>
-                                            <span class="show_c">
-                                                <span class="line"></span> See the <span>
-                                                    1
-                                                </span> answers
-                                            </span>
-                                        </button>
-                                    </div>
+                                <div class="like">
+                                    <img class="not_loved" src="/images/love.png" alt="">
+                                    <img class="loved" src="/images/heart.png" alt="">
+                                    <p> 55</p>
 
                                 </div>
-                            </div>
-                            <div class="like">
-                                <img class="not_loved" src="/images/love.png" alt="">
-                                <img class="loved" src="/images/heart.png" alt="">
-                                <p> 55</p>
+                                    @* </div> *@
+                                }
+                        }
+                        else
+                        {
+                            <h1>not comments </h1>
+                        }
 
-                            </div>
-                        </div>
                         <div class="responses">
                             <div class="response comment">
                                 <div class="d-flex">
