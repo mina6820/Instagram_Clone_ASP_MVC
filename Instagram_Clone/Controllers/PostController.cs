@@ -86,12 +86,12 @@ namespace Instagram_Clone.Controllers
             //List<PostViewModel> postList = new List<PostViewModel>();
             //postList.Add(postViewModel);
 
-            Post? post =  postRepository.GetPostwithUserAndCommentsAndFollowersById(postId);
-            PostViewModel postViewModel = new PostViewModel();
-            postViewModel.UserName = post.User.UserName;
-            postViewModel.ProfilePhoto = post.User.ProfilePicture;
-            postViewModel.Comments = post.Comments;
-            postViewModel.Followers = post.User.Followers;
+
+        //    //PostViewModel postViewModel = new PostViewModel();
+        //    //postViewModel.UserName = post.User.UserName;
+        //    //postViewModel.ProfilePhoto = post.User.ProfilePicture;
+        //    //postViewModel.Comments = post.Comments;
+        //    //postViewModel.Followers = post.User.Followers;
             
             List<PostViewModel> posts = new List<PostViewModel>();  
             posts.Add(postViewModel);
