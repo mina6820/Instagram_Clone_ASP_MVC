@@ -2,6 +2,7 @@
 using Instagram_Clone.Models;
 using Instagram_Clone.Repositories.UserFollowRepo;
 using Instagram_Clone.ViewModels;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
@@ -286,6 +287,52 @@ namespace Instagram_Clone.Controllers
             }
             return PartialView("_FollowingList", profileUserViewModel);
 
+        }
+
+
+        //   /follow/FollowUser?id=
+        public IActionResult FollowUser(string id)
+        {
+            //user1
+            Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+            ApplicationUser user1 = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+            List<UserRelationship> followingList = userRelationshipRepository.GetFollowees(id);
+            string user1Name = user1.UserName;
+
+            //Follow user
+            ApplicationUser FollowUser = context.Users.FirstOrDefault(u => u.Id == id);
+            string FollowUserName = FollowUser.UserName;
+
+
+            if (followingList == null)
+            {
+                //store these Data in VM
+                UserRequestFollowVM userRequestFollowVM = new UserRequestFollowVM();
+                userRequestFollowVM.userID = user1.Id;
+                userRequestFollowVM.userName = user1Name;
+                userRequestFollowVM.followID = id;
+                userRequestFollowVM.followName = FollowUserName;
+
+                return View("Request",userRequestFollowVM);
+
+            }
+
+            else 
+                return View("");
+        }
+
+        public IActionResult AcceptRequest(string followeeID ,string userID)
+        {
+            // user
+            ApplicationUser user1 = context.Users.FirstOrDefault(u => u.Id == userID);
+
+            //Follow user
+            ApplicationUser FollowUser = context.Users.FirstOrDefault(u => u.Id == followeeID);
+
+
+            //Add relation 
+            userRelationshipRepository.AddUserRelation(followeeID, userID);
+            return View("");
         }
 
     }

@@ -71,10 +71,7 @@
             // Prevent the default behavior of the link
             e.preventDefault();
 
-            // Get the values of asp-route-... attributes
-@*             var senderId = $(this).attr('asp-route-senderId');
-            var chatId = $(this).attr('asp-route-chatId');
-            var receiverId = $(this).attr('asp-route-receiverId'); *@
+
 
             // Get the values of senderId, chatId, and receiverId relative to the clicked link
             var senderId = $(this).closest('.info').find('.senderId').val();

@@ -15,6 +15,8 @@ namespace Instagram_Clone.ViewModels
         [Compare("Password")]
         public string ConfirmPassword{ get; set; }
         public string Email { get; set;}
+        [Required]
+        public string YourFavirotePerson { get; set; }
 
     }
 }
