@@ -173,48 +173,181 @@ namespace Instagram_Clone.Controllers
         }
         public IActionResult ChangePasword()
         {
-            ResetPasswordViewMode restPass = new ResetPasswordViewMode();
-            return View(restPass);
+           // ResetPasswordViewMode restPass = new ResetPasswordViewMode();
+            return View("ChangePasword");
         }
 
 
 
 
+        //public async Task<IActionResult> SaveChangePassword(ResetPasswordViewMode editUserViewModel)
+        //{
+        //    Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+        //    ApplicationUser user = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+        //    if (ModelState.IsValid)
+        //    {
+        //        if (editUserViewModel.CurrentPassword != null && editUserViewModel.ConfirmPassword != null && editUserViewModel.NewPassword != null)
+        //        {
+        //            if (await userManager.CheckPasswordAsync(user, editUserViewModel.CurrentPassword))
+        //            {
+        //                await userManager.ChangePasswordAsync(user, editUserViewModel.CurrentPassword, editUserViewModel.NewPassword);
+        //                context.Users.Update(user);
+        //                context.SaveChanges();
+        //                return RedirectToAction("Index", "Profile");
+
+        //            }
+        //            else
+        //            {
+        //                ModelState.AddModelError("", "Not matched with current password");
+        //                // Return the view with the provided view model
+        //                return View("ChangePasword", editUserViewModel);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            // Return the view with the provided view model
+        //            return View("ChangePasword", editUserViewModel);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        // Return the view with the provided view model
+        //        return View("ChangePasword", editUserViewModel);
+        //    }
+        //}
+
         public async Task<IActionResult> SaveChangePassword(ResetPasswordViewMode editUserViewModel)
         {
+            // Retrieve the user ID from the claims
             Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
-            ApplicationUser user = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+            string userId = claim?.Value;
+
+            // Find the user by ID
+            ApplicationUser user = await userManager.FindByIdAsync(userId);
+
             if (ModelState.IsValid)
             {
-                if (editUserViewModel.CurrentPassword != null && editUserViewModel.ConfirmPassword != null && editUserViewModel.NewPassword != null)
+                // Check if the provided passwords are not null
+                if (!string.IsNullOrEmpty(editUserViewModel.CurrentPassword) &&
+                    !string.IsNullOrEmpty(editUserViewModel.NewPassword) &&
+                    !string.IsNullOrEmpty(editUserViewModel.ConfirmPassword))
                 {
+                    // Check if the current password matches the user's actual password
                     if (await userManager.CheckPasswordAsync(user, editUserViewModel.CurrentPassword))
                     {
-                        await userManager.ChangePasswordAsync(user, editUserViewModel.CurrentPassword, editUserViewModel.NewPassword);
-                        context.Users.Update(user);
-                        context.SaveChanges();
-                        return RedirectToAction("Index", "Profile");
+                        // Change the user's password
+                        var changePasswordResult = await userManager.ChangePasswordAsync(user, editUserViewModel.CurrentPassword, editUserViewModel.NewPassword);
+
+                        // Check if password change was successful
+                        if (changePasswordResult.Succeeded)
+                        {
+                            // Save changes to the user
+                            await userManager.UpdateAsync(user);
+
+                            // Redirect to profile index
+                            return RedirectToAction("Index", "Profile");
+                        }
+                        else
+                        {
+                            // If password change fails, add errors to ModelState
+                            foreach (var error in changePasswordResult.Errors)
+                            {
+                                ModelState.AddModelError("", error.Description);
+                            }
+
+                            // Return the view with the provided view model
+                            return View("ChangePasword", editUserViewModel);
+                        }
                     }
                     else
                     {
-                        ModelState.AddModelError("", "Not matched with current password");
+                        // If current password doesn't match, add error to ModelState
+                        ModelState.AddModelError("", "Current password is incorrect.");
+
                         // Return the view with the provided view model
                         return View("ChangePasword", editUserViewModel);
                     }
                 }
+            }
+
+            // If ModelState is not valid or passwords are null, return the view with the provided view model
+            return View("ChangePasword", editUserViewModel);
+        }
+
+
+
+        public IActionResult ForgetPassword()
+        {
+            
+            return View("ForgetPassword");
+        }
+
+        //public async Task< IActionResult> SaveForgetPassword(ForgetPasswordViewModel forgetPasswordViewModel)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        ApplicationUser user = await userManager.FindByNameAsync(forgetPasswordViewModel.UserName);
+        //        if (user != null && user.YourFavirotePerson==forgetPasswordViewModel.YourFavirotePerson && user.UserName==forgetPasswordViewModel.UserName)
+        //        {
+        //            var resetToken = await userManager.GeneratePasswordResetTokenAsync(user);
+        //            await userManager.ResetPasswordAsync(user, resetToken, forgetPasswordViewModel.NewPassword);
+
+        //            context.Users.Update(user);
+        //            context.SaveChanges();
+        //            return RedirectToAction("Login");
+        //        }
+        //    }
+
+        //    return View("ForgetPassword");
+        //}
+
+        public async Task<IActionResult> SaveForgetPassword(ForgetPasswordViewModel forgetPasswordViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                // Find the user by username
+                ApplicationUser user = await userManager.FindByNameAsync(forgetPasswordViewModel.UserName);
+
+                // Check if user exists and verification information matches
+                if (user != null &&
+                    user.YourFavirotePerson == forgetPasswordViewModel.YourFavirotePerson &&
+                    user.UserName == forgetPasswordViewModel.UserName)
+                {
+                    // Generate password reset token
+                    var resetToken = await userManager.GeneratePasswordResetTokenAsync(user);
+
+                    // Reset user's password
+                    var resetResult = await userManager.ResetPasswordAsync(user, resetToken, forgetPasswordViewModel.NewPassword);
+
+                    // Check if password reset was successful
+                    if (resetResult.Succeeded)
+                    {
+                        // Save changes to the user
+                        await userManager.UpdateAsync(user);
+
+                        // Redirect to login page
+                        return RedirectToAction("Login");
+                    }
+                    else
+                    {
+                        // If password reset fails, add errors to ModelState
+                        foreach (var error in resetResult.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
+                    }
+                }
                 else
                 {
-                    // Return the view with the provided view model
-                    return View("ChangePasword", editUserViewModel);
+                    // If user not found or verification information incorrect, add error to ModelState
+                    ModelState.AddModelError(string.Empty, "Invalid username or security information.");
                 }
             }
-            else
-            {
-                // Return the view with the provided view model
-                return View("ChangePasword", editUserViewModel);
-            }
+
+            // If ModelState is not valid or if user not found, return the ForgetPassword view with errors
+            return View("ForgetPassword", forgetPasswordViewModel);
         }
 
     }
 
-    }
+}
