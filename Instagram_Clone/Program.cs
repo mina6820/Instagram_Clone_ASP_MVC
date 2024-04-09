@@ -57,10 +57,11 @@ namespace Instagram_Clone
             builder.Services.AddScoped<IpostPhotoRepository, postPhotoRepository>();
 
 
-            builder.Services.AddSingleton<IUserIdProvider, CustomEmailProvider>();
+           // builder.Services.AddSingleton<IUserIdProvider, CustomEmailProvider>();
 
 
             builder.Services.AddSignalR();
+            builder.Services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
 
 
 

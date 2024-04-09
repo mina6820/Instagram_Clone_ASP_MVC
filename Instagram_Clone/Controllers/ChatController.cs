@@ -40,15 +40,18 @@ namespace Instagram_Clone.Controllers
             {
                 var receiver = await userManager.FindByIdAsync(receiverId);
                 ViewBag.senderName = receiver?.UserName;
+                ViewBag.receiverId = receiverId;
+
             }
             else if (userRecord.Id == receiverId)
             {
                 var sender = await userManager.FindByIdAsync(senderId);
                 ViewBag.senderName = sender?.UserName;
+                ViewBag.receiverId = senderId;
+
             }
 
             ViewBag.chatId = chatId;
-            ViewBag.receiverId = receiverId;
 
             return View();
         }
