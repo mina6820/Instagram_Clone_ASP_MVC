@@ -1,0 +1,51 @@
+﻿@model ResetPasswordViewMode
+<style>
+    .form-group {
+        width: 50%;
+        margin:12px auto;
+    }
+
+    .button {
+        text-align: center;
+    }
+
+        .button .btn {
+            margin: 12px auto;
+        }
+
+    /* .text-center {
+        text-align: center;
+    } */
+    .text-center ul{
+        display:flex;
+        flex-direction:column;
+    }
+</style>
+
+<form asp-action="SaveChangePassword" method="post">
+    <div asp-validation-summary="All" class="text-center text-danger my-3"></div>
+
+    <div class="form-group">
+        <label asp-for="CurrentPassword"></label>
+        <input asp-for="CurrentPassword" class="form-control" />
+      <span asp-validation-for="CurrentPassword" class="text-danger"></span>
+     </div>
+
+    <div class="form-group">
+        <label asp-for="NewPassword"></label>
+        <input asp-for="NewPassword" class="form-control input-sm" />
+        <span asp-validation-for="NewPassword" class="text-danger"></span>
+     </div>
+
+    <div class="form-group">
+        <label asp-for="ConfirmPassword"></label>
+        <input asp-for="ConfirmPassword" class="form-control input-sm" />
+       <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+    </div>
+
+    <div class="button">
+        <button type="submit" class="btn btn-primary">Change Password</button>
+        <a asp-action="Index" asp-controller="Profile" class="btn btn-primary">Cancel</a>
+    </div>
+</form>
+<partial name="_ValidationScriptsPartial"></partial>

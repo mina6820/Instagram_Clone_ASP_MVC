@@ -40,7 +40,7 @@ namespace Instagram_Clone
 
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-                            .AddEntityFrameworkStores<Context>();
+                            .AddEntityFrameworkStores<Context>().AddDefaultTokenProviders();
             builder.Services.AddSignalR();
             //builder.Services.AddScoped<IPhotoRepository, PhotoRepository>();
             builder.Services.AddScoped<IprofilePhotoRepository, profilePhotoRepository>();

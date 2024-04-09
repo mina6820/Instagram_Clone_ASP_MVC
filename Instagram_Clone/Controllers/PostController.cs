@@ -77,28 +77,48 @@ namespace Instagram_Clone.Controllers
 
         }
 
-        public IActionResult Comment(int postId)
-        {
-            //List<PostViewModel> posts = new List<PostViewModel>();
-            //PostViewModel post = new PostViewModel();
-            //post.Caption = "kerollos";
-            //posts.Add(post);   
-            //List<PostViewModel> postList = new List<PostViewModel>();
-            //postList.Add(postViewModel);
-
-            Post? post =  postRepository.GetPostwithUserAndCommentsAndFollowersById(postId);
-            PostViewModel postViewModel = new PostViewModel();
-            postViewModel.UserName = post.User.UserName;
-            postViewModel.ProfilePhoto = post.User.ProfilePicture;
-            postViewModel.Comments = post.Comments;
-            postViewModel.Followers = post.User.Followers;
+        //List<PostViewModel> posts = new List<PostViewModel>();
+        //PostViewModel post = new PostViewModel();
+        //post.Caption = "kerollos";
+        //posts.Add(post);   
+        //List<PostViewModel> postList = new List<PostViewModel>();
+        //postList.Add(postViewModel);
+        //public IActionResult Comment(int postId)
+        //{
             
-            List<PostViewModel> posts = new List<PostViewModel>();  
-            posts.Add(postViewModel);
+
+        //    Post? post =  postRepository.GetPostwithUserAndCommentsAndFollowersById(postId);
+        //    List<CommentViewModel> comments = new List<CommentViewModel>();
+
+        //    if(post.Comments != null)
+        //    {
+        //        foreach (var comment in post.Comments)
+        //        {
+        //            CommentViewModel commentView = new CommentViewModel();
+        //            commentView.ProfilePicture = comment.User.ProfilePicture;
+        //            commentView.Content = comment.Content;
+        //            commentView.UserName = comment.User.UserName;
+        //            comments.Add(commentView);
+        //        }
+
+        //        ViewBag.Comments = comments;
+                
+        //    }
 
 
-            return View("_CommentPartial" , posts);
-        }
+        //    //PostViewModel postViewModel = new PostViewModel();
+        //    //postViewModel.UserName = post.User.UserName;
+        //    //postViewModel.ProfilePhoto = post.User.ProfilePicture;
+        //    //postViewModel.Comments = post.Comments;
+        //    //postViewModel.Followers = post.User.Followers;
+
+        //    //List<PostViewModel> posts = new List<PostViewModel>();  
+        //    //posts.Add(postViewModel);
+
+
+        //    //return PartialView("_CommentPartial");
+        //    return View("test");
+        //}
 
 
         public IActionResult SaveComment()
