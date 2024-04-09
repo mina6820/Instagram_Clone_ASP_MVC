@@ -15,6 +15,7 @@
 
 </head>
 
+
 <body>
     @if (!Context.Request.Path.StartsWithSegments("/Account/Login")&&
     !Context.Request.Path.StartsWithSegments("/Follow/showFollowers")&&
@@ -94,7 +95,8 @@
                         </ul>
                     </div>
                     <div class="more">
-                        <div class="btn-group dropup">
+
+                        @* <div class="btn-group dropup">
                             <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown"
                             aria-expanded="false">
                                 <img src="/images/menu.png">
@@ -149,7 +151,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <!--  -->
+                        <!--   *@
 
                     </div>
                 </div>

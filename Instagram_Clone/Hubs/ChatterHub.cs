@@ -71,6 +71,8 @@ namespace Instagram_Clone.Hubs
     }
 }
 
+
+
 public class CustomEmailProvider : IUserIdProvider
 {
     public virtual string GetUserId(HubConnectionContext connection)
