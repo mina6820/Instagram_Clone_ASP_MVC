@@ -14,7 +14,7 @@ namespace Instagram_Clone.Controllers
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly IWebHostEnvironment webHost;
         private readonly Context context;
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IWebHostEnvironment webHost,Context context)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IWebHostEnvironment webHost, Context context)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
@@ -85,6 +85,7 @@ namespace Instagram_Clone.Controllers
                     FirstName = userVM.FirstName,
                     LastName = userVM.LastName,
                     PasswordHash = userVM.Password,
+                    YourFavirotePerson=userVM.YourFavirotePerson
                 };
 
 
@@ -148,7 +149,7 @@ namespace Instagram_Clone.Controllers
                 ApplicationUser applicationUserDB = await userManager.FindByNameAsync(loginViewModel.Username);
                 if (applicationUserDB != null)
                 {
-                    
+
                     bool found = await userManager.CheckPasswordAsync(applicationUserDB, loginViewModel.Password);
                     if (found == true)
                     {
@@ -172,42 +173,48 @@ namespace Instagram_Clone.Controllers
         }
         public IActionResult ChangePasword()
         {
-            ResetPasswordViewMode restPass=new ResetPasswordViewMode();
+            ResetPasswordViewMode restPass = new ResetPasswordViewMode();
             return View(restPass);
         }
+
+
+
 
         public async Task<IActionResult> SaveChangePassword(ResetPasswordViewMode editUserViewModel)
         {
             Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
             ApplicationUser user = context.Users.FirstOrDefault(u => u.Id == claim.Value);
-            if(ModelState!.IsValid)
+            if (ModelState.IsValid)
             {
                 if (editUserViewModel.CurrentPassword != null && editUserViewModel.ConfirmPassword != null && editUserViewModel.NewPassword != null)
                 {
                     if (await userManager.CheckPasswordAsync(user, editUserViewModel.CurrentPassword))
                     {
                         await userManager.ChangePasswordAsync(user, editUserViewModel.CurrentPassword, editUserViewModel.NewPassword);
+                        context.Users.Update(user);
+                        context.SaveChanges();
+                        return RedirectToAction("Index", "Profile");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Not matched with current password");
+                        // Return the view with the provided view model
+                        return View("ChangePasword", editUserViewModel);
                     }
                 }
-                context.Users.Update(user);
-                context.SaveChanges();
-                return RedirectToAction("Index","Profile");
+                else
+                {
+                    // Return the view with the provided view model
+                    return View("ChangePasword", editUserViewModel);
+                }
             }
             else
             {
-                return View("ChangePasword");
+                // Return the view with the provided view model
+                return View("ChangePasword", editUserViewModel);
             }
-           
-          
-           
         }
-
-
-
 
     }
 
-
-
-
-}
+    }
