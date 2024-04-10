@@ -7,20 +7,20 @@
         <input type="text" placeholder="Search" id="NameSearch">
     </form>
     <div class="find">
-        <div class="desc" id="searchResults">
+        <div class="desc" >
         </div>
         <div class="account" style="max-height: 300px; overflow-y: auto;" >
             @if (ViewBag.Users != null)
             {
                 @foreach (ApplicationUser relationship in ViewBag.Users)
                 {
-                    <div class="cart">
-                        <div>
+                    <div class="cart" >
+                        <div id="searchResults">
                             <div class="img">
                                 <img src="/images/@relationship.ProfilePicture.Name" alt="">
                             </div>
-                            <div class="info">
-                                <a href="/FriendsProfile/Index/@relationship.Id" class="name" style="color:black;text-decoration:none">@relationship.UserName</a>
+                            <div class="info" >
+                                <a href="/FriendsProfile/Index/@relationship.Id" class="name" style="color:black;text-decoration:none" >@relationship.UserName</a>
                             </div>
                         </div>
                     </div>
