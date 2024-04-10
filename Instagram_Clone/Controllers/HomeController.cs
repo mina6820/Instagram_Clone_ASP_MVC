@@ -32,7 +32,6 @@ namespace Instagram_Clone.Controllers
 
         public IActionResult Index()
         {
-            // get the current user
             Claim? claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
             ApplicationUser? user = context.Users.FirstOrDefault(u => u.Id == claim.Value);
 
@@ -57,10 +56,7 @@ namespace Instagram_Clone.Controllers
                 postViewModel.Likes = post.Likes;
                 postViewModel.Comments = post.Comments;
                 postViewModel.CreatedAt = post.Date;
-                //postViewModel.ProfilePhoto = post.User.ProfilePicture;
-
-
-               
+                
                 ViewBag.CurrentUserId = user?.Id;
 
                 TimeSpan TimeSincePost = DateTime.Now - post.Date;
@@ -73,16 +69,9 @@ namespace Instagram_Clone.Controllers
                 else
                     postViewModel.TimeAgo = $"{(int)TimeSincePost.TotalDays} day ago";
 
-                //postViewModel.TimeAgo = post.Date;
-
-
                 postsViewModel.Add(postViewModel);
             }
             ViewBag.postsList = postsViewModel;
-
-            //habeba
-
-
 
             Claim claim2 = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
             ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim2.Value);
@@ -95,15 +84,22 @@ namespace Instagram_Clone.Controllers
 
             AllUsers.Remove(user2);
 
-            //List<ApplicationUser> allUsers = userRelationshipRepository.GetFollowersAndFollowings(user3.Id);
-            //return View("Index", AllUsers);
-            //List<UserRelationship> test = new List<UserRelationship>();
-            //test.Add(AllUsers.First());
-
             ViewBag.Users = AllUsers;
             ViewBag.UserName = user3.UserName;
             return View();
 
+        }
+
+        [HttpPost]
+        public IActionResult SearchUsers(string term)
+        {
+            // Perform user search based on the term
+            var users = context.Users
+                .Where(u => u.UserName.Contains(term)) // You can adjust the search criteria as needed
+                .Select(u => new { u.UserName, u.Id })
+                .ToList();
+
+            return Json(users);
         }
 
         public IActionResult Privacy()

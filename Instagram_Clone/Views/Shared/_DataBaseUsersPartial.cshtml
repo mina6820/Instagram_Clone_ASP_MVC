@@ -3,12 +3,12 @@
 <div id="search" class="search_section">
     <h2>Search</h2>
     <form method="post">
-        <input type="text" placeholder="Search">
+        <input class="form-control me-2" placeholder="Search..." id="NameSearch" name="Name" type="text">
     </form>
     <div class="find">
         <div class="desc">
         </div>
-        <div class="account" style="max-height: 300px; overflow-y: auto;">
+        <div id="searchResults" class="account" style="max-height: 300px; overflow-y: auto;">
             @if (ViewBag.Users != null)
             {
                 @foreach (ApplicationUser relationship in ViewBag.Users)
@@ -35,3 +35,25 @@
         </div>
     </div>
 </div>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var input = document.getElementById("NameSearch")
+        input.addEventListener("input", function () {
+            // Fetch data using AJAX based on the search input
+            var searchTerm = input.value;
+            // Example AJAX call
+            // Replace this with your actual AJAX call to fetch followers based on search term
+            fetch("/Follow/SearchFollower?Name=" + searchTerm)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("searchResults").innerHTML = data;
+                    this.contains.log(data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+    });
+</script>
