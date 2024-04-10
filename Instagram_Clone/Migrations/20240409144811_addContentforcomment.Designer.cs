@@ -4,6 +4,7 @@ using Instagram_Clone;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Instagram_Clone.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20240409144811_addContentforcomment")]
+    partial class addContentforcomment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -90,9 +93,6 @@ namespace Instagram_Clone.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("YourFavirotePerson")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -213,14 +213,6 @@ namespace Instagram_Clone.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("RecieverId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("SenderId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int>("chatId")
                         .HasColumnType("int");
 
@@ -228,10 +220,6 @@ namespace Instagram_Clone.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("RecieverId");
-
-                    b.HasIndex("SenderId");
 
                     b.HasIndex("chatId");
 
@@ -669,18 +657,6 @@ namespace Instagram_Clone.Migrations
 
             modelBuilder.Entity("Instagram_Clone.Models.Message", b =>
                 {
-                    b.HasOne("Instagram_Clone.Authentication.ApplicationUser", "Reciever")
-                        .WithMany()
-                        .HasForeignKey("RecieverId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Instagram_Clone.Authentication.ApplicationUser", "Sender")
-                        .WithMany()
-                        .HasForeignKey("SenderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Instagram_Clone.Models.Chat", "chat")
                         .WithMany("messages")
                         .HasForeignKey("chatId")
@@ -692,10 +668,6 @@ namespace Instagram_Clone.Migrations
                         .HasForeignKey("photoId");
 
                     b.Navigation("Photo");
-
-                    b.Navigation("Reciever");
-
-                    b.Navigation("Sender");
 
                     b.Navigation("chat");
                 });

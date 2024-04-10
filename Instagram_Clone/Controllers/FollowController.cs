@@ -58,12 +58,6 @@ namespace Instagram_Clone.Controllers
         //}
 
 
-
-       
-
-
-       
-
         //public ActionResult SearchFollower(string name)
         //{
         //    //Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
@@ -153,7 +147,7 @@ namespace Instagram_Clone.Controllers
             {
                 Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
                 ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim.Value);
-                userRelationshipRepository.GetFollowingRelationship(user2.Id,id);
+                userRelationshipRepository.GetFollowersRelationship(id, user2.Id);
 
             }
             return RedirectToAction("Index", "Profile");

@@ -340,7 +340,7 @@ namespace Instagram_Clone.Controllers
                 else
                 {
                     // If user not found or verification information incorrect, add error to ModelState
-                    ModelState.AddModelError(string.Empty, "Invalid username or security information.");
+                    ModelState.AddModelError(string.Empty, "Invalid username or Your Favirote Person Name");
                 }
             }
 
