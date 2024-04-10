@@ -13,10 +13,17 @@
             margin: 12px auto;
         }
 
+    /* .text-center {
+        text-align: center;
+    } */
+    .text-center ul{
+        display:flex;
+        flex-direction:column;
+    }
 </style>
 
 <form asp-action="SaveChangePassword" method="post">
-    <div asp-validation-summary="All" class="text-danger text-center"></div>
+    <div asp-validation-summary="All" class="text-center text-danger my-3"></div>
 
     <div class="form-group">
         <label asp-for="CurrentPassword"></label>
