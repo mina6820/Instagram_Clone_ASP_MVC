@@ -1,14 +1,15 @@
 ﻿@model List<ApplicationUser>
 
+
 <div id="search" class="search_section">
     <h2>Search</h2>
     <form method="post">
-        <input class="form-control me-2" placeholder="Search..." id="NameSearch" name="Name" type="text">
+        <input type="text" placeholder="Search" id="NameSearch">
     </form>
     <div class="find">
-        <div class="desc">
+        <div class="desc" id="searchResults">
         </div>
-        <div id="searchResults" class="account" style="max-height: 300px; overflow-y: auto;">
+        <div class="account" style="max-height: 300px; overflow-y: auto;" >
             @if (ViewBag.Users != null)
             {
                 @foreach (ApplicationUser relationship in ViewBag.Users)
@@ -22,9 +23,6 @@
                                 <a href="/FriendsProfile/Index/@relationship.Id" class="name" style="color:black;text-decoration:none">@relationship.UserName</a>
                             </div>
                         </div>
-                       @*  <div class="clear">
-                            <a href="#">X</a>
-                        </div> *@
                     </div>
                 }
             }
@@ -36,24 +34,40 @@
     </div>
 </div>
 
-<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        var input = document.getElementById("NameSearch")
+        var input = document.getElementById("NameSearch");
         input.addEventListener("input", function () {
             // Fetch data using AJAX based on the search input
             var searchTerm = input.value;
             // Example AJAX call
-            // Replace this with your actual AJAX call to fetch followers based on search term
-            fetch("/Follow/SearchFollower?Name=" + searchTerm)
+            // Replace this with your actual AJAX call to fetch users based on search term
+            fetch("Home/SearchUsers?Name=" + searchTerm) // Modify the endpoint according to your route
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById("searchResults").innerHTML = data;
-                    this.contains.log(data);
+                    console.log(data);
                 })
                 .catch(error => {
                     console.error('Error:', error);
                 });
         });
+
+        // Autocomplete functionality
+        var autocomplete = new Awesomplete(input, {
+            minChars: 1, // Minimum characters before the autocomplete is triggered
+            maxItems: 5, // Maximum number of items to show in autocomplete dropdown
+            autoFirst: true, // Whether to automatically select the first item in the autocomplete dropdown
+            list: [], // Initially empty list of autocomplete items
+            filter: function (text, input) { // Custom filter function
+                return Awesomplete.FILTER_CONTAINS(text, input.match(/[^,]*$/)[0]);
+            },
+            replace: function (text) { // Custom replace function
+                var before = this.input.value.match(/^.+,\s*|/)[0];
+                this.input.value = before + text + ", ";
+            }
+        });
     });
 </script>
+
+

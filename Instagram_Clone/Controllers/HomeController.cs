@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Runtime.Intrinsics.X86;
 using System.Security.Claims;
 
 namespace Instagram_Clone.Controllers
@@ -73,6 +74,10 @@ namespace Instagram_Clone.Controllers
             }
             ViewBag.postsList = postsViewModel;
 
+            //habeba
+
+
+
             Claim claim2 = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
             ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim2.Value);
             ApplicationUser user3 = context.Users.Include(u => u.ProfilePicture).FirstOrDefault(u => u.Id == user2.Id);
@@ -90,17 +95,32 @@ namespace Instagram_Clone.Controllers
 
         }
 
-        [HttpPost]
-        public IActionResult SearchUsers(string term)
+        public IActionResult SearchUsers(string Name)
         {
-            // Perform user search based on the term
-            var users = context.Users
-                .Where(u => u.UserName.Contains(term)) // You can adjust the search criteria as needed
-                .Select(u => new { u.UserName, u.Id })
+            Claim claim2 = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+            ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim2.Value);
+            ApplicationUser user3 = context.Users.Include(u => u.ProfilePicture).FirstOrDefault(u => u.Id == user2.Id);
+
+            List<ApplicationUser> AllUsers = context.Users
+                .Include(u => u.ProfilePicture)
                 .ToList();
 
-            return Json(users);
+            AllUsers.Remove(user2);
+
+            List<ApplicationUser> searchResults = AllUsers;
+
+            if (Name != null)
+            {
+                searchResults = AllUsers
+                    .Where(u => u.UserName.Contains(Name)) // Example search logic, modify according to your requirements
+                    .ToList();
+            }
+
+            return PartialView("_DataBaseUsersPartial", searchResults);
         }
+
+
+
 
         public IActionResult Privacy()
         {
