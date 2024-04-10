@@ -58,12 +58,6 @@ namespace Instagram_Clone.Controllers
         //}
 
 
-
-       
-
-
-       
-
         //public ActionResult SearchFollower(string name)
         //{
         //    //Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
@@ -153,7 +147,7 @@ namespace Instagram_Clone.Controllers
             {
                 Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
                 ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim.Value);
-                userRelationshipRepository.GetFollowingRelationship(user2.Id,id);
+                userRelationshipRepository.GetFollowersRelationship(id, user2.Id);
 
             }
             return RedirectToAction("Index", "Profile");
@@ -290,50 +284,54 @@ namespace Instagram_Clone.Controllers
         }
 
 
-        //   /follow/FollowUser?id=
-        public IActionResult FollowUser(string id)
-        {
-            //user1
-            Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
-            ApplicationUser user1 = context.Users.FirstOrDefault(u => u.Id == claim.Value);
-            List<UserRelationship> followingList = userRelationshipRepository.GetFollowees(id);
-            string user1Name = user1.UserName;
-
-            //Follow user
-            ApplicationUser FollowUser = context.Users.FirstOrDefault(u => u.Id == id);
-            string FollowUserName = FollowUser.UserName;
 
 
-            if (followingList == null)
-            {
-                //store these Data in VM
-                UserRequestFollowVM userRequestFollowVM = new UserRequestFollowVM();
-                userRequestFollowVM.userID = user1.Id;
-                userRequestFollowVM.userName = user1Name;
-                userRequestFollowVM.followID = id;
-                userRequestFollowVM.followName = FollowUserName;
+        //Abadeer
 
-                return View("Request",userRequestFollowVM);
+        // /follow/FollowUser?id=
+        //public IActionResult FollowUser(string id)
+        //{
+        //    //user1
+        //    Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+        //    ApplicationUser user1 = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+        //    List<UserRelationship> followingList = userRelationshipRepository.GetFollowees(id);
+        //    string user1Name = user1.UserName;
 
-            }
-
-            else 
-                return View("");
-        }
-
-        public IActionResult AcceptRequest(string followeeID ,string userID)
-        {
-            // user
-            ApplicationUser user1 = context.Users.FirstOrDefault(u => u.Id == userID);
-
-            //Follow user
-            ApplicationUser FollowUser = context.Users.FirstOrDefault(u => u.Id == followeeID);
+        //    //Follow user
+        //    ApplicationUser FollowUser = context.Users.FirstOrDefault(u => u.Id == id);
+        //    string FollowUserName = FollowUser.UserName;
 
 
-            //Add relation 
-            userRelationshipRepository.AddUserRelation(followeeID, userID);
-            return View("");
-        }
+        //    if (followingList == null)
+        //    {
+        //        //store these Data in VM
+        //        UserRequestFollowVM userRequestFollowVM = new UserRequestFollowVM();
+        //        userRequestFollowVM.userID = user1.Id;
+        //        userRequestFollowVM.userName = user1Name;
+        //        userRequestFollowVM.followID = id;
+        //        userRequestFollowVM.followName = FollowUserName;
+
+        //        return View("Request",userRequestFollowVM);
+
+        //    }
+
+        //    else 
+        //        return View("");
+        //}
+
+        //public IActionResult AcceptRequest(string followeeID ,string userID)
+        //{
+        //    // user
+        //    ApplicationUser user1 = context.Users.FirstOrDefault(u => u.Id == userID);
+
+        //    //Follow user
+        //    ApplicationUser FollowUser = context.Users.FirstOrDefault(u => u.Id == followeeID);
+
+
+        //    //Add relation 
+        //    userRelationshipRepository.AddUserRelation(followeeID, userID);
+        //    return View("");
+        //}
 
     }
 }

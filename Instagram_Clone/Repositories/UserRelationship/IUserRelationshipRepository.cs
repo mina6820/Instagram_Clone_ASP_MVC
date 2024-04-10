@@ -1,4 +1,6 @@
 ﻿using Instagram_Clone.Authentication;
+using Instagram_Clone.Models;
+using Instagram_Clone.ViewModels;
 
 namespace Instagram_Clone.Repositories.UserFollowRepo
 {
@@ -25,7 +27,7 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
         public void AddUserRelation(string followeeId, string loginUser);
 
 
-
+        //public List<UserRelationship> MutualFollowers(List<UserRelationship> userFollowers, string loggedInUserId, string friendUserId);
         //public List<UserRelationship> GetFollowersAndFollowings(string id);
 
         ///////// Abadeer
