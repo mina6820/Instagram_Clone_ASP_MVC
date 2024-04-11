@@ -27,6 +27,14 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
         public void AddUserRelation(string followeeId, string loginUser);
 
 
+
+        public List<ApplicationUser> GetNonFollowees(string id);
+        public List<ApplicationUser> GetRandomlyTopFive(string id);
+        public List<ApplicationUser> GetAppUserFollowees(string id);
+
+        //public List<ApplicationUser> GetMutualFollowers(string loggedInUserId, string friendUserId);
+        //public List<ApplicationUser> GetNonMutualFollowers(string loggedInUserId, string friendUserId);
+        //public List<ApplicationUser> GetNonMutualFollowers(string loggedInUserId, string friendUserId);
         //public List<UserRelationship> MutualFollowers(List<UserRelationship> userFollowers, string loggedInUserId, string friendUserId);
         //public List<UserRelationship> GetFollowersAndFollowings(string id);
 

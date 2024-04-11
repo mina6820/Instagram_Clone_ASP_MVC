@@ -1,0 +1,40 @@
+﻿@model List<ApplicationUser>
+<div>
+    <div class="cart">
+        <div>
+            <div class="img">
+                <img src="/images/@ViewBag.picture" alt="">
+            </div>
+            <div class="info">
+                <a class="name" asp-action="Index" asp-controller="Profile" style="color:black;text-decoration:none">@ViewBag.UserName</a>
+            </div>
+        </div>
+       @*  <div class="switch">
+            <a href="#">Switch</a>
+        </div> *@
+    </div>
+    <div class="suggestions">
+        <div class="title">
+            <h4>Suggestions for you</h4>
+           @*  <a class="dark" href="#">See All</a> *@
+        </div>
+        @foreach (ApplicationUser user in ViewBag.applicationUsers)
+        {
+            <div class="cart">
+                <div>
+                    <div class="img">
+                        <img src="/images/@user.ProfilePicture.Name" alt="">
+                    </div>
+                    <div class="info">
+                        <a class="name" href="/FriendsProfile/Index/@user.Id" class="name" style="color:black;text-decoration:none">@user.UserName</a>
+                      
+                    </div>
+                </div>
+                <div class="switch">
+                    <button class="follow_text" >Follow</button>
+                </div>
+            </div>
+        }
+        
+    </div>
+</div>
