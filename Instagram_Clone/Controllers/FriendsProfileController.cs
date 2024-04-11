@@ -49,11 +49,36 @@ namespace Instagram_Clone.Controllers
                 profileUserViewModel.Posts = user.Posts;//postRepository.GetAllPostsByUserID(user.Id);
             }
 
+            
+            Claim claim2 = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+            ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim2.Value);
+            ApplicationUser user3 = context.Users.Include(u => u.ProfilePicture).FirstOrDefault(u => u.Id == user2.Id);
+
+            List<ApplicationUser> NonFollowing = userRelationship.GetNonFollowees(user3.Id);
+           
+            ViewBag.NonFollowingUsers = NonFollowing;
+
+            List<ApplicationUser> Following = userRelationship.GetAppUserFollowees(user3.Id);
+            ViewBag.FollowingUsers = Following;
+
+
+            List<ApplicationUser> AllUsers = context.Users
+                                            .Include(u => u.ProfilePicture)
+                                            .ToList();
+
+
+            AllUsers.Remove(user2);
+
+            ViewBag.Users = AllUsers;
+            ViewBag.UserName = user3.UserName;
+            ViewBag.picture = user3.ProfilePicture.Name;
+
             return View("Index", profileUserViewModel);
             
 
             //return View("Index", "Profile");
         }
+    
         public IActionResult ShowFollowers(string ID)
         {
 
@@ -100,6 +125,9 @@ namespace Instagram_Clone.Controllers
             profileUserViewModel.Followers.Remove(u);
             profileUserViewModel.Following.Remove(u);
 
+
+            //List<ApplicationUser> Mutualusers= userRelationship.GetMutualFollowers(loginneduser.Id, user.Id);
+            //List<ApplicationUser> NonMutualusers = userRelationship.GetNonMutualFollowers(loginneduser.Id, user.Id);
 
             //List<ApplicationUser> MutualFollowers = userRelationship.MutualFollowers(profileUserViewModel.Followers, loginneduser.Id, user.Id);
 

@@ -73,14 +73,14 @@
         <!-- search  -->
         <div id="search" class="search_section">
             <h2>Search</h2>
-            <form method="post">
+           @*  <form method="post">
                 <input type="text" placeholder="Search">
-            </form>
+            </form> *@
             <div class="find">
-                <div class="desc">
+              @*   <div class="desc">
                     <h4>Recent</h4>
                     <p><a href="#">Clear all</a></p>
-                </div>
+                </div> *@
                 <div class="account">
                     <div class="cart">
                         <div>
@@ -93,9 +93,9 @@
                                 <p class="second_name">@Model.FirstName  @Model.LastName</p>
                             </div>
                         </div>
-                        <div class="clear">
+                        @* <div class="clear">
                             <a href="#">X</a>
-                        </div>
+                        </div> *@
                     </div>
                 </div>
             </div>
@@ -256,6 +256,65 @@
                     <div class="info">
                         <div class="user-info">
                             <p class="name" style="font-size:17px;margin:4px">@Model.UserName</p>
+
+                            @foreach (ApplicationUser user in ViewBag.NonFollowingUsers)
+                            {
+                                @if (user.Id == Model.Id)
+                                {
+                                    <div class="switch">
+                                        <a class="text-light btn btn-primary">Follow</a>
+                                    </div>
+                                }
+                              
+
+                            }
+
+                            @foreach (ApplicationUser user in ViewBag.FollowingUsers)
+                            {
+                                @if (user.Id == Model.Id)
+                                {
+                                    <div class="switch me-2">
+                                        <a class="text-light btn btn-secondary">Following</a>
+                                    </div>
+                                    <div class="switch">
+                                        <a class="text-light btn btn-secondary ">Message</a>
+                                    </div>
+                                }
+
+
+                            }
+
+
+                            @* @foreach (ApplicationUser user in ViewBag.Users)
+                            {
+                                @if (!ViewBag.FollowingUsers.Contains(user))
+                                {
+                                    <div class="switch me-2">
+                                        <a class="text-light btn btn-secondary">Following</a>
+                                    </div>
+                                    <div class="switch">
+                                        <a class="text-light btn btn-secondary ">Message</a>
+                                    </div>
+                                    break;
+                                }
+
+                            } *@
+
+                           @*  @foreach (ApplicationUser user in ViewBag.Users)
+                            {
+                                <div class="switch">
+                                    @if (!ViewBag.NonFollowingUsers.Contains(user))
+                                    {
+                                        <a class="text-light btn btn-primary">Follow</a>
+                                    }
+                                   @*  else if (ViewBag.FollowingUsers.Contains(user))
+                                    {
+                                    <a class="text-light btn btn-secondary">Following</a>
+                                    } 
+                                    
+                                </div>
+                            } *@
+
                         </div>
                         <div class="general_info">
                             <p><span>@Model.Posts.Count</span> post</p>

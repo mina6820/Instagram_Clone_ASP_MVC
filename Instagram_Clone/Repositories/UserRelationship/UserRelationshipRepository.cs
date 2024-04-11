@@ -1,5 +1,7 @@
 ﻿using Instagram_Clone.Authentication;
 using Instagram_Clone.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -261,7 +263,104 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
 
         //////////////////////////////////////////////////////////////
 
-        
+        //public List<ApplicationUser> GetMutualFollowers(string loggedInUserId, string friendUserId)
+        //{
+        //    // Get followers of the logged-in user
+        //    List<UserRelationship> loggedInUserFollowers = GetFollowers(loggedInUserId);
 
+        //    // Get followers of the friend
+        //    List<UserRelationship> friendFollowers = GetFollowers(friendUserId);
+
+        //    // Extract user IDs from the followers
+        //    var loggedInUserFollowerIds = loggedInUserFollowers.Select(ur => ur.FollowerId).ToList();
+        //    var friendFollowerIds = friendFollowers.Select(ur => ur.FollowerId).ToList();
+
+        //    // Find mutual follower IDs
+        //    var mutualFollowerIds = loggedInUserFollowerIds.Intersect(friendFollowerIds).ToList();
+
+        //    // Get the ApplicationUser objects corresponding to the mutual follower IDs
+        //    var mutualFollowers = context.Users
+        //        .Include(u => u.ProfilePicture)
+        //        .Where(u => mutualFollowerIds.Contains(u.Id))
+        //        .ToList();
+
+        //    return mutualFollowers;
+
+        //}
+
+        //public List<ApplicationUser> GetNonMutualFollowers(string loggedInUserId, string friendUserId)
+        //{
+        //    // Get followers of the logged-in user
+        //    List<UserRelationship> loggedInUserFollowers = GetFollowers(loggedInUserId);
+
+        //    // Get followers of the friend
+        //    List<UserRelationship> friendFollowers = GetFollowers(friendUserId);
+
+        //    // Extract user IDs from the followers
+        //    var loggedInUserFollowerIds = loggedInUserFollowers.Select(ur => ur.FollowerId).ToList();
+        //    var friendFollowerIds = friendFollowers.Select(ur => ur.FollowerId).ToList();
+
+        //    // Find followers of the logged-in user who are not also followers of the friend
+        //    var nonMutualFollowerIds = loggedInUserFollowerIds.Except(friendFollowerIds).ToList();
+
+        //    // Remove the friend's user ID from the non-mutual follower IDs
+        //    nonMutualFollowerIds.Remove(friendUserId);
+
+        //    // Get the ApplicationUser objects corresponding to the non-mutual follower IDs
+        //    var nonMutualFollowers = context.Users
+        //        .Include(u => u.ProfilePicture)
+        //        .Where(u => nonMutualFollowerIds.Contains(u.Id))
+        //        .ToList();
+
+        //    return nonMutualFollowers;
+        //}
+
+        public List<ApplicationUser> GetNonFollowees(string id)
+        {
+        List<ApplicationUser> allUsers = context.Users.Include(u => u.ProfilePicture).ToList();
+
+            // Get the IDs of the users followed by the given user
+            List<string> followedUserIds = context.UserRelationship
+                .Where(ur => ur.FollowerId == id && ur.Followee.IsDeleted == false && ur.IsDeleted == false)
+                .Select(ur => ur.FolloweeId)
+                .ToList();
+
+            // Remove followed users from the list of all users
+            var nonFollowedUsers = allUsers.Where(u => !followedUserIds.Contains(u.Id) && u.Id != id).ToList();
+
+            return nonFollowedUsers;
+
+        }
+        public List<ApplicationUser> GetAppUserFollowees(string id)
+        {
+            List<ApplicationUser> allUsers = context.Users.Include(u => u.ProfilePicture).ToList();
+
+            // Get the IDs of the users followed by the given user
+            List<string> followedUserIds = context.UserRelationship
+                .Where(ur => ur.FollowerId == id && ur.Followee.IsDeleted == false && ur.IsDeleted == false)
+                .Select(ur => ur.FolloweeId)
+                .ToList();
+
+            // Retrieve the followed users from the list of all users
+            var followedUsers = allUsers.Where(u => followedUserIds.Contains(u.Id) && u.Id != id).ToList();
+
+            return followedUsers;
+        }
+
+
+
+
+        public List<ApplicationUser> GetRandomlyTopFive(string id)
+        {
+            List<ApplicationUser> nonFollowedUsers = GetNonFollowees(id);
+
+            // Shuffle the list randomly
+            var random = new Random();
+
+            var shuffledUsers = nonFollowedUsers.OrderBy(u => random.Next()).ToList();
+
+            // Return up to 5 users, or all users if less than 5
+            return shuffledUsers.Take(5).ToList();
+        }
     }
 }

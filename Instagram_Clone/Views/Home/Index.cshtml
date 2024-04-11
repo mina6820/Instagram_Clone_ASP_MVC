@@ -77,6 +77,7 @@
             <!--***** posts_container start ****** -->
             <div class="main_section">
                 <div class="posts_container">
+
                     <div class="stories">
                         <div class="owl-carousel items">
                         </div>
@@ -95,9 +96,11 @@
             </div>
             <!--***** posts_container end ****** -->
             <!--***** followers_container start ****** -->
-            <div class="followers_container">
 
-                <partial name="SideBarPartial"></partial>
+            <div class="followers_container">
+                @await Html.PartialAsync("_SideBarPartial")
+                @* <partial name="_SideBarPartial" /> *@
+
                 @* <div>
                     <div class="cart">
                         <div>
