@@ -13,7 +13,6 @@ namespace Instagram_Clone.Hubs
     {
 
         public readonly IMessageRepository MessageRepository;
-        private static Dictionary<string, string> userConnectionMap = new Dictionary<string, string>();
         public ChatterHub(IMessageRepository messageRepository)
         {
             MessageRepository = messageRepository;
@@ -22,26 +21,31 @@ namespace Instagram_Clone.Hubs
         // Method to send a message to a specific user
         public async Task SendMessage(string messageInput, string receiverId, string chatId)
         {
-            //create new message
-            //Message message = new Message
-            //{
-            //    Content = messageInput,
-            //    Date = DateTime.Now,
-            //    chatId = int.Parse(chatId),
-            //    IsDeleted = false
-            //};
-
-            // save the message in database 
-            //await MessageRepository.InsertAsync(message);
-
-
 
             var senderId = Context.UserIdentifier;
 
+
+            //create new message
+            Instagram_Clone.Models.Message message = new Instagram_Clone.Models.Message
+            {
+                Content = messageInput,
+                Date = DateTime.Now,
+                chatId = int.Parse(chatId),
+                IsDeleted = false,
+                SenderId = senderId,
+                RecieverId = receiverId
+            };
+
+            //save the message in database
+           await MessageRepository.InsertAsync(message);
+            MessageRepository.Save(); 
+
+
+
             // Send the message to the specified user
-            await Clients.Users(senderId,receiverId).SendAsync("ReceiveMessage", messageInput);
+            //await Clients.Users(senderId,receiverId).SendAsync("ReceiveMessage", messageInput);
 
-
+            await Clients.Users(senderId, receiverId).SendAsync("ReceiveMessage", messageInput, senderId, message.Date);
 
         }
     }

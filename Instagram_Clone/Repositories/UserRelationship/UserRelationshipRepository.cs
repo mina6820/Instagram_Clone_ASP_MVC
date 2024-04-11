@@ -242,23 +242,42 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
         public void AddUserRelation(string followeeId, string loginUser)
         {
             // Assuming context is your DbContext instance
-            var followerUser  = context.Users.FirstOrDefault(u => u.UserName == loginUser);
-            var followingUser = context.Users.FirstOrDefault(u => u.Id == followeeId);
+            ApplicationUser followerUser = context.Users.FirstOrDefault(u => u.Id == loginUser);
+            ApplicationUser followingUser = context.Users.FirstOrDefault(u => u.Id == followeeId);
 
             if (followingUser != null && followerUser != null)
             {
-                var relation = new UserRelationship
-                {
-                    IsDeleted = false, // Assuming default value
-                    FolloweeId = followingUser.Id,
-                    FollowerId = followerUser.Id
-                };
+                // Check if the relationship already exists
+                bool alreadyExists = context.UserRelationship.Any(ur => ur.FollowerId == followerUser.Id && ur.FolloweeId == followingUser.Id);
 
-                context.UserRelationship.Add(relation);
-                context.SaveChanges();
+                if (!alreadyExists)
+                {
+                    var relation = new UserRelationship
+                    {
+                        IsDeleted = false, // Assuming default value
+                        FolloweeId = followingUser.Id,
+                        FollowerId = followerUser.Id
+                    };
+
+                    context.UserRelationship.Add(relation);
+                    context.SaveChanges();
+                }
+                else
+                {
+                    // Handle case where the relationship already exists
+                    // You can add logging or throw an exception here
+                }
+            }
+            else
+            {
+                // Handle case where either followerUser or followingUser is null
+                // You can add logging or throw an exception here
             }
         }
 
+        //////////////////////////////////////////////////////////////
+
+        
 
 
     }

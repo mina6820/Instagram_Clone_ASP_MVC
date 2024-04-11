@@ -56,6 +56,13 @@ namespace Instagram_Clone.Controllers
         }
         public IActionResult ShowFollowers(string ID)
         {
+
+           
+            Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+            ApplicationUser loginneduser = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+
+            //ApplicationUser user = context.Users.Include(u => u.ProfilePicture).FirstOrDefault(u => u.Id == user2.Id);
+
             ApplicationUser user = context.Users
                 .Include(u => u.Followers)
                 .Include(u => u.Following)
@@ -81,6 +88,7 @@ namespace Instagram_Clone.Controllers
             {
                 profileUserViewModel.Followers = userRelationship.GetFollowers(user.Id);
                 profileUserViewModel.Following = userRelationship.GetFollowees(user.Id);
+                
             }
             else
             {
@@ -88,11 +96,25 @@ namespace Instagram_Clone.Controllers
                 profileUserViewModel.Following = userRelationship.searchFollowees2(user.UserName, user.Id);
             }
 
+            var u= profileUserViewModel.Followers.Find(f=>f.Follower.Id==loginneduser.Id);
+            profileUserViewModel.Followers.Remove(u);
+            profileUserViewModel.Following.Remove(u);
+
+
+            //List<ApplicationUser> MutualFollowers = userRelationship.MutualFollowers(profileUserViewModel.Followers, loginneduser.Id, user.Id);
+
             return PartialView("_FollowersFriendPartial", profileUserViewModel);
         }
 
+        
+
+
         public IActionResult ShowFollowees(string ID)
         {
+
+            Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+            ApplicationUser loginneduser = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+
             ApplicationUser user = context.Users
                 .Include(u => u.Followers)
                 .Include(u => u.Following)
@@ -124,6 +146,10 @@ namespace Instagram_Clone.Controllers
                 profileUserViewModel.Followers = userRelationship.searchFollowers2(user.UserName, user.Id);
                 profileUserViewModel.Following = userRelationship.searchFollowees2(user.UserName, user.Id);
             }
+
+            var u = profileUserViewModel.Following.Find(f => f.Followee.Id == loginneduser.Id);
+            profileUserViewModel.Followers.Remove(u);
+            profileUserViewModel.Following.Remove(u);
 
             return PartialView("_FollowingFriendPartial", profileUserViewModel);
         }
