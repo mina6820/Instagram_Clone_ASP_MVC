@@ -21,5 +21,15 @@ namespace Instagram_Clone.Models
         public int chatId { get; set; }
         public Chat chat { get; set; }
 
+
+
+        [ForeignKey("Sender")]
+        public string SenderId { get; set; }
+        public ApplicationUser Sender { get; set; }
+
+        [ForeignKey("Reciever")]
+        public string RecieverId { get; set; }
+        public ApplicationUser Reciever { get; set; }
+
     }
 }

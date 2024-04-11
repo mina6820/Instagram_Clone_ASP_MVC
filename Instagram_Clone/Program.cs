@@ -1,5 +1,6 @@
 using Instagram_Clone.Authentication;
 using Instagram_Clone.Hubs;
+using Instagram_Clone.Repositories.ChatRepo;
 using Instagram_Clone.Repositories.CommentRepo;
 using Instagram_Clone.Repositories.LikeRepo;
 using Instagram_Clone.Repositories.MessageRepo;
@@ -55,9 +56,11 @@ namespace Instagram_Clone
             builder.Services.AddScoped<IStoryRepository, StoryRepository>();
             builder.Services.AddScoped<IStoryViewRepository, StoryViewRepository>();
             builder.Services.AddScoped<IpostPhotoRepository, postPhotoRepository>();
+            builder.Services.AddScoped<IChatRepository, ChatRepository>();
 
 
-           // builder.Services.AddSingleton<IUserIdProvider, CustomEmailProvider>();
+
+            // builder.Services.AddSingleton<IUserIdProvider, CustomEmailProvider>();
 
 
             builder.Services.AddSignalR();
