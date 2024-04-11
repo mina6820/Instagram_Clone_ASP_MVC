@@ -25,16 +25,52 @@
                 { *@
     @foreach (var followee in Model.Following)
     {
-                    <div class="p-3 bg-white text-center">
+        @if (followee.Followee.UserName == ViewBag.UserName)
+        {
+                        <div class="p-3 bg-white text-center">
 
-                        <div class="d-flex flex-row justify-content-between align-items-center mt-2">
-                            <img class="rounded-circle" src="/images/@followee.Followee.ProfilePicture.Name" width="55">
-                            <div class="d-flex flex-column align-items-start ml-2"><a class="font-weight-bold" href="/FriendsProfile/index/@followee.FolloweeId">@followee.Followee.UserName</a><span class="followers"><span style="margin:2px">@followee.Followee.FirstName</span><span style="margin:2px">@followee.Followee.LastName</span></span></div>
-                            <div class="d-flex flex-row align-items-center">
-                                @* <div class="d-flex flex-row align-items-center mt-2"><button class="btn btn-primary btn-sm" type="button">Remove</button></div> *@
+                            <div class="d-flex flex-row justify-content-between align-items-center mt-2">
+                                <img class="rounded-circle" src="/images/@followee.Followee.ProfilePicture.Name" width="55">
+                                <div class="d-flex flex-column align-items-start ml-2"><a class="font-weight-bold" href="/Profile/index">@followee.Followee.UserName</a><span class="followers"><span style="margin:2px">@followee.Followee.FirstName</span><span style="margin:2px">@followee.Followee.LastName</span></span></div>
+                                <div class="d-flex flex-row align-items-center">
+                        @* <div class="d-flex flex-row align-items-center mt-2"><button class="btn btn-primary btn-sm" type="button">Remove</button></div> *@
+                                </div>
+                            </div>
+            </div>
+        }
+        else
+        {
+                        <div class="p-3 bg-white text-center">
+
+                            <div class="d-flex flex-row justify-content-between align-items-center mt-2">
+                                <img class="rounded-circle" src="/images/@followee.Followee.ProfilePicture.Name" width="55">
+                                <div class="d-flex flex-column align-items-start ml-2"><a class="font-weight-bold" href="/FriendsProfile/index/@followee.FolloweeId">@followee.Followee.UserName</a><span class="followers"><span style="margin:2px">@followee.Followee.FirstName</span><span style="margin:2px">@followee.Followee.LastName</span></span></div>
+                                <div class="d-flex flex-row align-items-center">
+                        @foreach (ApplicationUser user in ViewBag.NonFollowingUsers)
+                        {
+                            @if (user.Id == Model.Id)
+                            {
+                                            <div class="switch">
+                                                <a href="/follow/FollowUser?id=@Model.Id" class="text-light btn btn-primary ">Follow</a>
+                                            </div>
+                            }
+                        }
+
+                        @foreach (ApplicationUser user in ViewBag.FollowingUsers)
+                        {
+                            @if (user.Id == Model.Id)
+                            {
+                                            <div class="switch me-2">
+                                                <a class="text-light btn btn-secondary">Following</a>
+                                            </div>
+                                           
+                            }
+                        }
+                                </div>
                             </div>
                         </div>
-                    </div>
+        }
+
     }
    
                 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">

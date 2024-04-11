@@ -261,8 +261,18 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
                         FollowerId = followerUser.Id
                     };
 
+                    //var relation2 = new UserRelationship
+                    //{
+                    //    IsDeleted = false, // Assuming default value
+                    //    FollowerId = followingUser.Id,
+                    //    FolloweeId = followerUser.Id
+                    //};
+
+                    //context.UserRelationship.Add(relation2);
+
                     context.UserRelationship.Add(relation);
-                    context.SaveChanges();
+                    Save();
+                    //context.SaveChanges();
                 }
                 else
                 {
@@ -347,6 +357,25 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
             return nonFollowedUsers;
 
         }
+        //public List<ApplicationUser> GetNonFolloweesFromFriendProfile(string id)
+        //{
+        //    List<ApplicationUser> allUsers = context.Users.Include(u => u.ProfilePicture).ToList();
+
+        //    // Get the IDs of the users followed by the given user
+        //    List<string> followedUserIds = context.UserRelationship
+        //        .Where(ur => ur.FollowerId == id && ur.Followee.IsDeleted == false && ur.IsDeleted == false)
+        //        .Select(ur => ur.FolloweeId)
+        //        .ToList();
+
+        //    // Remove followed users from the list of all users
+        //    var nonFollowedUsers = allUsers.Where(u => !followedUserIds.Contains(u.Id) && u.Id != id).ToList();
+
+        //    return nonFollowedUsers;
+
+        //}
+
+
+
         public List<ApplicationUser> GetAppUserFollowees(string id)
         {
             List<ApplicationUser> allUsers = context.Users.Include(u => u.ProfilePicture).ToList();
