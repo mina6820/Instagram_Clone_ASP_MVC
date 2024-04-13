@@ -46,26 +46,72 @@
                                 <img class="rounded-circle" src="/images/@followee.Followee.ProfilePicture.Name" width="55">
                                 <div class="d-flex flex-column align-items-start ml-2"><a class="font-weight-bold" href="/FriendsProfile/index/@followee.FolloweeId">@followee.Followee.UserName</a><span class="followers"><span style="margin:2px">@followee.Followee.FirstName</span><span style="margin:2px">@followee.Followee.LastName</span></span></div>
                                 <div class="d-flex flex-row align-items-center">
-                        @foreach (ApplicationUser user in ViewBag.NonFollowingUsers)
+
+                        @foreach (ApplicationUser userLogginFriend in ViewBag.NonFollowingLoginnedUser)
                         {
-                            @if (user.Id == Model.Id)
+                            bool isFollowing = false;
+
+                            // Check if the current user from ViewBag.NonFollowingLoginnedUser is in ViewBag.NonFollowingFriend
+                            foreach (ApplicationUser userFriend in ViewBag.NonFollowingFriend)
+                            {
+                                if (userFriend.Id == userLogginFriend.Id)
+                                {
+                                    // If the user is found in the list of friends, set isFollowing to true
+                                    isFollowing = true;
+                                    break; // Exit the loop since we found a match
+                                }
+                            }
+
+                            // If the user is not found in the list of friends, display the follow button
+                            if (!isFollowing)
                             {
                                             <div class="switch">
-                                                <a href="/follow/FollowUser?id=@Model.Id" class="text-light btn btn-primary ">Follow</a>
+                                                <a href="/follow/FollowUser?id=@userLogginFriend.Id" class="text-light btn btn-primary">Follow</a>
                                             </div>
                             }
                         }
 
-                        @foreach (ApplicationUser user in ViewBag.FollowingUsers)
+                        @foreach (ApplicationUser userLogginFriend in ViewBag.FollowingLoginnedUser)
                         {
-                            @if (user.Id == Model.Id)
+                            bool isFollowing = false;
+
+                            // Check if the current user from ViewBag.FollowingLoginnedUser is in ViewBag.FollowingFriend
+                            foreach (ApplicationUser userFriend in ViewBag.FollowingFriend)
+                            {
+                                if (userFriend.Id == userLogginFriend.Id)
+                                {
+                                    // If the user is found in the list of followed users, set isFollowing to true
+                                    isFollowing = true;
+                                    break; // Exit the loop since we found a match
+                                }
+                            }
+
+                            // If the user is not found in the list of followed users, display the "Following" button
+                            if (isFollowing)
                             {
                                             <div class="switch me-2">
                                                 <a class="text-light btn btn-secondary">Following</a>
                                             </div>
-                                           
                             }
                         }
+
+                           
+
+                       @*  @foreach (ApplicationUser userLogginFriend in ViewBag.FollowingLoginnedUser)
+                        {
+                            @foreach (ApplicationUser userFriend in ViewBag.FollowingFriend)
+                            {
+                                @if (userFriend.Id == userLogginFriend.Id)
+                                {
+                                    <div class="switch me-2">
+                                        <a class="text-light btn btn-secondary">Following</a>
+                                    </div>
+                                    
+                                }
+                              
+                            }
+                            return;
+                        } *@
                                 </div>
                             </div>
                         </div>

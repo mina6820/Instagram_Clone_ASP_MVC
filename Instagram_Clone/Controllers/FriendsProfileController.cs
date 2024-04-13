@@ -88,12 +88,13 @@ namespace Instagram_Clone.Controllers
         public IActionResult ShowFollowers(string ID)
         {
 
-           
             Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
             ApplicationUser loginneduser = context.Users.FirstOrDefault(u => u.Id == claim.Value);
-            ViewBag.UserName = loginneduser.UserName;
-
-          //ApplicationUser user = context.Users.Include(u => u.ProfilePicture).FirstOrDefault(u => u.Id == user2.Id);
+            //ViewBag.UserName = loginneduser.UserName;
+            
+            ApplicationUser LoginnedUser2 = context.Users
+                .Include(u => u.ProfilePicture)
+                .FirstOrDefault(u => u.Id == loginneduser.Id);
 
           ApplicationUser user = context.Users
                 .Include(u => u.Followers)
@@ -131,12 +132,21 @@ namespace Instagram_Clone.Controllers
             Claim claim2 = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
             ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim2.Value);
             ApplicationUser user3 = context.Users.Include(u => u.ProfilePicture).FirstOrDefault(u => u.Id == user2.Id);
+            
 
-            List<ApplicationUser> NonFollowing = userRelationship.GetNonFollowees(user3.Id);
-            ViewBag.NonFollowingUsers = NonFollowing;
 
-            List<ApplicationUser> Following = userRelationship.GetAppUserFollowees(user3.Id);
-            ViewBag.FollowingUsers = Following;
+            List<ApplicationUser> NonFollowingFriend = userRelationship.GetNonFollowees(user.Id);
+            ViewBag.NonFollowingFriend = NonFollowingFriend;
+
+            List<ApplicationUser> FollowingFriend = userRelationship.GetAppUserFollowees(user.Id);
+            ViewBag.FollowingFriend = FollowingFriend;
+
+
+            List<ApplicationUser> NonFollowingLoginnedUser = userRelationship.GetNonFollowees(user3.Id);
+            ViewBag.NonFollowingLoginnedUser = NonFollowingLoginnedUser;
+
+            List<ApplicationUser> FollowingLoginnedUser = userRelationship.GetAppUserFollowees(user3.Id);
+            ViewBag.FollowingLoginnedUser = FollowingLoginnedUser;
 
 
             //var u= profileUserViewModel.Followers.Find(f=>f.Follower.Id==loginneduser.Id);
@@ -197,11 +207,18 @@ namespace Instagram_Clone.Controllers
             ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim2.Value);
             ApplicationUser user3 = context.Users.Include(u => u.ProfilePicture).FirstOrDefault(u => u.Id == user2.Id);
 
-            List<ApplicationUser> NonFollowing = userRelationship.GetNonFollowees(user3.Id);
-            ViewBag.NonFollowingUsers = NonFollowing;
+            List<ApplicationUser> NonFollowingFriend = userRelationship.GetNonFollowees(user.Id);
+            ViewBag.NonFollowingFriend = NonFollowingFriend;
 
-            List<ApplicationUser> Following = userRelationship.GetAppUserFollowees(user3.Id);
-            ViewBag.FollowingUsers = Following;
+            List<ApplicationUser> FollowingFriend = userRelationship.GetAppUserFollowees(user.Id);
+            ViewBag.FollowingFriend = FollowingFriend;
+
+
+            List<ApplicationUser> NonFollowingLoginnedUser = userRelationship.GetNonFollowees(user3.Id);
+            ViewBag.NonFollowingLoginnedUser = NonFollowingLoginnedUser;
+
+            List<ApplicationUser> FollowingLoginnedUser = userRelationship.GetAppUserFollowees(user3.Id);
+            ViewBag.FollowingLoginnedUser = FollowingLoginnedUser;
 
 
             //var u = profileUserViewModel.Following.Find(f => f.Followee.Id == loginneduser.Id);
