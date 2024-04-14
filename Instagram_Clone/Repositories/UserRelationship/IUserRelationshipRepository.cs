@@ -24,7 +24,7 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
         public void GetFollowersRelationship(string followerId, string LoginUsrer);
         public List<ApplicationUser> GetFollowersAndFollowings(string id);
 
-        public void Follow(string followeeId, string loginUser);
+       // public void Follow(string followeeId, string loginUser);
 
 
 

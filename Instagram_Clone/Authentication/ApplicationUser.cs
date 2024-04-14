@@ -31,5 +31,7 @@ namespace Instagram_Clone.Authentication
 
         public string? YourFavirotePerson { get; set; }
 
+        //public List<Notification>? notifications { get; set; } 
+
     }
 }

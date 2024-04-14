@@ -356,19 +356,19 @@ namespace Instagram_Clone.Controllers
             }
         }
 
-        public IActionResult AcceptRequest(string followID, string userID)
-        {
-            // user
-            ApplicationUser user1 = context.Users.FirstOrDefault(u => u.Id == userID);
+        //public IActionResult AcceptRequest(string followID, string userID)
+        //{
+        //    // user
+        //    ApplicationUser user1 = context.Users.FirstOrDefault(u => u.Id == userID);
 
-            //Follow user
-            ApplicationUser FollowUser = context.Users.FirstOrDefault(u => u.Id == followID);
+        //    //Follow user
+        //    ApplicationUser FollowUser = context.Users.FirstOrDefault(u => u.Id == followID);
 
 
-            //Add relation 
-            userRelationshipRepository.Follow(followID, userID);
-            return RedirectToAction("Index", "Profile");
-        }
+        //    //Add relation 
+        //    userRelationshipRepository.Follow(followID, userID);
+        //    return RedirectToAction("Index", "Profile");
+        //}
 
     }
 }

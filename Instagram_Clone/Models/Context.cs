@@ -33,7 +33,8 @@ namespace Instagram_Clone
 
         public DbSet<Chat> Chats { get; set; }
 
-
+        public DbSet<FollowRequest> FollowRequests { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
