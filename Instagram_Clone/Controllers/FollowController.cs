@@ -1,9 +1,12 @@
 ﻿using Instagram_Clone.Authentication;
+using Instagram_Clone.Hubs;
 using Instagram_Clone.Models;
+using Instagram_Clone.Repositories.NotificationRepo;
 using Instagram_Clone.Repositories.UserFollowRepo;
 using Instagram_Clone.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
@@ -14,10 +17,19 @@ namespace Instagram_Clone.Controllers
        private IUserRelationshipRepository userRelationshipRepository;
        private readonly Context context;
 
-        public FollowController( IUserRelationshipRepository _userRelationship , Context context)
+        private readonly INotificationRepository<FollowRequest> notificationRepository;
+        private readonly IHubContext<NotificationHub> hubContext;
+
+        public FollowController( IUserRelationshipRepository _userRelationship , Context context, INotificationRepository<FollowRequest> _notificationRepository,  IHubContext<NotificationHub> _hubContext)
         {
             userRelationshipRepository = _userRelationship;
             this.context = context;
+
+            notificationRepository = _notificationRepository;
+            hubContext =_hubContext;
+
+
+
         }
         //public IActionResult AutocompleteSearch(string term)
         //{
@@ -284,7 +296,7 @@ namespace Instagram_Clone.Controllers
         }
 
 
-        //   /follow/FollowUser?id=
+        //    /follow/FollowUser? id =
         //public IActionResult FollowUser(string id)
         //{
         //    //user1
@@ -316,7 +328,46 @@ namespace Instagram_Clone.Controllers
         //    }
 
         //}
-        public IActionResult FollowUser(string id)
+        //public IActionResult FollowUser(string id)
+        //{
+        //    Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+        //    ApplicationUser user1 = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+
+        //    // Check if user1 is already following the user with the given id
+        //    bool isAlreadyFollowing = context.UserRelationship
+        //        .Any(ur => ur.FolloweeId == id && ur.FollowerId == user1.Id && ur.IsDeleted == false);
+
+        //    if (isAlreadyFollowing)
+        //    {
+        //        return View("AlreadyFollowingView");
+        //    }
+        //    else
+        //    {
+        //        // Fetch the user to follow
+        //        ApplicationUser followUser = context.Users.FirstOrDefault(u => u.Id == id);
+
+        //        if (followUser != null)
+        //        {
+        //            // Inside the FollowUser action where you create the UserRequestFollowVM instance
+        //            UserRequestFollowVM userRequestFollowVM = new UserRequestFollowVM
+        //            {
+        //                userID = user1.Id,
+        //                userName = user1.UserName,
+        //                followID = id, // Ensure id is properly passed from the action parameter
+        //                followName = followUser.UserName
+        //            };
+
+        //            return View("FollowUser", userRequestFollowVM);
+
+        //        }
+        //        else
+        //        {
+        //            // Handle case where followUser is not found
+        //            return NotFound();
+        //        }
+        //    }
+        //}
+        public async Task<IActionResult> FollowUser(string id)
         {
             Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
             ApplicationUser user1 = context.Users.FirstOrDefault(u => u.Id == claim.Value);
@@ -345,6 +396,14 @@ namespace Instagram_Clone.Controllers
                         followName = followUser.UserName
                     };
 
+
+                    // Create and save the notification
+                    await notificationRepository.CreateNotification(user1.Id, id);
+
+                    // Invoke the SignalR hub to send the notification
+                    await hubContext.Clients.User(id).SendAsync("ReceiveNotification", user1.UserName + " Wants to follow you.");
+
+
                     return View("FollowUser", userRequestFollowVM);
 
                 }
@@ -355,7 +414,6 @@ namespace Instagram_Clone.Controllers
                 }
             }
         }
-
         public IActionResult AcceptRequest(string followID, string userID)
         {
             // user
@@ -366,7 +424,7 @@ namespace Instagram_Clone.Controllers
 
 
             //Add relation 
-            userRelationshipRepository.AddUserRelation(followID, userID);
+            userRelationshipRepository.Follow(followID, userID);
             return RedirectToAction("Index", "Profile");
         }
 

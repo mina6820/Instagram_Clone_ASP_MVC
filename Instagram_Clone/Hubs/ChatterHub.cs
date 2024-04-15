@@ -38,7 +38,7 @@ namespace Instagram_Clone.Hubs
             };
 
             //save the message in database
-           await MessageRepository.InsertAsync(message);
+            await MessageRepository.InsertAsync(message);
             MessageRepository.Save(); 
 
 

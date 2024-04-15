@@ -84,6 +84,7 @@ namespace Instagram_Clone.Controllers
             Claim claim2 = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
             ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim2.Value);
             ApplicationUser user3 = context.Users.Include(u => u.ProfilePicture).FirstOrDefault(u => u.Id == user2.Id);
+           
 
             List<ApplicationUser> NonFollowing = userRelationshipRepository.GetNonFollowees(user.Id);
             ViewBag.NonFollowingUsers = NonFollowing;
@@ -101,7 +102,7 @@ namespace Instagram_Clone.Controllers
 
             ViewBag.Users = AllUsers;
             ViewBag.UserName = user3.UserName;
-            //ViewBag.picture = user3.ProfilePicture.Name;
+            ViewBag.picture = user3.ProfilePicture?.Name;
 
 
 

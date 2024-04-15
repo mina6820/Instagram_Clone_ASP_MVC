@@ -24,14 +24,14 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
         public void GetFollowersRelationship(string followerId, string LoginUsrer);
         public List<ApplicationUser> GetFollowersAndFollowings(string id);
 
-        public void AddUserRelation(string followeeId, string loginUser);
+       // public void Follow(string followeeId, string loginUser);
 
 
 
         public List<ApplicationUser> GetNonFollowees(string id);
         public List<ApplicationUser> GetRandomlyTopFive(string id);
         public List<ApplicationUser> GetAppUserFollowees(string id);
-
+       // public List<ApplicationUser> GetNonFolloweesFromFriendProfile(string id);
         //public List<ApplicationUser> GetMutualFollowers(string loggedInUserId, string friendUserId);
         //public List<ApplicationUser> GetNonMutualFollowers(string loggedInUserId, string friendUserId);
         //public List<ApplicationUser> GetNonMutualFollowers(string loggedInUserId, string friendUserId);

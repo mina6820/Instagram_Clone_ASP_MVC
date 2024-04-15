@@ -112,6 +112,7 @@ namespace Instagram_Clone.Controllers
                 user.Bio = editUserViewModel.Bio;
                 user.FirstName = editUserViewModel.FirstName;
                 user.LastName = editUserViewModel.LastName;
+
                 if(editUserViewModel.CurrentPassword != null)
                 {
                     if (await userManager.CheckPasswordAsync(user, editUserViewModel.CurrentPassword))
@@ -120,8 +121,6 @@ namespace Instagram_Clone.Controllers
                     }
                 }
                 
-
-
                 context.Users.Update(user);
 
                 context.SaveChanges();

@@ -241,39 +241,89 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
 
         }
 
-        public void AddUserRelation(string followeeId, string loginUser)
+        
+        public void Follow(string followeeid, string loginuser)
         {
-            // Assuming context is your DbContext instance
-            ApplicationUser followerUser = context.Users.FirstOrDefault(u => u.Id == loginUser);
-            ApplicationUser followingUser = context.Users.FirstOrDefault(u => u.Id == followeeId);
+            // assuming context is your dbcontext instance
+            ApplicationUser followeruser = context.Users.FirstOrDefault(u => u.Id == loginuser);
+            ApplicationUser followinguser = context.Users.FirstOrDefault(u => u.Id == followeeid);
 
-            if (followingUser != null && followerUser != null)
+            if (followinguser != null && followeruser != null)
             {
-                // Check if the relationship already exists
-                bool alreadyExists = context.UserRelationship.Any(ur => ur.FollowerId == followerUser.Id && ur.FolloweeId == followingUser.Id);
+                // check if the relationship already exists
+                bool alreadyexists = context.UserRelationship.Any(ur => ur.FollowerId == followeruser.Id && ur.FolloweeId == followinguser.Id);
 
-                if (!alreadyExists)
+                if (!alreadyexists)
                 {
                     var relation = new UserRelationship
                     {
-                        IsDeleted = false, // Assuming default value
-                        FolloweeId = followingUser.Id,
-                        FollowerId = followerUser.Id
+                        IsDeleted = false, // assuming default value
+                        FolloweeId = followinguser.Id,
+                        FollowerId = followeruser.Id
                     };
 
+                    //var relation2 = new userrelationship
+                    //{
+                    //    isdeleted = false, // assuming default value
+                    //    followerid = followinguser.id,
+                    //    followeeid = followeruser.id
+                    //};
+
+                    //context.userrelationship.add(relation2);
+
                     context.UserRelationship.Add(relation);
-                    context.SaveChanges();
+                    Save();
+                    //context.savechanges();
                 }
                 else
                 {
-                    // Handle case where the relationship already exists
-                    // You can add logging or throw an exception here
+                    // handle case where the relationship already exists
+                    // you can add logging or throw an exception here
                 }
             }
             else
             {
-                // Handle case where either followerUser or followingUser is null
-                // You can add logging or throw an exception here
+                // handle case where either followeruser or followinguser is null
+                // you can add logging or throw an exception here
+            }
+        }
+
+       // followback
+        public void followback(string followeeid, string loginuser)
+        {
+            // assuming context is your dbcontext instance
+            ApplicationUser followeruser = context.Users.FirstOrDefault(u => u.Id == loginuser);
+            ApplicationUser followinguser = context.Users.FirstOrDefault(u => u.Id == followeeid);
+
+            if (followinguser != null && followeruser != null)
+            {
+                // check if the relationship already exists
+                bool alreadyexists = context.UserRelationship.Any(ur => ur.FollowerId == followeruser.Id && ur.FolloweeId == followinguser.Id);
+
+                if (!alreadyexists)
+                {
+
+                    var relation2 = new UserRelationship
+                    {
+                        IsDeleted = false, // assuming default value
+                        FollowerId = followinguser.Id,
+                        FolloweeId = followeruser.Id
+                    };
+
+                    context.UserRelationship.Add(relation2);
+                    Save();
+                    //context.savechanges();
+                }
+                else
+                {
+                    // handle case where the relationship already exists
+                    // you can add logging or throw an exception here
+                }
+            }
+            else
+            {
+                // handle case where either followeruser or followinguser is null
+                // you can add logging or throw an exception here
             }
         }
 
@@ -333,11 +383,15 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
 
         public List<ApplicationUser> GetNonFollowees(string id)
         {
-        List<ApplicationUser> allUsers = context.Users.Include(u => u.ProfilePicture).ToList();
+        List<ApplicationUser> allUsers = context.Users
+                .Where(u=>u.IsDeleted==false)
+                .Include(u => u.ProfilePicture)
+                .ToList();
 
             // Get the IDs of the users followed by the given user
             List<string> followedUserIds = context.UserRelationship
-                .Where(ur => ur.FollowerId == id && ur.Followee.IsDeleted == false && ur.IsDeleted == false)
+                .Where(ur => ur.FollowerId == id && ur.Followee.IsDeleted == false 
+                && ur.IsDeleted == false && ur.Follower.IsDeleted==false)
                 .Select(ur => ur.FolloweeId)
                 .ToList();
 
@@ -347,13 +401,36 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
             return nonFollowedUsers;
 
         }
+        //public List<ApplicationUser> GetNonFolloweesFromFriendProfile(string id)
+        //{
+        //    List<ApplicationUser> allUsers = context.Users.Include(u => u.ProfilePicture).ToList();
+
+        //    // Get the IDs of the users followed by the given user
+        //    List<string> followedUserIds = context.UserRelationship
+        //        .Where(ur => ur.FollowerId == id && ur.Followee.IsDeleted == false && ur.IsDeleted == false)
+        //        .Select(ur => ur.FolloweeId)
+        //        .ToList();
+
+        //    // Remove followed users from the list of all users
+        //    var nonFollowedUsers = allUsers.Where(u => !followedUserIds.Contains(u.Id) && u.Id != id).ToList();
+
+        //    return nonFollowedUsers;
+
+        //}
+
+
+
         public List<ApplicationUser> GetAppUserFollowees(string id)
         {
-            List<ApplicationUser> allUsers = context.Users.Include(u => u.ProfilePicture).ToList();
+            List<ApplicationUser> allUsers = context.Users
+                 .Where(u => u.IsDeleted == false)
+                .Include(u => u.ProfilePicture)
+                .ToList();
 
             // Get the IDs of the users followed by the given user
             List<string> followedUserIds = context.UserRelationship
-                .Where(ur => ur.FollowerId == id && ur.Followee.IsDeleted == false && ur.IsDeleted == false)
+                .Where(ur => ur.FollowerId == id && ur.Followee.IsDeleted == false
+                && ur.IsDeleted == false && ur.Follower.IsDeleted == false)
                 .Select(ur => ur.FolloweeId)
                 .ToList();
 
@@ -362,9 +439,6 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
 
             return followedUsers;
         }
-
-
-
 
         public List<ApplicationUser> GetRandomlyTopFive(string id)
         {
@@ -378,5 +452,7 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
             // Return up to 5 users, or all users if less than 5
             return shuffledUsers.Take(5).ToList();
         }
+
+  
     }
 }

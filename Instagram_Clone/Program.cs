@@ -87,7 +87,7 @@ namespace Instagram_Clone
             // The Hub
             app.MapHub<ChatterHub>("/ChatH");
             app.MapHub<PostHub>("/PostH");
-
+            app.MapHub<NotificationHub>("/NotificationHub");
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
