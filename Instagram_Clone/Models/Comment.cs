@@ -8,6 +8,7 @@ namespace Instagram_Clone.Models
         public int Id { get; set; }
         public bool IsDeleted { get; set; } = false;
 
+
         public string Content { get; set; }
         public DateTime Date { get; set; } = DateTime.Now;
 
@@ -15,6 +16,7 @@ namespace Instagram_Clone.Models
         public string UserId { get; set; }
         public ApplicationUser User { get; set; }
 
+        
 
         [ForeignKey("Post")]
         public int PostId { get; set; }

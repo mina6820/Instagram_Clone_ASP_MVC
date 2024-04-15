@@ -25,6 +25,7 @@ namespace Instagram_Clone.Hubs
             var senderId = Context.UserIdentifier;
 
 
+
             //create new message
             Instagram_Clone.Models.Message message = new Instagram_Clone.Models.Message
             {

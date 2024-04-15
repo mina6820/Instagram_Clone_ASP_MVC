@@ -1,6 +1,8 @@
 using Instagram_Clone.Repositories.PostRepo;
+using Instagram_Clone.Repositories.StoryRepo;
 using Instagram_Clone.Repositories.UserFollowRepo;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
@@ -14,6 +16,7 @@ namespace Instagram_Clone.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IPostRepository postRepository;
+        private readonly IStoryRepository storyRepository;
         private readonly Context context;
         private IUserRelationshipRepository userRelationshipRepository;
 
@@ -22,13 +25,13 @@ namespace Instagram_Clone.Controllers
         /// messi
         /// </summary>
         /// <param name="logger"></param>
-        public HomeController(ILogger<HomeController> logger , IPostRepository postRepository, Context context, IUserRelationshipRepository _userRelationship)
+        public HomeController(IStoryRepository _storyRepository,ILogger<HomeController> logger , IPostRepository postRepository, Context context, IUserRelationshipRepository _userRelationship)
         {
             _logger = logger;
             this.postRepository = postRepository;
             this.context = context;
             userRelationshipRepository = _userRelationship;
-
+            storyRepository = _storyRepository;
         }
 
         public IActionResult Index()
@@ -98,9 +101,17 @@ namespace Instagram_Clone.Controllers
 
             ViewBag.Users = AllUsers;
             ViewBag.UserName = user3.UserName;
-            ViewBag.picture = user3.ProfilePicture.Name;
-            
+            //ViewBag.picture = user3.ProfilePicture.Name;
 
+
+
+            // Story
+            //List<Story> stories = storyRepository.GetAll();
+            //var user = await userManager.GetUserAsync(User);
+            var userId = user.Id;
+
+            var stories = storyRepository.GetAllStories(userId);
+            ViewBag.Stories = stories;
             return View();
 
         }

@@ -133,7 +133,7 @@ namespace Instagram_Clone.Controllers
                 ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim.Value);
                 //ViewBag.LoggedInUserId= user2.Id;
                 userRelationshipRepository.GetFollowingRelationship(id,user2.Id);
-             
+                
             }
             return RedirectToAction("Index","Profile");
         }

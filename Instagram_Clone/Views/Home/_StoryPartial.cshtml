@@ -1,4 +1,4 @@
-﻿<div class="stories">
+﻿@* <div class="stories">
     <div class="owl-carousel items">
         <div class="item_s">
             <img src="https://fakeimg.pl/300/">
@@ -8,8 +8,106 @@
     </div>
 
 </div>
+ *@
 
 
 
+ <div class="stories">
 
 
+    <div class="owl-carousel">
+        <!-- Corrected class name -->
+        <div class="story">
+            <a asp-action="Add" asp-controller="Story">
+                <img src="data:image/png;base64,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" />
+            </a>
+        </div>
+
+        @foreach (var story in ViewBag.Stories)
+        {
+            <div class="story">
+                <img src="https://fakeimg.pl/300/" alt="Story 1">
+            </div>
+        }
+
+
+
+    </div>
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-Xn7wbl9jMchZnyxOdK0/ty6T/F7Mb3uID+lcSULm77qcv+o2Nm6iZIvHVZ5lcS2HHlFJwM3GOhJnmZ2hzyh0ug==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .story-container {
+        display: flex;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding: 5px;
+    }
+
+    .story {
+        margin: 0px !important;
+        border-radius: 50%;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border: 2px solid #ff0566;
+    }
+
+        .story img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+    .owl-stage {
+        display: flex;
+
+        gap: 20px;
+
+    }
+
+    .owl-item {
+        width: 75px !important;
+    }
+
+        .owl-item.active {
+            width: 75px !important;
+        }
+
+    .owl-carousel .owl-stage:after {
+        content: '';
+        display: none;
+    }
+
+</style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script>
+    jQuery(document).ready(function ($) {
+        $('.owl-carousel').owlCarousel({
+            loop: false,
+            margin: 10,
+            nav: true,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                600: {
+                    items: 3
+                },
+                1000: {
+                    items: 5
+                }
+            }
+        })
+     });
+    </script>
