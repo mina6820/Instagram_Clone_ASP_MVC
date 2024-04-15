@@ -241,90 +241,91 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
 
         }
 
-        //public void Follow(string followeeId, string loginUser)
-        //{
-        //    // Assuming context is your DbContext instance
-        //    ApplicationUser followerUser = context.Users.FirstOrDefault(u => u.Id == loginUser);
-        //    ApplicationUser followingUser = context.Users.FirstOrDefault(u => u.Id == followeeId);
+        
+        public void Follow(string followeeid, string loginuser)
+        {
+            // assuming context is your dbcontext instance
+            ApplicationUser followeruser = context.Users.FirstOrDefault(u => u.Id == loginuser);
+            ApplicationUser followinguser = context.Users.FirstOrDefault(u => u.Id == followeeid);
 
-        //    if (followingUser != null && followerUser != null)
-        //    {
-        //        // Check if the relationship already exists
-        //        bool alreadyExists = context.UserRelationship.Any(ur => ur.FollowerId == followerUser.Id && ur.FolloweeId == followingUser.Id);
+            if (followinguser != null && followeruser != null)
+            {
+                // check if the relationship already exists
+                bool alreadyexists = context.UserRelationship.Any(ur => ur.FollowerId == followeruser.Id && ur.FolloweeId == followinguser.Id);
 
-        //        if (!alreadyExists)
-        //        {
-        //            var relation = new UserRelationship
-        //            {
-        //                IsDeleted = false, // Assuming default value
-        //                FolloweeId = followingUser.Id,
-        //                FollowerId = followerUser.Id
-        //            };
+                if (!alreadyexists)
+                {
+                    var relation = new UserRelationship
+                    {
+                        IsDeleted = false, // assuming default value
+                        FolloweeId = followinguser.Id,
+                        FollowerId = followeruser.Id
+                    };
 
-        //            //var relation2 = new UserRelationship
-        //            //{
-        //            //    IsDeleted = false, // Assuming default value
-        //            //    FollowerId = followingUser.Id,
-        //            //    FolloweeId = followerUser.Id
-        //            //};
+                    //var relation2 = new userrelationship
+                    //{
+                    //    isdeleted = false, // assuming default value
+                    //    followerid = followinguser.id,
+                    //    followeeid = followeruser.id
+                    //};
 
-        //            //context.UserRelationship.Add(relation2);
+                    //context.userrelationship.add(relation2);
 
-        //            context.UserRelationship.Add(relation);
-        //            Save();
-        //            //context.SaveChanges();
-        //        }
-        //        else
-        //        {
-        //            // Handle case where the relationship already exists
-        //            // You can add logging or throw an exception here
-        //        }
-        //    }
-        //    else
-        //    {
-        //        // Handle case where either followerUser or followingUser is null
-        //        // You can add logging or throw an exception here
-        //    }
-        //}
+                    context.UserRelationship.Add(relation);
+                    Save();
+                    //context.savechanges();
+                }
+                else
+                {
+                    // handle case where the relationship already exists
+                    // you can add logging or throw an exception here
+                }
+            }
+            else
+            {
+                // handle case where either followeruser or followinguser is null
+                // you can add logging or throw an exception here
+            }
+        }
 
-        //FollowBack
-        //public void FollowBack(string followeeId, string loginUser)
-        //{
-        //    // Assuming context is your DbContext instance
-        //    ApplicationUser followerUser = context.Users.FirstOrDefault(u => u.Id == loginUser);
-        //    ApplicationUser followingUser = context.Users.FirstOrDefault(u => u.Id == followeeId);
+       // followback
+        public void followback(string followeeid, string loginuser)
+        {
+            // assuming context is your dbcontext instance
+            ApplicationUser followeruser = context.Users.FirstOrDefault(u => u.Id == loginuser);
+            ApplicationUser followinguser = context.Users.FirstOrDefault(u => u.Id == followeeid);
 
-        //    if (followingUser != null && followerUser != null)
-        //    {
-        //        // Check if the relationship already exists
-        //        bool alreadyExists = context.UserRelationship.Any(ur => ur.FollowerId == followerUser.Id && ur.FolloweeId == followingUser.Id);
+            if (followinguser != null && followeruser != null)
+            {
+                // check if the relationship already exists
+                bool alreadyexists = context.UserRelationship.Any(ur => ur.FollowerId == followeruser.Id && ur.FolloweeId == followinguser.Id);
 
-        //        if (!alreadyExists)
-        //        {
+                if (!alreadyexists)
+                {
 
-        //            var relation2 = new UserRelationship
-        //            {
-        //                IsDeleted = false, // Assuming default value
-        //                FollowerId = followingUser.Id,
-        //                FolloweeId = followerUser.Id
-        //            };
+                    var relation2 = new UserRelationship
+                    {
+                        IsDeleted = false, // assuming default value
+                        FollowerId = followinguser.Id,
+                        FolloweeId = followeruser.Id
+                    };
 
-        //            context.UserRelationship.Add(relation2);
-        //            Save();
-        //            //context.SaveChanges();
-        //        }
-        //        else
-        //        {
-        //            // Handle case where the relationship already exists
-        //            // You can add logging or throw an exception here
-        //        }
-        //    }
-        //    else
-        //    {
-        //        // Handle case where either followerUser or followingUser is null
-        //        // You can add logging or throw an exception here
-        //    }
-        //}
+                    context.UserRelationship.Add(relation2);
+                    Save();
+                    //context.savechanges();
+                }
+                else
+                {
+                    // handle case where the relationship already exists
+                    // you can add logging or throw an exception here
+                }
+            }
+            else
+            {
+                // handle case where either followeruser or followinguser is null
+                // you can add logging or throw an exception here
+            }
+        }
 
         //////////////////////////////////////////////////////////////
 
@@ -451,5 +452,7 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
             // Return up to 5 users, or all users if less than 5
             return shuffledUsers.Take(5).ToList();
         }
+
+  
     }
 }
