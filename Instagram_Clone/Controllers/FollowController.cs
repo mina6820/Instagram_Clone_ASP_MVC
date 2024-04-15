@@ -424,7 +424,7 @@ namespace Instagram_Clone.Controllers
 
 
             //Add relation 
-            userRelationshipRepository.Follow(followID, userID);
+           // userRelationshipRepository.Follow(followID, userID);
             return RedirectToAction("Index", "Profile");
         }
 

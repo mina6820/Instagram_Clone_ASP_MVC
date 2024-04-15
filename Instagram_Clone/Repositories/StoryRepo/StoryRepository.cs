@@ -1,4 +1,6 @@
-﻿namespace Instagram_Clone.Repositories.StoryRepo
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace Instagram_Clone.Repositories.StoryRepo
 {
     public class StoryRepository :Repository<Story> , IStoryRepository
     {
@@ -18,10 +20,21 @@
 
             // Retrieve stories posted by the users you are following
             var stories = context.Stories
+                                .Include(s => s.User)
                                .Where(s => followingIds.Contains(s.UserId))
                                .ToList();
 
             return stories;
         }
+
+        public List<Story> GetMyStories(string id)
+        {
+            return context
+                .Stories
+                .Include(s => s.User)
+                .Where(s => s.UserId == id)
+                .ToList();
+        }
+
     }
 }

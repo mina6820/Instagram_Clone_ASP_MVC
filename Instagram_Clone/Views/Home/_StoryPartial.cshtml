@@ -23,10 +23,16 @@
             </a>
         </div>
 
+        @foreach (var story in ViewBag.myStories)
+        {
+            <div class="story">
+                <img src="~/images/@story.User.ProfilePicture?.Name" alt="Story">
+            </div>
+        }
         @foreach (var story in ViewBag.Stories)
         {
             <div class="story">
-                <img src="https://fakeimg.pl/300/" alt="Story 1">
+                <img src="~/images/@story.User.ProfilePicture?.Name" alt="Story">
             </div>
         }
 

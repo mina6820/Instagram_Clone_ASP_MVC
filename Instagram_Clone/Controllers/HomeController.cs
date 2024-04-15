@@ -107,11 +107,13 @@ namespace Instagram_Clone.Controllers
 
 
             // Story
-            //List<Story> stories = storyRepository.GetAll();
-            //var user = await userManager.GetUserAsync(User);
             var userId = user.Id;
 
+            var myStories = storyRepository.GetMyStories(userId);
+
             var stories = storyRepository.GetAllStories(userId);
+
+            ViewBag.myStories = myStories;
             ViewBag.Stories = stories;
             return View();
 
