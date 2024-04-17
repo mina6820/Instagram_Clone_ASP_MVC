@@ -21,9 +21,13 @@ namespace Instagram_Clone.Controllers
             this.webHostEnvironment = webHostEnvironment;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var stories = storyRepository.GetAll();
+            var user = await userManager.GetUserAsync(User);
+            var userId = user.Id;
+
+            var stories = storyRepository.GetAllStories(userId);
+
             return View(stories);
         }
 
@@ -69,5 +73,7 @@ namespace Instagram_Clone.Controllers
 
             return View("saveAdd", story);
         }
+
+
     }
 }

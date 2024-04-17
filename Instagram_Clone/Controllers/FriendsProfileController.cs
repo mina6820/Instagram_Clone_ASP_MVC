@@ -77,7 +77,7 @@ namespace Instagram_Clone.Controllers
 
             ViewBag.Users = AllUsers;
             ViewBag.UserName = user3.UserName;
-            ViewBag.picture = user3.ProfilePicture.Name;
+            ViewBag.picture = user3.ProfilePicture?.Name;
 
             return View("Index", profileUserViewModel);
             
