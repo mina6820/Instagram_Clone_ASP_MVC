@@ -17,12 +17,12 @@
 
     <form class="form-inline" id="searchForm" method="get" asp-action="SearchFollower" asp-controller="FriendsProfile" asp-route-Id="@Model.Id">
         <input class="form-control me-2" placeholder="Search..." id="NameSearch" name="Name" type="text">
-        <input type="submit" class="btn btn-primary btn-sm mt-1" value="Search">
-    </form>
+@*         <input type="submit" class="btn btn-primary btn-sm mt-1" value="Search">
+ *@    </form>
 
-    <div class="container mt-5" ">
+    <div  class="container mt-5" ">
         <div class="d-flex justify-content-center row">
-            <div class="col-md-6">
+            <div id="searchResults" class="col-md-6">
 
     @foreach (var follower in Model.Followers)
     {
@@ -80,3 +80,34 @@
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 </body>
 </html>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var input = document.getElementById("NameSearch");
+        var userId = ""; // You need to set this value to the current user's Id
+
+        input.addEventListener("input", function () {
+            // Fetch data using AJAX based on the search input
+            var searchTerm = input.value;
+            // Example AJAX call
+            // Replace this with your actual AJAX call to fetch followers based on search term
+            fetch("/FriendsProfile/SearchFollower?Name=" + searchTerm + "&Id=" + userId)
+                .then(response => response.text())
+                .then(data => {
+                    // Create a temporary element to hold the fetched data
+                    var tempElement = document.createElement('div');
+                    tempElement.innerHTML = data;
+                    // Select only the elements you want to append
+                    var followers = tempElement.querySelectorAll('.p-3.bg-white.text-center');
+                    // Append each follower element to the existing content
+                    document.getElementById("searchResults").innerHTML = "";
+                    followers.forEach(function (follower) {
+                        document.getElementById("searchResults").appendChild(follower);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+    });
+</script>

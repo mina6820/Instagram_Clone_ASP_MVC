@@ -1,0 +1,225 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Slide Stories</title>
+    <style>
+        /* CSS Styles */
+        :root {
+            --background-color: #1b1d20;
+            --slide-width: 344px;
+            --slide-shadow: 0 4px 20px 2px rgba(0, 0, 0, 0.4);
+            --slide-thumb-height: 3px;
+            --slide-thumb-default-color: rgba(0, 0, 0, 0.4);
+            --slide-thumb-active-color: rgba(255, 255, 255, 0.9);
+        }
+
+        body {
+            background-color: var(--background-color);
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+        .slide {
+            box-shadow: var(--slide-width);
+            display: grid;
+            margin: 20px auto;
+            max-width: var(--slide-width);
+        }
+
+        .slide-items {
+            border-radius: 5px;
+            grid-area: 1/1;
+            overflow: hidden;
+            position: relative;
+        }
+
+            .slide-items > * {
+                opacity: 0;
+                pointer-events: none;
+                position: absolute;
+                top: 0;
+            }
+
+            .slide-items .active {
+                opacity: 1;
+                pointer-events: initial;
+                position: relative;
+            }
+
+        .slide-nav {
+            display: grid;
+            grid-area: 1/1;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto 1fr;
+            z-index: 1;
+        }
+
+        .slide-thumbs {
+            display: flex;
+            grid-column: 1 / 3;
+        }
+
+        .slide-thumb-item {
+            background-color: var(--slide-thumb-default-color);
+            border-radius: 3px;
+            display: block;
+            flex: 1;
+            height: var(--slide-thumb-height);
+            margin: 5px;
+            overflow: hidden;
+        }
+
+            .slide-thumb-item.active::after {
+                animation: thumb 10s forwards linear;
+                background-color: var(--slide-thumb-active-color);
+                border-radius: 3px;
+                content: '';
+                display: block;
+                height: inherit;
+                transform: translateX(-100%);
+            }
+
+        .slide-next,
+        .slide-prev {
+            opacity: 0;
+            -webkit-appearance: none;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+
+        @@keyframes thumb {
+            to {
+                transform: initial;
+            }
+        }
+
+        audio {
+            filter: sepia(20%) saturate(70%) grayscale(1) contrast(99%) invert(12%);
+            width: 200px;
+            height: 25px;
+            margin: 0 auto;
+        }
+
+        #audioPlayer::-webkit-media-controls-time-remaining-display {
+            display: none;
+        }
+
+        #audioPlayer::-webkit-media-controls-current-time-display {
+            display: none;
+        }
+
+/*         h1 {
+            color: #ffffff;
+            font-size: 1.5em;
+            position: relative;
+            z-index: 1000;
+            top: 70px;
+            left: 500;
+        } */
+
+        h1 {
+            text-align: center; /* Center the text */
+            color: #ffffff; /* White text color */
+            font-size: 1.5em; /* Adjust font size */
+            position: relative; /* Set position to relative */
+            z-index: 1000; /* Set z-index to be above other elements */
+            top: 70px; /* Move the element up by 20 pixels */
+            left: -100px; /* Move the element to the right by 20 pixels */
+        }
+    </style>
+</head>
+<body>
+    <h1>@ViewBag.TimeSinceCreation</h1>
+
+    <div data-slide="slide" class="slide">
+
+        <div class="slide-items">
+
+            <img src="~/images/@ViewBag.StoryPic" alt="Cat 1">
+
+        </div>
+            <audio controls autoplay id="audioPlayer">
+            <source src="~/audio/@ViewBag.audio" type="audio/mpeg">
+            </audio>
+
+        <nav class="slide-nav">
+            <div class="slide-thumbs"></div>
+            <button class="slide-prev">Previous</button>
+            <button class="slide-next">Next</button>
+        </nav>
+    </div>
+
+    <script>
+        // JavaScript Code
+        class SlideStories {
+            constructor(id) {
+                this.slide = document.querySelector(`[data-slide=${id}]`);
+                this.active = 0;
+                this.init();
+            }
+
+            activeSlide(index) {
+                this.active = index;
+                this.items.forEach((item) => item.classList.remove('active'));
+                this.items[index].classList.add('active');
+                this.thumbItems.forEach((item) => item.classList.remove('active'));
+                this.thumbItems[index].classList.add('active');
+                this.autoSlide();
+            }
+
+            next() {
+                if (this.active < this.items.length - 1) {
+                    this.activeSlide(this.active + 1);
+                } else {
+                    this.activeSlide(0);
+                }
+            }
+
+            prev() {
+                if (this.active > 0) {
+                    this.activeSlide(this.active - 1);
+                } else {
+                    this.activeSlide(this.items.length - 1);
+                }
+            }
+
+            addNavigation() {
+                const nextBtn = this.slide.querySelector('.slide-next');
+                const prevBtn = this.slide.querySelector('.slide-prev');
+                nextBtn.addEventListener('click', this.next.bind(this));
+                prevBtn.addEventListener('click', this.prev.bind(this));
+            }
+
+            addThumbItems() {
+                this.items.forEach(() => (this.thumb.innerHTML += `<span class="slide-thumb-item"></span>`));
+                this.thumbItems = Array.from(this.thumb.children);
+            }
+
+
+            autoSlide() {
+                clearTimeout(this.timeout);
+                this.timeout = setTimeout(() => {
+                    window.location.href = '/';
+                }, 10000);
+            }
+            init() {
+                this.items = this.slide.querySelectorAll('.slide-items > *');
+                this.thumb = this.slide.querySelector('.slide-thumbs');
+                this.addThumbItems();
+                this.activeSlide(0);
+                this.addNavigation();
+            }
+        }
+
+        new SlideStories('slide');
+    </script>
+
+</body>
+</html>

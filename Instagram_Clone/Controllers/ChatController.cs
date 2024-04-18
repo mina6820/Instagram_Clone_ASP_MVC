@@ -28,10 +28,11 @@ namespace Instagram_Clone.Controllers
 
             ViewBag.UserName = currentUser?.UserName;
             ViewBag.SenderId = currentUser?.Id;
-
+            
+            
 
             return View("Index",chats);
-
+            
         }
 
         public async Task<IActionResult> OpenChat(string senderId, int chatId, string receiverId)

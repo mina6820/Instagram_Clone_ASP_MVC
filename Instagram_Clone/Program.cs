@@ -19,7 +19,7 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-
+using Microsoft.Extensions.Hosting;
 namespace Instagram_Clone
 {
     public class Program
@@ -62,6 +62,7 @@ namespace Instagram_Clone
             builder.Services.AddScoped<NotificationHub>();
             //builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 
+            builder.Services.AddHostedService<StoryExpirationService>();
 
             // builder.Services.AddSingleton<IUserIdProvider, CustomEmailProvider>();
 

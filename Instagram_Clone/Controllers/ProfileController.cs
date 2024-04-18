@@ -90,7 +90,7 @@ namespace Instagram_Clone.Controllers
 
             //    user.ProfilePicture = profilePhoto;
             //}
-            editUserViewMode.ImgName = user.ProfilePicture.Name;
+            editUserViewMode.ImgName = user.ProfilePicture?.Name;
             return View("Edit", editUserViewMode);
 
         }
