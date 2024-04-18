@@ -85,10 +85,10 @@ namespace Instagram_Clone.Controllers
             storyRepository.Save();
 
 
-            return View("saveAdd", story);
+            return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult OpenStory(string storyPic, DateTime time) 
+        public IActionResult OpenStory(string storyPic, DateTime time, string audio) 
         {
 
 
@@ -108,8 +108,11 @@ namespace Instagram_Clone.Controllers
                 timeSinceCreationString = $"{(int)timeSinceCreation.TotalDays} days ago";
             }
 
+
+
             ViewBag.TimeSinceCreation = timeSinceCreationString;
             ViewBag.StoryPic = storyPic;
+            ViewBag.audio = Path.GetFileName(audio);
 
             return View("OpenStory"); 
         }

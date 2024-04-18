@@ -26,7 +26,7 @@
         @foreach (var story in ViewBag.myStories)
         {
             <div class="story">
-                <a asp-action="OpenStory" asp-controller="story" asp-route-storyPic="@story.Photo.Name" asp-route-time="@story.CreatedAt">
+                <a asp-action="OpenStory" asp-controller="story" asp-route-storyPic="@story.Photo.Name" asp-route-time="@story.CreatedAt" asp-route-audio="@story.AudioPath">
                     <img src="~/images/@story.User.ProfilePicture?.Name" alt="Story">
 
                 </a>

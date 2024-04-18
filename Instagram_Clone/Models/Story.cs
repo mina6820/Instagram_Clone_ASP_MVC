@@ -34,7 +34,7 @@ namespace Instagram_Clone.Models
             set => LifeTimeTicks = value.Ticks;
         }
 
-        public string AudioPath { get; set; }
+        public string? AudioPath { get; set; }
 
 
         public void CheckExpiration()
