@@ -40,8 +40,6 @@ namespace Instagram_Clone.Hubs
             await MessageRepository.InsertAsync(message);
             MessageRepository.Save(); 
 
-
-
             // Send the message to the specified user
             //await Clients.Users(senderId,receiverId).SendAsync("ReceiveMessage", messageInput);
 

@@ -103,7 +103,9 @@ namespace Instagram_Clone.Controllers
             
             return View();
 
+
         }
+
 
         public IActionResult SearchUsers(string Name)
         {

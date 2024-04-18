@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Instagram_Clone.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20240414161821_InitialCreate-Force")]
-    partial class InitialCreateForce
+    [Migration("20240418185937_AddFollowRequestsTable")]
+    partial class AddFollowRequestsTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -171,6 +171,37 @@ namespace Instagram_Clone.Migrations
                     b.ToTable("Comments");
                 });
 
+            modelBuilder.Entity("Instagram_Clone.Models.FollowRequest_notification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsAccepted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ReceiverId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SenderId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReceiverId");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("FollowRequest_notifications");
+                });
+
             modelBuilder.Entity("Instagram_Clone.Models.Like", b =>
                 {
                     b.Property<int>("Id")
@@ -241,43 +272,6 @@ namespace Instagram_Clone.Migrations
                     b.HasIndex("photoId");
 
                     b.ToTable("Messages");
-                });
-
-            modelBuilder.Entity("Instagram_Clone.Models.Notification", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(13)
-                        .HasColumnType("nvarchar(13)");
-
-                    b.Property<string>("ReceiverId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("SenderId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReceiverId");
-
-                    b.HasIndex("SenderId");
-
-                    b.ToTable("Notifications");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Notification");
-
-                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Instagram_Clone.Models.Post", b =>
@@ -641,16 +635,6 @@ namespace Instagram_Clone.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Instagram_Clone.Models.FollowRequest", b =>
-                {
-                    b.HasBaseType("Instagram_Clone.Models.Notification");
-
-                    b.Property<bool>("IsAccepted")
-                        .HasColumnType("bit");
-
-                    b.HasDiscriminator().HasValue("FollowRequest");
-                });
-
             modelBuilder.Entity("Instagram_Clone.Authentication.ApplicationUser", b =>
                 {
                     b.HasOne("Instagram_Clone.Models.photo.profilePhoto", "ProfilePicture")
@@ -696,6 +680,25 @@ namespace Instagram_Clone.Migrations
                     b.Navigation("Post");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Instagram_Clone.Models.FollowRequest_notification", b =>
+                {
+                    b.HasOne("Instagram_Clone.Authentication.ApplicationUser", "Receiver")
+                        .WithMany()
+                        .HasForeignKey("ReceiverId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Instagram_Clone.Authentication.ApplicationUser", "Sender")
+                        .WithMany()
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Receiver");
+
+                    b.Navigation("Sender");
                 });
 
             modelBuilder.Entity("Instagram_Clone.Models.Like", b =>
@@ -748,25 +751,6 @@ namespace Instagram_Clone.Migrations
                     b.Navigation("Sender");
 
                     b.Navigation("chat");
-                });
-
-            modelBuilder.Entity("Instagram_Clone.Models.Notification", b =>
-                {
-                    b.HasOne("Instagram_Clone.Authentication.ApplicationUser", "Receiver")
-                        .WithMany()
-                        .HasForeignKey("ReceiverId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Instagram_Clone.Authentication.ApplicationUser", "Sender")
-                        .WithMany()
-                        .HasForeignKey("SenderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Receiver");
-
-                    b.Navigation("Sender");
                 });
 
             modelBuilder.Entity("Instagram_Clone.Models.Post", b =>

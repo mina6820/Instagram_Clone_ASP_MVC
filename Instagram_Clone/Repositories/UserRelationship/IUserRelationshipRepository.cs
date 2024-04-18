@@ -24,14 +24,15 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
         public void GetFollowersRelationship(string followerId, string LoginUsrer);
         public List<ApplicationUser> GetFollowersAndFollowings(string id);
 
-       // public void Follow(string followeeId, string loginUser);
+        //public  Task Follow(string followeeId, string followerId);
 
+        //public void Follow(string followeeid, string loginuser);
 
 
         public List<ApplicationUser> GetNonFollowees(string id);
         public List<ApplicationUser> GetRandomlyTopFive(string id);
         public List<ApplicationUser> GetAppUserFollowees(string id);
-       // public List<ApplicationUser> GetNonFolloweesFromFriendProfile(string id);
+        // public List<ApplicationUser> GetNonFolloweesFromFriendProfile(string id);
         //public List<ApplicationUser> GetMutualFollowers(string loggedInUserId, string friendUserId);
         //public List<ApplicationUser> GetNonMutualFollowers(string loggedInUserId, string friendUserId);
         //public List<ApplicationUser> GetNonMutualFollowers(string loggedInUserId, string friendUserId);
@@ -45,6 +46,9 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
 
         //public void removeFollower(string id);
         //public void removeFollowing(string id);
+
+        public  Task<bool> IsFollowing(string followerId, string followeeId);
+        public  Task Follow(string followeeId, string followerId);
 
 
 

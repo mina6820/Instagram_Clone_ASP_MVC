@@ -23,8 +23,6 @@ namespace Instagram_Clone.Controllers
         public async Task<IActionResult> Index()
         {
             ApplicationUser currentUser = await userManager.GetUserAsync(User);
-            
-
             List<Chat> chats = messageRepository.GetAllChats(currentUser.Id);
 
 
@@ -63,8 +61,6 @@ namespace Instagram_Clone.Controllers
 
             return View();
         }
-
-
 
     }
 }

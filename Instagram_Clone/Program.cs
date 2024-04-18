@@ -4,6 +4,7 @@ using Instagram_Clone.Repositories.ChatRepo;
 using Instagram_Clone.Repositories.CommentRepo;
 using Instagram_Clone.Repositories.LikeRepo;
 using Instagram_Clone.Repositories.MessageRepo;
+//using Instagram_Clone.Repositories.NotificationRepo;
 using Instagram_Clone.Repositories.PhotoRepo;
 using Instagram_Clone.Repositories.PhotoRepo.message;
 using Instagram_Clone.Repositories.PhotoRepo.postPhotoContainer;
@@ -57,13 +58,20 @@ namespace Instagram_Clone
             builder.Services.AddScoped<IStoryViewRepository, StoryViewRepository>();
             builder.Services.AddScoped<IpostPhotoRepository, postPhotoRepository>();
             builder.Services.AddScoped<IChatRepository, ChatRepository>();
-
+            // builder.Services.AddScoped<IFollowRequestRepository,FollowRequestRepository>();
+            builder.Services.AddScoped<NotificationHub>();
+            //builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 
 
             // builder.Services.AddSingleton<IUserIdProvider, CustomEmailProvider>();
 
 
             builder.Services.AddSignalR();
+            //builder.Services.AddSignalR().AddHubOptions<NotificationHub>(options =>
+            //{
+            //    options.ClientTimeoutInterval = TimeSpan.FromSeconds(30);
+            //});
+
             builder.Services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
 
 
