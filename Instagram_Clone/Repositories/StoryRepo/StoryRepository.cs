@@ -21,6 +21,8 @@ namespace Instagram_Clone.Repositories.StoryRepo
             // Retrieve stories posted by the users you are following
             var stories = context.Stories
                                 .Include(s => s.User)
+                                .Include(s=> s.Photo)
+                                .Where(s=> s.IsDeleted == false)
                                .Where(s => followingIds.Contains(s.UserId))
                                .ToList();
 
@@ -32,6 +34,8 @@ namespace Instagram_Clone.Repositories.StoryRepo
             return context
                 .Stories
                 .Include(s => s.User)
+                .Include(s => s.Photo)
+                .Where(s => s.IsDeleted == false)
                 .Where(s => s.UserId == id)
                 .ToList();
         }

@@ -19,7 +19,7 @@ namespace Instagram_Clone.Models
         public DateTime CreatedAt { get; set; }
 
         public long LifeTimeTicks { get; set; }
-        public bool IsDeleted { get; set; }
+        public bool IsDeleted { get; set; } = false;
 
         [ForeignKey("User")]
         public string UserId { get; set; }
@@ -32,6 +32,19 @@ namespace Instagram_Clone.Models
         {
             get => TimeSpan.FromTicks(LifeTimeTicks);
             set => LifeTimeTicks = value.Ticks;
+        }
+
+        public string AudioPath { get; set; }
+
+
+        public void CheckExpiration()
+        {
+            TimeSpan timeSinceCreation = DateTime.Now - CreatedAt;
+
+            if (timeSinceCreation.TotalHours >= 24)
+            {
+                IsDeleted = true;
+            }
         }
     }
 }
