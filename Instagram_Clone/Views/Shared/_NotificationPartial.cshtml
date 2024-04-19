@@ -1,46 +1,32 @@
-﻿<div id="notification" class="notification_section">
-    <h2>Notifications</h2>
-    <div class="notifications">
-        <div class="notif follow_notif">
-            <div class="cart">
-                <div>
-                    <div class="img">
-                        <img src="/images/profile_img.jpg" alt="">
-                    </div>
-                    <div class="info">
-                        <p class="name">
-                            Zineb_essoussi
-                            <span class="desc">started following you.</span>
-                            <span class="time">2h</span>
-                        </p>
-
-                    </div>
-                </div>
-                <div class="follow_you">
-                    <button class="follow_text">Follow</button>
-                </div>
-            </div>
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Your head section with necessary meta tags, title, and CSS links -->
+</head>
+<body>
+    <div id="notification" class="notification_section">
+        <h2>Notifications</h2>
+        <div class="notifications">
+            <!-- Notifications will be displayed here dynamically -->
         </div>
     </div>
-</div>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.8/signalr.min.js"></script>
+    <script src="/js/ConnectHub.js"></script>
+    <script>
+        // Establish a connection to the SignalR hub
+        connection.start().then(function () {
+            console.log("SignalR Connected");
 
-<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- Include the SignalR library -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.8/signalr.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"
-        integrity="sha512-7rhBJh1om/W5Ztx7WiYOR9h2wlSaTmPyQMoHFtbT/FVNIA12y6S6I8HY9mrBS1uJ3dSU/R3qaSAXsGYuRjMDxg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-<script>
-    // Establish a connection to the SignalR hub
-    var connection = new signalR.HubConnectionBuilder()
-        .withUrl("/NotificationHub")
-        .build();
-
-    connection.start().then(function () {
-        console.log("SignalR Connected");
-    });
-</script>
+            connection.on("ReceiveFollowNotification", function (userName) {
+                // Handle incoming follow notifications here
+                console.log("Received follow notification:", userName);
+                // You can update the UI or perform any other actions based on the received notification
+            });
+        }).catch(function (error) {
+            console.error("Error connecting to SignalR:", error);
+        });
+    </script>
+</body>
+</html>

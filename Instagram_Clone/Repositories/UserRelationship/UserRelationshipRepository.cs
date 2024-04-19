@@ -236,59 +236,104 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
                 relation.IsDeleted = true;
                 Save();
 
-                //context.SaveChanges();
             }
 
         }
 
-        
-        public void Follow(string followeeid, string loginuser)
+        //public void Follow(string followeeid, string loginuser)
+        //{
+        //    // assuming context is your dbcontext instance
+        //    ApplicationUser followeruser = context.Users.FirstOrDefault(u => u.Id == loginuser);
+        //    ApplicationUser followinguser = context.Users.FirstOrDefault(u => u.Id == followeeid);
+
+        //    if (followinguser != null && followeruser != null)
+        //    {
+        //        // check if the relationship already exists
+        //        bool alreadyexists = context.UserRelationship.Any(ur => ur.FollowerId == followeruser.Id && ur.FolloweeId == followinguser.Id);
+
+        //        if (!alreadyexists)
+        //        {
+        //            var relation = new UserRelationship
+        //            {
+        //                IsDeleted = false, // assuming default value
+        //                FolloweeId = followinguser.Id,
+        //                FollowerId = followeruser.Id
+        //            };
+
+        //            context.UserRelationship.Add(relation);
+        //            Save();
+        //            //context.savechanges();
+        //        }
+        //        else
+        //        {
+        //            // handle case where the relationship already exists
+        //            // you can add logging or throw an exception here
+        //        }
+        //    }
+        //    else
+        //    {
+        //        // handle case where either followeruser or followinguser is null
+        //        // you can add logging or throw an exception here
+        //    }
+        //}
+        public async Task<bool> IsFollowing(string followerId, string followeeId)
         {
-            // assuming context is your dbcontext instance
-            ApplicationUser followeruser = context.Users.FirstOrDefault(u => u.Id == loginuser);
-            ApplicationUser followinguser = context.Users.FirstOrDefault(u => u.Id == followeeid);
+            return await context.UserRelationship.AnyAsync(ur => ur.FollowerId == followerId && ur.FolloweeId == followeeId && !ur.IsDeleted);
+        }
 
-            if (followinguser != null && followeruser != null)
+        public async Task Follow(string followeeId, string followerId)
+        {
+            if (!await IsFollowing(followeeId, followerId))
             {
-                // check if the relationship already exists
-                bool alreadyexists = context.UserRelationship.Any(ur => ur.FollowerId == followeruser.Id && ur.FolloweeId == followinguser.Id);
-
-                if (!alreadyexists)
+                var relation = new UserRelationship
                 {
-                    var relation = new UserRelationship
-                    {
-                        IsDeleted = false, // assuming default value
-                        FolloweeId = followinguser.Id,
-                        FollowerId = followeruser.Id
-                    };
+                    IsDeleted = false,
+                    FolloweeId = followeeId,
+                    FollowerId = followerId
+                };
 
-                    //var relation2 = new userrelationship
-                    //{
-                    //    isdeleted = false, // assuming default value
-                    //    followerid = followinguser.id,
-                    //    followeeid = followeruser.id
-                    //};
-
-                    //context.userrelationship.add(relation2);
-
-                    context.UserRelationship.Add(relation);
-                    Save();
-                    //context.savechanges();
-                }
-                else
-                {
-                    // handle case where the relationship already exists
-                    // you can add logging or throw an exception here
-                }
-            }
-            else
-            {
-                // handle case where either followeruser or followinguser is null
-                // you can add logging or throw an exception here
+                context.UserRelationship.Add(relation);
+                await context.SaveChangesAsync();
             }
         }
 
-       // followback
+        //public async Task Follow(string followeeId, string followerId)
+        //{
+        //    // Fetch users by their IDs
+        //    ApplicationUser followerUser = await context.Users.FirstOrDefaultAsync(u => u.Id == followerId);
+        //    ApplicationUser followeeUser = await context.Users.FirstOrDefaultAsync(u => u.Id == followeeId);
+
+        //    if (followerUser != null && followeeUser != null)
+        //    {
+        //        // Check if the relationship already exists
+        //        bool alreadyExists = context.UserRelationship.Any(ur => ur.FollowerId == followerUser.Id && ur.FolloweeId == followeeUser.Id);
+
+        //        if (!alreadyExists)
+        //        {
+        //            var relation = new UserRelationship
+        //            {
+        //                IsDeleted = false, // assuming default value
+        //                FolloweeId = followeeUser.Id,
+        //                FollowerId = followerUser.Id
+        //            };
+
+        //            context.UserRelationship.Add(relation);
+        //            await context.SaveChangesAsync();
+        //        }
+        //        else
+        //        {
+        //            // Handle case where the relationship already exists
+        //            // You can add logging or throw an exception here
+        //        }
+        //    }
+        //    else
+        //    {
+        //        // Handle case where either followerUser or followeeUser is null
+        //        // You can add logging or throw an exception here
+        //    }
+        //}
+
+        //followback
         public void followback(string followeeid, string loginuser)
         {
             // assuming context is your dbcontext instance
@@ -453,6 +498,6 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
             return shuffledUsers.Take(5).ToList();
         }
 
-  
+       
     }
 }

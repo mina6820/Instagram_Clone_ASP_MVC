@@ -199,13 +199,7 @@
     z-index: 9999;
 }
 
-.prev {
-    left: 20px;
-}
 
-.next {
-    right: 20px;
-}
 .line {
     border: none; /* Remove default border */
     border-top: 1px solid #fff; /* Set border color */
@@ -245,14 +239,13 @@
 
 
 
-
+ @* /////// Mapping Wessa ////// *@
 
 </style>
 <body>
     <div class="overlay" id="overlay">
         <span class="close" id="close">&times;</span>
-        <span class="prev" id="prev">&#10094;</span>
-        <span class="next" id="next">&#10095;</span>
+        
         <div class="overlay-content">
             <img src="" alt="Overlay Image" id="overlayImg">
 
@@ -268,11 +261,10 @@
                     <div class="user">@Model.UserName</div>
                     @foreach (Post post in Model.Posts)
                     {
-                        <div class="caption">@post.Caption</div>
-
+                            <div class="caption">@post.Caption</div>
                     }
                 </div>
-                @* /////// Mapping Wessa ////// *@
+               
                 <div class="Comments">
                     <img src="img_5_1650907043400.jpg" alt="userImg">
                     <div class="user">UserName</div>
@@ -742,18 +734,6 @@ document.getElementById('overlay').onclick = function(event) {
 
 document.getElementById('close').onclick = function() {
     document.getElementById('overlay').style.display = 'none';
-};
-
-document.getElementById('prev').onclick = function() {
-                currentIndex = (currentIndex - 1 + post.PhotosPathes.length) % post.PhotosPathes.length;
-                document.getElementById('overlayImg').src = post.PhotosPathes[currentIndex];
-    updateInfo(currentIndex);
-};
-
-document.getElementById('next').onclick = function() {
-                currentIndex = (currentIndex + 1) % post.PhotosPathes.length;
-                document.getElementById('overlayImg').src = post.PhotosPathes[currentIndex];
-    updateInfo(currentIndex);
 };
 
             

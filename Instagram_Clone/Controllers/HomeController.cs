@@ -117,7 +117,9 @@ namespace Instagram_Clone.Controllers
             ViewBag.Stories = stories;
             return View();
 
+
         }
+
 
         public IActionResult SearchUsers(string Name)
         {

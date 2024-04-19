@@ -1,22 +1,22 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Instagram_Clone.Models
 {
-    public class Notification
+    public interface INotification
     {
-        public int Id { get; set; }
+        int Id { get; set; }
 
         [ForeignKey("Sender")]
-        public string SenderId { get; set; }
-        public ApplicationUser Sender { get; set; }
+        string SenderId { get; set; }
+        ApplicationUser Sender { get; set; }
 
         [ForeignKey("Receiver")]
-        public string ReceiverId { get; set; }
-        public ApplicationUser Receiver { get; set; }
+        string ReceiverId { get; set; }
+        ApplicationUser Receiver { get; set; }
 
-        public DateTime Date { get; set; } = DateTime.Now;
-
-        public virtual NotificationType NotificationType { get; } 
+        DateTime Date { get; set; }
+        NotificationType NotificationType { get; }
     }
 
     public enum NotificationType
