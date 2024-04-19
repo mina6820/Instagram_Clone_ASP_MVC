@@ -21,9 +21,13 @@ namespace Instagram_Clone.Controllers
             this.webHostEnvironment = webHostEnvironment;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var stories = storyRepository.GetAll();
+            var user = await userManager.GetUserAsync(User);
+            var userId = user.Id;
+
+            var stories = storyRepository.GetAllStories(userId);
+
             return View(stories);
         }
 
@@ -34,7 +38,7 @@ namespace Instagram_Clone.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(IFormFile Image)
+        public async Task<IActionResult> Add(IFormFile Image, IFormFile Audio)
         {
             ApplicationUser currentUser = await userManager.GetUserAsync(User);
 
@@ -62,12 +66,55 @@ namespace Instagram_Clone.Controllers
                 Photo = photo
             };
 
+            // Process the audio file
+            if (Audio != null && Audio.Length > 0)
+            {
+                string uploadPathAudio = Path.Combine(webHostEnvironment.WebRootPath, "audio");
+                string audioName = Guid.NewGuid().ToString() + "_" + Audio.FileName;
+                string audioFilePath = Path.Combine(uploadPathAudio, audioName);
+                using (FileStream fileStream = new FileStream(audioFilePath, FileMode.Create))
+                {
+                    Audio.CopyTo(fileStream);
+                }
+
+                // Store the audio file path along with the story
+                story.AudioPath = audioFilePath;
+            }
+
             storyRepository.Insert(story);
             storyRepository.Save();
 
 
+            return RedirectToAction("Index", "Home");
+        }
 
-            return View("saveAdd", story);
+        public IActionResult OpenStory(string storyPic, DateTime time, string audio) 
+        {
+
+
+            TimeSpan timeSinceCreation = DateTime.Now - time;
+            string timeSinceCreationString;
+
+            if (timeSinceCreation.TotalMinutes < 60)
+            {
+                timeSinceCreationString = $"{(int)timeSinceCreation.TotalMinutes} minutes ago";
+            }
+            else if (timeSinceCreation.TotalHours < 24)
+            {
+                timeSinceCreationString = $"{(int)timeSinceCreation.TotalHours} hours ago";
+            }
+            else
+            {
+                timeSinceCreationString = $"{(int)timeSinceCreation.TotalDays} days ago";
+            }
+
+
+
+            ViewBag.TimeSinceCreation = timeSinceCreationString;
+            ViewBag.StoryPic = storyPic;
+            ViewBag.audio = Path.GetFileName(audio);
+
+            return View("OpenStory"); 
         }
     }
 }

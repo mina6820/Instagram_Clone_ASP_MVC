@@ -12,6 +12,7 @@ namespace Instagram_Clone
     {
         public Context(DbContextOptions<Context> options) : base(options) { }
 
+
         public Context() : base() { }
 
         public DbSet<Comment> Comments { get; set; }
@@ -33,7 +34,8 @@ namespace Instagram_Clone
 
         public DbSet<Chat> Chats { get; set; }
 
-
+        public DbSet<FollowRequest_notification> FollowRequest_notifications { get; set; }
+        //public DbSet<Notification> Notifications { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

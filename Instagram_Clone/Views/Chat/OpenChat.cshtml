@@ -2,8 +2,8 @@
 @{
     Layout = null;
 }
-<h1 style="margin-left:250px">@ViewBag.senderName</h1>
-<input type="hidden" id="receiverId" value="@ViewBag.receiverId" />
+
+<input type="hidden" id="receiverId" value="@ViewBag.receiverId"/>
 <input type="hidden" id="chatId" value="@ViewBag.chatId" />
 
 
@@ -20,21 +20,31 @@
             </div>
         </div>
     </div>
-
-
-
 </div>
-<div  class="content">
-    <div class="my_message">
-        <p class="p_message">hello how are you?</p>
-    </div>
-    <div class="response_message">
-        <p class="p_message">hi! i'm fine and you?</p>
-    </div>
-    <ul id="Conv">
 
-    </ul>
+<div id="Conv" class="content">
+@if (ViewBag.Messages != null)
+{
+    @foreach (var message in ViewBag.Messages)
+    {
+
+        @if (ViewBag.SenderId == message.SenderId)
+        {
+            <div class="my_message">
+                <p class="p_message">@message.Content</p>
+            </div>
+        }
+        else
+        {
+            <div class="response_message">
+                <p class="p_message">@message.Content</p>
+            </div>
+        }
+    }
+}
 </div>
+
+
 
 <div class="form-group">
 
@@ -48,97 +58,42 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"
         integrity="sha512-7rhBJh1om/W5Ztx7WiYOR9h2wlSaTmPyQMoHFtbT/FVNIA12y6S6I8HY9mrBS1uJ3dSU/R3qaSAXsGYuRjMDxg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 <script>
-
-
-    // // Establish a connection to the SignalR hub
+    // Establish a connection to the SignalR hub
     var connection = new signalR.HubConnectionBuilder()
         .withUrl("/ChatH")
         .build();
 
     connection.start().then(function () {
         console.log("SignalR Connected");
-    }).catch(function (err) {
-        console.error("SignalR Connection Error: " + err);
     });
 
-
-
-
-    // // Receive message from the server
-    // connection.on("ReciveMessage", function (messageInput) {
-    //     $("#Conv").append("<li>" + messageInput + "</li>");
-    // })
-
-    // // Function to send a message
-    // function sendMessage() {
-    //     var messageInput = document.getElementById("messageInput").value;
-    //     var receiverId = document.getElementById("receiverId").value;
-    //     var chatId = document.getElementById("chatId").value;
-
-    //     connection.invoke("SendMessage", messageInput, receiverId, chatId);
-    // }
-    // Array to store subscription handlers
-    var subscriptionHandlers = [];
-
-    // Function to clear previous messages
-    function clearMessages() {
-        $("#Conv").empty();
-    }
-
-    // Function to subscribe to the SignalR hub for a specific chat
-    function subscribeToChat(chatId) {
-        subscriptionHandlers.push(connection.on("ReciveMessage_" + chatId, function (messageInput) {
-            $("#Conv").append("<li>" + messageInput + "</li>");
-        }));
-    }
-
-    // Function to unsubscribe from the SignalR hub for a specific chat
-    function unsubscribeFromChat(chatId) {
-        // Find and remove the corresponding subscription handler
-        var index = subscriptionHandlers.findIndex(function (handler) {
-            return handler.methodName === "ReciveMessage_" + chatId;
-        });
-        if (index !== -1) {
-            subscriptionHandlers[index].off();
-            subscriptionHandlers.splice(index, 1);
+    // Receive message from the server
+    connection.on("ReceiveMessage", function (messageInput, senderId, date) {
+        // Check if the message is from the sender or the receiver
+        if (senderId === "@ViewBag.senderId") {
+            $("#Conv").append('<div class="my_message"><p class="p_message">' + messageInput + '</p></div>');
+        } else {
+            $("#Conv").append('<div class="response_message"><p class="p_message">' + messageInput + '</p></div>');
         }
-    }
+    });
 
-    // Function to send a message
+    // Function to send a message to the Server Basha
     function sendMessage() {
-        var messageInput = document.getElementById("messageInput").value;
-        var receiverId = document.getElementById("receiverId").value;
-        var chatId = document.getElementById("chatId").value;
+        var messageInput = $("#messageInput").val();
+        var receiverId = $("#receiverId").val();
+        var chatId = $("#chatId").val();
 
         connection.invoke("SendMessage", messageInput, receiverId, chatId);
     }
-
-    // Function to handle switching between chats
-    function switchChat(chatId) {
-        clearMessages(); // Clear previous messages
-        unsubscribeFromChat(chatId); // Unsubscribe from previous chat
-        subscribeToChat(chatId); // Subscribe to new chat
-    }
-
-    // On document ready
-    $(document).ready(function () {
-        // Establish a connection to the SignalR hub
-        var connection = new signalR.HubConnectionBuilder()
-            .withUrl("/ChatH")
-            .build();
-
-        connection.start().then(function () {
-            console.log("SignalR Connected");
-        }).catch(function (err) {
-            console.error("SignalR Connection Error: " + err);
-        });
-
-        // Receive message from the server
-        connection.on("ReciveMessage", function (messageInput) {
-            $("#Conv").append("<li>" + messageInput + "</li>");
-        });
-    });
-
-
 </script>
+
+
+
+
+
+
+
+
+

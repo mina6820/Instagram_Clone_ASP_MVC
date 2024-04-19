@@ -15,6 +15,8 @@ namespace Instagram_Clone.Repositories.PostRepo
 
         public Post? GetPostwithUserAndCommentsAndFollowersById(int id);
 
+        public List<Post>? GetAllPosts();
+
         public Post? GetPostByIDWithUser(int id);
     }
 }

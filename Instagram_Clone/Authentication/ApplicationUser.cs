@@ -29,7 +29,10 @@ namespace Instagram_Clone.Authentication
         [InverseProperty("Followee")]
         public List<UserRelationship>? Following { get; set; }
 
+
         public string? YourFavirotePerson { get; set; }
+
+        //public List<Notification>? notifications { get; set; } 
 
     }
 }

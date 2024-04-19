@@ -2,13 +2,12 @@
 
 <div id="search" class="search_section">
     <h2>Search</h2>
-    <form method="post">
-        <input type="text" placeholder="Search">
+    <form id="searchForm" method="get" asp-action="SearchUsers" asp-controller="Home">
+        <input type="text" placeholder="Search" id="NameSearch" name="Name">
     </form>
     <div class="find">
-        <div class="desc">
-        </div>
-        <div class="account" style="max-height: 300px; overflow-y: auto;">
+        <div class="desc"></div>
+        <div class="account" style="max-height: 300px; overflow-y: auto;" id="searchResults">
             @if (ViewBag.Users != null)
             {
                 @foreach (ApplicationUser relationship in ViewBag.Users)
@@ -16,15 +15,13 @@
                     <div class="cart">
                         <div>
                             <div class="img">
-                                @* <img src="/images/@relationship.ProfilePicture.Name" alt=""> *@
+                                @*<img src="/images/@relationship.ProfilePicture.Name" alt="">*@
                             </div>
-                            <div class="info">
+                            <div class="info follower-info">
                                 <a href="/FriendsProfile/Index/@relationship.Id" class="name" style="color:black;text-decoration:none">@relationship.UserName</a>
+                                <input style="visibility:hidden" value="@relationship.Id" class="GetID" />
                             </div>
                         </div>
-                       @*  <div class="clear">
-                            <a href="#">X</a>
-                        </div> *@
                     </div>
                 }
             }
@@ -35,3 +32,25 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var searchForm = document.getElementById("searchForm");
+        var searchResults = document.getElementById("searchResults");
+
+        searchForm.addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+
+            var searchTerm = document.getElementById("NameSearch").value;
+
+            fetch("/Home/SearchUsers?Name=" + searchTerm)
+                .then(response => response.text())
+                .then(data => {
+                    searchResults.innerHTML = data; // Update the search results section
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+    });
+</script>

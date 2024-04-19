@@ -50,8 +50,286 @@
         justify-content: flex-start;
     }
 
+    
+    .confirmation-modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .confirmation-modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 40%;
+        border-radius: 10px;
+    }
+
+        .confirmation-modal-content h2 {
+            margin-bottom: 20px;
+        }
+
+    .confirmation-modal-btns {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+        .confirmation-modal-btns button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+            .confirmation-modal-btns button.cancel-btn {
+                background-color: #ccc;
+                border: none;
+            }
+
+            .confirmation-modal-btns button.confirm-btn {
+                border: none;
+                color: white;
+            }
+
+    /*     //////   appear overlay img ///////  */
+
+    /* Overlay */
+    #overlay {
+        display: none;
+    }
+
+    .overlay {
+        display: none;
+        position: fixed;
+        z-index: 999;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7); /* Transparent background */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Overlay Content */
+    .overlay-content {
+        max-width: 600px; /* Adjust as needed */
+        width: 100%;
+        height: 80%;
+        padding: 40px;
+        display: flex;
+        justify-content: center;
+        margin: auto;
+    }
+
+    /* Image Container */
+    .img-container {
+        max-width: 50%;
+        text-align: center;
+    }
+
+    .overlay img {
+        width: 80%;
+    }
+
+    /* Overlay Info */
+    .overlay-info {
+        background-color: #fff;
+        width: 100%;
+        position: relative;
+    }
+
+    .sec1, .sec2, .Comments {
+        display: flex;
+        align-items: center;
+        padding-top: 10px;
+    }
+
+        .sec1 img, .sec2 img, .Comments img {
+            border-radius: 50%;
+            width: 12%;
+            height: 12%;
+            margin-left: 6px;
+        }
+
+        .sec1 .user, .sec2 .user, .Comments .user {
+            margin-left: 6px;
+        }
+
+        .sec2 .caption {
+            padding-left: 6px;
+        }
+
+    .L_C {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+    }
+
+        .L_C .icons {
+            display: flex;
+            padding-left: 8px;
+        }
+
+    .fa-regular {
+        padding-right: 5px;
+        padding-bottom: 5px;
+        font-size: x-large;
+    }
+
+    .likes,
+    .comments {
+        padding-left: 10px;
+        margin-bottom: 10px;
+    }
+
+    /* Close Button */
+    .close {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        color: #fff;
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+        .close:hover {
+            color: #ccc;
+        }
+
+    /* Gallery */
+    .gallery {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+
+    .gallery-img {
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 5px;
+        margin: 10px;
+        cursor: pointer;
+    }
+
+        .gallery-img:hover {
+            opacity: 0.7;
+        }
+    /* Left and Right Arrows */
+    .prev,
+    .next {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        color: white;
+        font-size: 40px;
+        cursor: pointer;
+        z-index: 9999;
+    }
+
+
+    .line {
+        border: none; /* Remove default border */
+        border-top: 1px solid #fff; /* Set border color */
+    }
+
+    /* Media Query for Responsive Design */
+    @@media (max-width: 768px) {
+        .overlay-content {
+            max-width: 90%;
+            padding: 20px;
+        }
+
+        .img-container {
+            max-width: 100%;
+        }
+
+        .overlay-info {
+            max-width: 100%;
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .overlay-content {
+            max-width: 60%;
+            padding: 20px;
+        }
+
+        .img-container {
+            max-width: 100%;
+        }
+
+        .overlay-info {
+            max-width: 100%;
+        }
+    }
 </style>
 <body>
+
+@*     //////////////////wessa and shimaa should work on it///////////////////*@
+    <div class="overlay" id="overlay">
+        <span class="close" id="close">&times;</span>
+
+        <div class="overlay-content">
+            <img src="" alt="Overlay Image" id="overlayImg">
+
+            <div class="overlay-info">
+                <div class="sec1">
+                    <img src="~/images/@Model.ProfilePicture?.Name" alt="userImg">
+                    <div class="user">@Model.UserName</div>
+                </div>
+                <hr class="line">
+                <div class="sec2">
+
+                    <img src="~/images/@Model.ProfilePicture?.Name" alt="userImg">
+                    <div class="user">@Model.UserName</div>
+                    @foreach (Post post in Model.Posts)
+                    {
+                        <div class="caption">@post.Caption</div>
+                    }
+                </div>
+
+                <div class="Comments">
+                    <img src="img_5_1650907043400.jpg" alt="userImg">
+                    <div class="user">UserName</div>
+                    <div class="caption">Hola</div>
+                </div>
+
+
+                <div class="L_C">
+                    <hr class="line">
+
+                    <div class="icons">
+                        <i class="fa-regular fa-heart"></i>
+                        <i class="fa-regular fa-comment"></i>
+                    </div>
+
+                    <div class="likes">Liked by UserName and Other</div>
+                    <hr class="line">
+
+                    <div class="comments">Add a Comment...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    @*    /////////////////////////////////////////////*@
+
+    @*     /////////////////////////////////////*@
+
     <div class="post_page">
         <div class="nav_menu">
             <div class="fix_top">
@@ -73,14 +351,14 @@
         <!-- search  -->
         <div id="search" class="search_section">
             <h2>Search</h2>
-            <form method="post">
+           @*  <form method="post">
                 <input type="text" placeholder="Search">
-            </form>
+            </form> *@
             <div class="find">
-                <div class="desc">
+              @*   <div class="desc">
                     <h4>Recent</h4>
                     <p><a href="#">Clear all</a></p>
-                </div>
+                </div> *@
                 <div class="account">
                     <div class="cart">
                         <div>
@@ -93,9 +371,9 @@
                                 <p class="second_name">@Model.FirstName  @Model.LastName</p>
                             </div>
                         </div>
-                        <div class="clear">
+                        @* <div class="clear">
                             <a href="#">X</a>
-                        </div>
+                        </div> *@
                     </div>
                 </div>
             </div>
@@ -255,15 +533,81 @@
                     </div>
                     <div class="info">
                         <div class="user-info">
+
                             <p class="name" style="font-size:17px;margin:4px">@Model.UserName</p>
+
+                            @foreach (ApplicationUser user in ViewBag.NonFollowingUsers)
+                            {
+                                @if (user.Id == Model.Id)
+                                {
+                                    <div class="switch">
+                                        <a href="/follow/FollowUser?id=@Model.Id" class="text-light btn btn-primary">Follow</a>
+                                    </div>
+                                }    
+                            }
+
+                            @foreach (ApplicationUser user in ViewBag.FollowingUsers)
+                            {
+                                @if (user.Id == Model.Id)
+                                {
+                                    <div class="switch me-2">
+
+                                        <a href="#" class="btn btn-secondary btn-sm unfollow-btn text-light" data-id="@Model.Id">Following</a>
+
+                                        @* <a class="text-light btn btn-secondary">Following</a> *@
+                                    </div>
+                                    <div class="switch">
+                                        <a class="text-light btn btn-secondary ">Message</a>
+                                    </div>
+                                }
+                            }
+
+
+                            @* @foreach (ApplicationUser user in ViewBag.Users)
+                            {
+                                @if (!ViewBag.FollowingUsers.Contains(user))
+                                {
+                                    <div class="switch me-2">
+                                        <a class="text-light btn btn-secondary">Following</a>
+                                    </div>
+                                    <div class="switch">
+                                        <a class="text-light btn btn-secondary ">Message</a>
+                                    </div>
+                                    break;
+                                }
+
+                            } *@
+
+                           @*  @foreach (ApplicationUser user in ViewBag.Users)
+                            {
+                                <div class="switch">
+                                    @if (!ViewBag.NonFollowingUsers.Contains(user))
+                                    {
+                                        <a class="text-light btn btn-primary">Follow</a>
+                                    }
+                                   @*  else if (ViewBag.FollowingUsers.Contains(user))
+                                    {
+                                    <a class="text-light btn btn-secondary">Following</a>
+                                    } 
+                                    
+                                </div>
+                            } *@
+
                         </div>
                         <div class="general_info">
                             <p><span>@Model.Posts.Count</span> post</p>
-                            <a id="FollowersCounter" href="#" style="color:black ; margin:2px" class="ClickFollowers" data-bs-toggle="modal" data-bs-target="#followersModal">@Model.Following.Count</a>
+                            @* <a id="FollowersCounter" href="#" style="color:black ; margin:2px" class="ClickFollowers" data-bs-toggle="modal" data-bs-target="#followersModal">@Model.Following.Count</a>
                             <a href="#" style="color:black; margin:2px" class="ClickFollowers" data-bs-toggle="modal" data-bs-target="#followersModal">Followers</a>
 
                             <a id="FollowingCounter" href="#" style="color:black ; margin:2px" class="ClickFollowing" data-bs-toggle="modal" data-bs-target="#followingModal">@Model.Followers.Count</a>
                             <a href="#" style="color:black; margin:2px" class="ClickFollowing" data-bs-toggle="modal" data-bs-target="#followingModal">Following</a>
+ *@
+                            <a href="/FriendsProfile/ShowFollowers?ID=@Model.Id" style="color:black ; margin:2px">@Model.Following.Count</a>
+                            <a href="/FriendsProfile/ShowFollowers?ID=@Model.Id" style="color:black; margin:2px">Followers</a>
+
+                            <a href="/FriendsProfile/showFollowees?ID=@Model.Id" style="color:black ; margin:2px">@Model.Followers.Count</a>
+                            <a href="/FriendsProfile/ShowFollowees?ID=@Model.Id" style="color:black; margin:2px">Following</a>
+
                             @* <a id="FollowersCounter" asp-action="showFollowers" asp-controller="Follow" style="color:black ; margin:2px" class="ClickFollowers"> @Model.Followers.Count</a> <a style="color:black; margin:2px" asp-action="showFollowers" asp-controller="Follow" asp-route-ProfileUserViewModel="@Model" class="ClickFollowers"> Followers</a> *@
                             @* <a id="FolloweesCounter" asp-action="showFollowees" asp-controller="Follow" style="color:black ; margin:2px" class="ClickFollowing"> @Model.Following.Count</a> <a style="color:black; margin:2px" asp-action="showFollowees" asp-controller="Follow" asp-route-ProfileUserViewModel="@Model" class="ClickFollowing"> Following</a> *@
                         </div>
@@ -326,7 +670,7 @@
                                 @foreach (var photo in post.PhotosPathes)
                                 {
                                     <div class="item">
-                                        <img src="~/images/@photo" asp-append-version="true" alt="My Image" />
+                                        <img src="~/images/@photo" asp-append-version="true" alt="My Image" onclick="openOverlay('/images/@photo')" />
 
                                         @* <img class="img-fluid item_img" src="~/images/@photo" alt=""> *@
                                     </div>
@@ -374,6 +718,19 @@
             </div>
         </div>
 
+        @* Confirmation popup *@
+
+        <div id="confirmationModal" class="confirmation-modal">
+            <div class="confirmation-modal-content">
+                <h5>Confirmation</h5>
+                <p>Are you sure you want to unfollow this user?</p>
+                <div class="confirmation-modal-btns">
+                    <button class="cancel-btn">Cancel</button>
+                    <button class="confirm-btn btn-primary">Unfollow</button>
+                </div>
+            </div>
+        </div>
+
         @* followers popup *@
 
         <div class="modal fade" id="followersModal" tabindex="-1" aria-labelledby="followersModalLabel" aria-hidden="true">
@@ -407,8 +764,36 @@
 
 
 
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                // Attach click event to the "Following" button
+                $('.unfollow-btn').click(function (event) {
+                    // Prevent the default behavior of the anchor tag
+                    event.preventDefault();
+
+                    // Show the confirmation modal
+                    $('.confirmation-modal').css('display', 'block');
+
+                    // Get the user ID from the data-id attribute
+                    var userId = $(this).data('id');
+
+                    // If the user clicks the confirm button, redirect to the unfollow action
+                    $('.confirm-btn').click(function () {
+                        window.location.href = '/Follow/UnFollow/' + userId;
+                    });
+
+                    // If the user clicks the cancel button, hide the modal
+                    $('.cancel-btn').click(function () {
+                        $('.confirmation-modal').css('display', 'none');
+                    });
+                });
+            });
+        </script>
+
 
         <script>
             $(document).ready(function () {
@@ -455,6 +840,46 @@
                     });
                 });
             });
+        </script>
+
+        <script>
+            var currentIndex = 0;
+
+            function openOverlay(imgSrc) {
+                var overlay = document.getElementById('overlay');
+                var overlayImg = document.getElementById('overlayImg');
+
+                overlay.style.display = 'block';
+                overlayImg.src = imgSrc;
+                currentIndex = images.indexOf(imgSrc);
+                updateInfo(currentIndex);
+                console.log("Holllla");
+
+
+
+            }
+
+
+            // function updateInfo(index) {
+            //     var infoImg = document.querySelectorAll('.overlay-info img');
+            //     for (var i = 0; i < post.PhotosPathes.length; i++) {
+            //                     infoImg[i].src = post.PhotosPathes[index];
+            //     }
+            // }
+
+            document.getElementById('overlay').onclick = function (event) {
+                if (event.target === this) {
+                    this.style.display = 'none';
+                }
+            };
+
+            document.getElementById('close').onclick = function () {
+                document.getElementById('overlay').style.display = 'none';
+            };
+
+
+
+
         </script>
         @* <script>
         $(document).ready(function () {

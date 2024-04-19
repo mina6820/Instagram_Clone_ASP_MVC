@@ -1,0 +1,72 @@
+﻿@model List<ApplicationUser>
+<div>
+    <div class="cart">
+        <div>
+            <div class="img">
+                <img src="/images/@ViewBag.picture" alt="">
+            </div>
+            <div class="info">
+                <a class="name" asp-action="Index" asp-controller="Profile" style="color:black;text-decoration:none">@ViewBag.UserName</a>
+            </div>
+        </div>
+    </div>
+    <div class="suggestions">
+        <div class="title">
+            <h4>Suggestions for you</h4>
+        </div>
+        @foreach (ApplicationUser user in ViewBag.applicationUsers)
+        {
+            <div class="cart">
+                <div>
+                    <div class="img">
+                        <img src="/images/@user.ProfilePicture.?Name" alt="">
+                    </div>
+                    <div class="info">
+                        <a class="name" href="/FriendsProfile/Index/@user.Id" class="name" style="color:black;text-decoration:none">@user.UserName</a>
+                    </div>
+                </div>
+                <div class="switch">
+                    @* <input class="follow_text btn btn-primary" type="button" value="Follow" /> *@
+                    <a href="/follow/FollowUser?id=@user.Id" class="text-light btn btn-primary">Follow</a>
+                    <input style="visibility:hidden" value="@user.Id" class="UserToFollowId" />
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.8/signalr.min.js"></script>
+<script src="/js/ConnectHub.js"></script>
+<script src="/js/main.js"></script>
+
+<script>
+// var connection = new signalR.HubConnectionBuilder()
+//     .withUrl("/NotificationHub")
+//     .build();
+
+connection.start().then(function () {
+    console.log("SignalR2 Connected");
+
+    // jQuery document ready function to ensure the DOM is fully loaded
+        $(document).ready(function () {
+            // Event delegation for the "Follow" button click event
+            $(document).on("click", ".follow_text", function () {
+                var userToFollowInput = $(this).closest(".cart").find(".UserToFollowId");
+                var receiverUserId = userToFollowInput.val();
+                console.log("User to follow ID:", receiverUserId);
+
+                // Call the SendFollowNotification method on the server
+                connection.invoke("SendFollowNotification", receiverUserId)
+                    .then(function () {
+                        console.log("SendFollowNotification method invoked successfully.");
+                    })
+                    .catch(function (error) {
+                        console.error("Error invoking SendFollowNotification method:", error);
+                    });
+            });
+        });
+
+}).catch(function (error) {
+    console.error("Error connecting to SignalR:", error);
+});
+</script>

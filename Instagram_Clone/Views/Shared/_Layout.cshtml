@@ -15,14 +15,14 @@
 
 </head>
 
+
 <body>
     @if (!Context.Request.Path.StartsWithSegments("/Account/Login")&&
     !Context.Request.Path.StartsWithSegments("/Follow/showFollowers")&&
     !Context.Request.Path.StartsWithSegments("/Follow/showFollowees")&&
     !Context.Request.Path.StartsWithSegments("/Account/Register")&&
-    !Context.Request.Path.StartsWithSegments("/story/add")
-     
-
+    !Context.Request.Path.StartsWithSegments("/story/add")&&
+    !Context.Request.Path.StartsWithSegments("/Account/ForgetPassword")
     )
     {
         <div class="nav_menu">
@@ -51,7 +51,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="/explore.html">
+                                <a href="/explore/index">
                                     <img src="/images/compass.png">
                                     <span class="d-none d-lg-block ">Explore</span>
                                 </a>
@@ -94,6 +94,7 @@
                         </ul>
                     </div>
                     <div class="more">
+
                         <div class="btn-group dropup">
                             <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown"
                             aria-expanded="false">
@@ -149,7 +150,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <!--  -->
+                     
 
                     </div>
                 </div>
@@ -232,11 +233,11 @@
             </div>
             <!-- menu in the botton for smal screen  -->
             <div class="nav_bottom">
-                <a href="/home.html"><img src="/images/accueil.png"></a>
-                <a href="/explore.html"><img src="/images/compass.png"></a>
+                <a href="/home"><img src="/images/accueil.png"></a>
+                <a href="/explore/index"><img src="/images/compass.png"></a>
                 <a href="/reels.html"><img src="/images/video.png"></a>
                 <a href="#" data-bs-toggle="modal" data-bs-target="#create_modal"><img src="/images/tab.png"></a>
-                <a href="profile.html"><img class="circle story" src="/images/profile_img.jpg"></a>
+                <a href="/profile"><img class="circle story" src="/images/profile_img.jpg"></a>
             </div>
         </div>
         <!-- search  -->
@@ -271,7 +272,8 @@
         </div> *@
         <!-- search  -->
         <!-- notification -->
-        <div id="notification" class="notification_section">
+
+        @* <div id="notification" class="notification_section">
             <h2>Notifications</h2>
             <div class="notifications">
                 <div class="notif follow_notif">
@@ -399,7 +401,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> *@
     }
     <div class="container">
         <main role="main" class="pb-3">

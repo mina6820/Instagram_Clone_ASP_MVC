@@ -94,6 +94,18 @@ namespace Instagram_Clone.Repositories.PostRepo
         //}
 
 
+        public List<Post>? GetAllPosts()
+        {
+            return context.Posts.Where(p => p.IsDeleted == false)
+                .Include(p => p.Likes.Where(l => l.IsDeleted == false))
+                .Include(p => p.Comments)
+                .Include(p => p.User)
+                .ThenInclude(p => p.ProfilePicture)
 
+                .Include(p => p.User)
+                .ThenInclude(p => p.Following)
+
+                .ToList();
+        }
     }
 }

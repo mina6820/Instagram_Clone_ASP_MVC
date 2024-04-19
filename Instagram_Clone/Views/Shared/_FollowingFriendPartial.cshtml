@@ -20,41 +20,105 @@
     </form>
     <div class="container mt-5" ">
         <div class="d-flex justify-content-center row">
-            <div class="col-md-6">
+            <div id="searchResults" class="col-md-6">
     @*  @if (ViewBag.searchFollowees == null)
                 { *@
     @foreach (var followee in Model.Following)
     {
-                    <div class="p-3 bg-white text-center">
+        @if (followee.Followee.UserName == ViewBag.UserName)
+        {
+                        <div class="p-3 bg-white text-center">
 
-                        <div class="d-flex flex-row justify-content-between align-items-center mt-2">
-                            <img class="rounded-circle" src="/images/@followee.Followee.ProfilePicture.Name" width="55">
-                            <div class="d-flex flex-column align-items-start ml-2"><a class="font-weight-bold" href="/FriendsProfile/index/@followee.FolloweeId">@followee.Followee.UserName</a><span class="followers"><span style="margin:2px">@followee.Followee.FirstName</span><span style="margin:2px">@followee.Followee.LastName</span></span></div>
-                            <div class="d-flex flex-row align-items-center">
-                                @* <div class="d-flex flex-row align-items-center mt-2"><button class="btn btn-primary btn-sm" type="button">Remove</button></div> *@
+                            <div class="d-flex flex-row justify-content-between align-items-center mt-2 follower-info">
+                                <img class="rounded-circle" src="/images/@followee.Followee.ProfilePicture.Name" width="55">
+                                <div class="d-flex flex-column align-items-start ml-2"><a class="font-weight-bold" href="/Profile/index">@followee.Followee.UserName</a><span class="followers"><span style="margin:2px">@followee.Followee.FirstName</span><span style="margin:2px">@followee.Followee.LastName</span></span></div>
+                                <div class="d-flex flex-row align-items-center">
+                        @* <div class="d-flex flex-row align-items-center mt-2"><button class="btn btn-primary btn-sm" type="button">Remove</button></div> *@
+                                </div>
+                            </div>
+            </div>
+        }
+        else
+        {
+                        <div class="p-3 bg-white text-center">
+
+                            <div class="d-flex flex-row justify-content-between align-items-center mt-2 follower-info">
+                                <img class="rounded-circle" src="/images/@followee.Followee.ProfilePicture.Name" width="55">
+                                <div class="d-flex flex-column align-items-start ml-2"><a class="font-weight-bold" href="/FriendsProfile/index/@followee.FolloweeId">@followee.Followee.UserName</a><span class="followers"><span style="margin:2px">@followee.Followee.FirstName</span><span style="margin:2px">@followee.Followee.LastName</span></span></div>
+                                <div class="d-flex flex-row align-items-center">
+
+                        @* @foreach (ApplicationUser userLogginFriend in ViewBag.NonFollowingLoginnedUser)
+                        {
+                            bool isFollowing = false;
+
+                            // Check if the current user from ViewBag.NonFollowingLoginnedUser is in ViewBag.NonFollowingFriend
+                            foreach (ApplicationUser userFriend in ViewBag.NonFollowingFriend)
+                            {
+                                if (userFriend.Id == userLogginFriend.Id)
+                                {
+                                    // If the user is found in the list of friends, set isFollowing to true
+                                    isFollowing = true;
+                                    break; // Exit the loop since we found a match
+                                }
+                            }
+
+                            // If the user is not found in the list of friends, display the follow button
+                            if (!isFollowing)
+                            {
+                                            <div class="switch">
+                                                <a href="/follow/FollowUser?id=@userLogginFriend.Id" class="text-light btn btn-primary">Follow</a>
+                                            </div>
+                            }
+                        }
+
+                        @foreach (ApplicationUser userLogginFriend in ViewBag.FollowingLoginnedUser)
+                        {
+                            bool isFollowing = false;
+
+                            // Check if the current user from ViewBag.FollowingLoginnedUser is in ViewBag.FollowingFriend
+                            foreach (ApplicationUser userFriend in ViewBag.FollowingFriend)
+                            {
+                                if (userFriend.Id == userLogginFriend.Id)
+                                {
+                                    // If the user is found in the list of followed users, set isFollowing to true
+                                    isFollowing = true;
+                                    break; // Exit the loop since we found a match
+                                }
+                            }
+
+                            // If the user is not found in the list of followed users, display the "Following" button
+                            if (isFollowing)
+                            {
+                                            <div class="switch me-2">
+                                                <a class="text-light btn btn-secondary">Following</a>
+                                            </div>
+                            }
+                        }
+
+                            *@
+
+                       @*  @foreach (ApplicationUser userLogginFriend in ViewBag.FollowingLoginnedUser)
+                        {
+                            @foreach (ApplicationUser userFriend in ViewBag.FollowingFriend)
+                            {
+                                @if (userFriend.Id == userLogginFriend.Id)
+                                {
+                                    <div class="switch me-2">
+                                        <a class="text-light btn btn-secondary">Following</a>
+                                    </div>
+                                    
+                                }
+                              
+                            }
+                            return;
+                        } *@
+                                </div>
                             </div>
                         </div>
-                    </div>
+        }
+
     }
-    @*  } *@
-    @* else
-                {
-                @foreach (var followee in ViewBag.searchFollowees)
-                {
-                <div class="p-3 bg-white text-center">
-                <div class="d-flex flex-row justify-content-between align-items-center mt-2">
-                <img class="rounded-circle" src="/images/@followee.ProfilePicture.Name" width="55">
-                <div class="d-flex flex-column align-items-start ml-2"><span class="font-weight-bold">@followee.UserName</span><span class="followers"><span style="margin:2px">@followee.FirstName</span><span style="margin:2px">@followee.LastName</span></span></div>
-                <div class="d-flex flex-row align-items-center">
-                <div class="d-flex flex-row align-items-center mt-2"><button class="btn btn-primary btn-sm" type="button">Remove</button></div>
-                </div>
-                </div>
-                </div>
-                }
-                }
-                </div>
-                </div>
-                </div> *@
+   
                 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
                 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
                 <link rel="stylesheet" href="/resources/demos/style.css">
@@ -65,6 +129,33 @@
                 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 </body>
 </html>
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var input = document.getElementById("NameSearch");
+        var userId = "@Model.Id"; // Set the current user's Id here
+
+        input.addEventListener("input", function () {
+            var searchTerm = input.value;
+            fetch("@Url.Action("SearchFollowee", "FriendsProfile")?Name=" + searchTerm + "&Id=" + userId)
+                .then(response => response.text())
+                .then(data => {
+                    var tempElement = document.createElement('div');
+                    tempElement.innerHTML = data;
+                    var followers = tempElement.querySelectorAll('.follower-info');
+                    document.getElementById("searchResults").innerHTML = "";
+                    followers.forEach(function (follower) {
+                        document.getElementById("searchResults").appendChild(follower);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+    });
+</script>
 
 
 

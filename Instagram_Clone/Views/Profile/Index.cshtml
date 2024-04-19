@@ -1,5 +1,6 @@
 ﻿@using Instagram_Clone.ViewModels
 @model ProfileUserViewModel
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,6 +9,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Instagram</title>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
     <link rel="stylesheet" href="/sass/vender/bootstrap.css">
     <link rel="stylesheet" href="/sass/vender/bootstrap.min.css">
     <link rel="stylesheet" href="/owlcarousel/owl.theme.default.min.css">
@@ -26,7 +29,7 @@
         /* No need for margin-right */
     }
 
-   
+
     .edit-profile-link {
         background-color: #007bff;
         color: #fff;
@@ -41,33 +44,261 @@
         }
 
     .profile_container .profile_info .cart .img img {
-        height:150px;
-        width:150px;
-        border-radius:50%;
+        height: 150px;
+        width: 150px;
+        border-radius: 50%;
     }
 
     .cart div {
-        display:flex;
-        justify-content:flex-start;
+        display: flex;
+        justify-content: flex-start;
     }
 
-  .profile_container .highlights .img img {
-      height:88px;
-  }
+    .profile_container .highlights .img img {
+        height: 88px;
+    }
 
-    .ClickFollowers,.ClickFollowing{
-        text-decoration:none;
+    .ClickFollowers, .ClickFollowing {
+        text-decoration: none;
     }
 
     .nav .menu ul li a {
-        text-decoration:none;
-        padding-left:20px;
+        text-decoration: none;
+        padding-left: 20px;
+    }
+/*     //////   appear overlay img ///////  */
+
+/* Overlay */
+ #overlay {
+        display: none;
+    }
+.overlay {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Overlay Content */
+.overlay-content {
+    max-width: 600px; /* Adjust as needed */
+    width: 100%;
+    height: 80%;
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+}
+
+/* Image Container */
+.img-container {
+    max-width: 50%;
+    text-align: center;
+}
+
+.overlay img {
+    width: 50%;
+}
+
+/* Overlay Info */
+.overlay-info {
+    background-color: #fff;
+    width: max-content;
+    position: relative; 
+}
+
+.sec1, .sec2, .Comments {
+    display: flex;
+    align-items: center;
+    padding-top: 10px;
+}
+
+.sec1 img, .sec2 img, .Comments img {
+    border-radius: 50%;
+    width: 12%;
+    height: 12%;
+    margin-left: 6px;
+}
+
+.sec1 .user, .sec2 .user, .Comments .user {
+    margin-left: 6px;
+}
+
+.sec2 .caption {
+    padding-left: 6px;
+}
+
+.L_C {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+.L_C .icons {
+    display: flex;
+    padding-left: 8px;
+}
+
+.fa-regular {
+    padding-right: 5px;
+    padding-bottom: 5px;
+    font-size: x-large;
+}
+
+.likes,
+.comments {
+    padding-left: 10px;
+    margin-bottom: 10px;
+}
+
+/* Close Button */
+.close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: #ccc;
+}
+
+/* Gallery */
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.gallery-img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.gallery-img:hover {
+    opacity: 0.7;
+}
+/* Left and Right Arrows */
+.prev,
+.next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    font-size: 40px;
+    cursor: pointer;
+    z-index: 9999;
+}
+
+
+.line {
+    border: none; /* Remove default border */
+    border-top: 1px solid #fff; /* Set border color */
+}
+
+/* Media Query for Responsive Design */
+@@media (max-width: 768px) {
+    .overlay-content {
+        max-width: 90%;
+        padding: 20px;
     }
 
+    .img-container {
+        max-width: 100%;
+    }
+
+    .overlay-info {
+        max-width: 100%;
+    }
+}
+@@media (max-width: 768px) {
+    .overlay-content {
+        max-width: 60%;
+        padding: 20px;
+    }
+
+    .img-container {
+        max-width: 100%;
+    }
+
+    .overlay-info {
+        max-width: 100%;
+    }
+}
+
+
+
+
+
+ @* /////// Mapping Wessa ////// *@
 
 </style>
 <body>
-    <div class="post_page">
+    <div class="overlay" id="overlay">
+        <span class="close" id="close">&times;</span>
+        
+        <div class="overlay-content">
+            <img src="" alt="Overlay Image" id="overlayImg">
+
+            <div class="overlay-info">
+                <div class="sec1">
+                    <img src="~/images/@Model.ProfilePicture?.Name" alt="userImg">
+                    <div class="user">@Model.UserName</div>
+                </div>
+                <hr class="line">
+                <div class="sec2">
+
+                    <img src="~/images/@Model.ProfilePicture?.Name" alt="userImg">
+                    <div class="user">@Model.UserName</div>
+                    @foreach (Post post in Model.Posts)
+                    {
+                            <div class="caption">@post.Caption</div>
+                    }
+                </div>
+               
+                <div class="Comments">
+                    <img src="img_5_1650907043400.jpg" alt="userImg">
+                    <div class="user">UserName</div>
+                    <div class="caption">Hola</div>
+                </div>
+
+
+                <div class="L_C">
+                    <hr class="line">
+
+                    <div class="icons">
+                        <i class="fa-regular fa-heart"></i>
+                        <i class="fa-regular fa-comment"></i>
+                    </div>
+
+                    <div class="likes">Liked by UserName and Other</div>
+                    <hr class="line">
+
+                    <div class="comments">Add a Comment...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+@*    /////////////////////////////////////////////*@   
+ <div class="post_page">
         <div class="nav_menu">
             <div class="fix_top">
                 <!-- nav for big->medium screen -->
@@ -85,7 +316,6 @@
         <div id="notification" class="notification_section">
         </div>
         <!--***** nav menu start ****** -->
-       
         <!-- search  -->
         <div id="search" class="search_section">
             <h2>Search</h2>
@@ -102,10 +332,10 @@
                         <div>
                             <div class="img">
                                 @* <img src="~/images/@Model.ProfilePicture.Name" alt=""> *@
-                                <img src="~/images/@Model.ProfilePicture?.Name" asp-append-version="true" alt="My Image"  />
+                                <img src="~/images/@Model.ProfilePicture?.Name" asp-append-version="true" alt="My Image" />
                             </div>
                             <div class="info">
-                                <p class="name" >@Model.UserName</p>
+                                <p class="name">@Model.UserName</p>
                                 <p class="second_name">@Model.FirstName  @Model.LastName</p>
                             </div>
                         </div>
@@ -193,7 +423,7 @@
                     <div class="cart">
                         <div>
                             <div class="img">
-                                <img src="~/images/@Model.ProfilePicture.Name" asp-append-version="true" alt="My Image"  />
+                                <img src="~/images/@Model.ProfilePicture.Name" asp-append-version="true" alt="My Image" />
 
                                 @* <img src="~/images/@Model.ProfilePicture.Name" alt=""> *@
                             </div>
@@ -216,7 +446,7 @@
                         <div>
                             <div class="img">
                                 @* <img src="~/images/@Model.ProfilePicture.Name" alt=""> *@
-                                <img src="~/images/@Model.ProfilePicture.Name" asp-append-version="true" alt="My Image"  />
+                                <img src="~/images/@Model.ProfilePicture.Name" asp-append-version="true" alt="My Image" />
 
                             </div>
                             <div class="info">
@@ -265,7 +495,7 @@
             <div class="profile_info">
                 <div class="cart">
                     <div class="img">
-                         <img src="~/images/@Model.ProfilePicture.Name" asp-append-version="true" alt="My Image" />
+                        <img src="~/images/@Model.ProfilePicture.Name" asp-append-version="true" alt="My Image" />
 
                         @* <img src="~/images/@Model.ProfilePicture.Name" alt=""> *@
                     </div>
@@ -277,10 +507,10 @@
                         <div class="general_info">
                             <p><span>@Model.Posts.Count</span> post</p>
                             <a id="FollowersCounter" href="Follow/ShowFollowers?Name=" style="color:black ; margin:2px">@Model.Followers.Count</a>
-                            <a href="Follow/ShowFollowers?Name=" style="color:black; margin:2px"  >Followers</a>
+                            <a href="Follow/ShowFollowers?Name=" style="color:black; margin:2px">Followers</a>
 
-                            <a id="FollowingCounter" href="Follow/showFollowees?Name=" style="color:black ; margin:2px" >@Model.Following.Count</a>
-                            <a href="Follow/showFollowees?Name=" style="color:black; margin:2px" >Following</a>
+                            <a id="FollowingCounter" href="Follow/showFollowees?Name=" style="color:black ; margin:2px">@Model.Following.Count</a>
+                            <a href="Follow/showFollowees?Name=" style="color:black; margin:2px">Following</a>
                             @* <a id="FollowersCounter" asp-action="showFollowers" asp-controller="Follow" style="color:black ; margin:2px" class="ClickFollowers"> @Model.Followers.Count</a> <a style="color:black; margin:2px" asp-action="showFollowers" asp-controller="Follow" asp-route-ProfileUserViewModel="@Model" class="ClickFollowers"> Followers</a> *@
                             @* <a id="FolloweesCounter" asp-action="showFollowees" asp-controller="Follow" style="color:black ; margin:2px" class="ClickFollowing"> @Model.Following.Count</a> <a style="color:black; margin:2px" asp-action="showFollowees" asp-controller="Follow" asp-route-ProfileUserViewModel="@Model" class="ClickFollowing"> Following</a> *@
                         </div>
@@ -292,8 +522,8 @@
                 </div>
             </div>
 
-         @*    <div id="followersListContainer">
-                <!-- Partial view will be loaded here -->
+            @*    <div id="followersListContainer">
+            <!-- Partial view will be loaded here -->
             </div> *@
 
             <div class="highlights">
@@ -339,9 +569,9 @@
                     <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
                         <div id="posts_sec" class="post">
 
-                            @foreach(var post in Model.Posts)
+                            @foreach (var post in Model.Posts)
                             {
-                                @foreach(var photo in post.PhotosPathes)
+                                @foreach (var photo in post.PhotosPathes)
                                 {
                                     <div class="more">
                                         <button type="button" onclick="setPostId(@post.Id)" class="btn p-0" data-bs-toggle="modal" data-bs-target="#delete_post_modal">
@@ -349,25 +579,25 @@
                                         </button>
                                     </div>
                                     <div class="item">
-                                        <img src="~/images/@photo" asp-append-version="true" alt="My Image" />
+                                        <img src="~/images/@photo" asp-append-version="true" alt="My Image" onclick="openOverlay('/images/@photo')" />
 
                                         @* <img class="img-fluid item_img" src="~/images/@photo" alt=""> *@
                                     </div>
                                 }
                             }
-                            
+
 
                             @* <div class="item">
-                                <img class="img-fluid item_img" src="https://i.ibb.co/2ZxBFVp/img2.jpg" alt="">
+                            <img class="img-fluid item_img" src="https://i.ibb.co/2ZxBFVp/img2.jpg" alt="">
                             </div>
                             <div class="item">
-                                <img class="img-fluid item_img" src="https://i.ibb.co/5vQt677/img3.jpg" alt="">
+                            <img class="img-fluid item_img" src="https://i.ibb.co/5vQt677/img3.jpg" alt="">
                             </div>
                             <div class="item">
-                                <img class="img-fluid item_img" src="https://i.ibb.co/pJ8thst/account13.jpg" alt="">
+                            <img class="img-fluid item_img" src="https://i.ibb.co/pJ8thst/account13.jpg" alt="">
                             </div>
                             <div class="item">
-                                <img class="img-fluid item_img" src="https://i.ibb.co/j8L7FPY/account10.jpg" alt="">
+                            <img class="img-fluid item_img" src="https://i.ibb.co/j8L7FPY/account10.jpg" alt="">
                             </div> *@
                         </div>
                     </div>
@@ -569,40 +799,79 @@
                 });
             });
         </script>
-        @* <script>
-            $(document).ready(function () {
-                // Add event listener to followers count link
-                $(".ClickFollowers").on("click", function (e) {
-                    console.log("success");
-                    e.preventDefault(); // Prevent the default action of the link
+        <script>
+            var currentIndex = 0;
 
-                    // Make AJAX request to showFollowers action
-                    $.ajax({
-                        url: "/Follow/ShowFollowers", // URL of the action
-                        type: "GET",
-                        //data: { Name: "@Model.UserName" }, // Pass any necessary data
-                        success: function (response) {
-                            // Update the content of a specific element with the response (partial view)
-                            $("#followersListContainer").html(response);
-                            console.log(response);
-                        },
-                        error: function (xhr, status, error) {
-                            console.error(xhr.responseText);
-                        }
-                    });
-                });
-            });
+            function openOverlay(imgSrc) {
+    var overlay = document.getElementById('overlay');
+    var overlayImg = document.getElementById('overlayImg');
+
+    overlay.style.display = 'block';
+    overlayImg.src = imgSrc;
+    currentIndex = images.indexOf(imgSrc);
+    updateInfo(currentIndex);
+                console.log("Holllla");
+
+
+
+}
+
+
+// function updateInfo(index) {
+//     var infoImg = document.querySelectorAll('.overlay-info img');
+//     for (var i = 0; i < post.PhotosPathes.length; i++) {
+//                     infoImg[i].src = post.PhotosPathes[index];
+//     }
+// }
+
+document.getElementById('overlay').onclick = function(event) {
+    if (event.target === this) {
+        this.style.display = 'none';
+    }
+};
+
+document.getElementById('close').onclick = function() {
+    document.getElementById('overlay').style.display = 'none';
+};
+
+            
+        
+
+           </script>
+        @* <script>
+        $(document).ready(function () {
+        // Add event listener to followers count link
+        $(".ClickFollowers").on("click", function (e) {
+        console.log("success");
+        e.preventDefault(); // Prevent the default action of the link
+
+        // Make AJAX request to showFollowers action
+        $.ajax({
+        url: "/Follow/ShowFollowers", // URL of the action
+        type: "GET",
+        //data: { Name: "@Model.UserName" }, // Pass any necessary data
+        success: function (response) {
+        // Update the content of a specific element with the response (partial view)
+        $("#followersListContainer").html(response);
+        console.log(response);
+        },
+        error: function (xhr, status, error) {
+        console.error(xhr.responseText);
+        }
+        });
+        });
+        });
         </script> *@
 
-    @*     
+        @*
 
-    @* <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script> *@
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
-    <script src="/owlcarousel/jquery.min.js"></script>
-    <script src="/owlcarousel/owl.carousel.min.js"></script>
-    <script src="/js/carousel.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.js"></script>
-    <script src="/js/main.js"></script>
+        @* <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script> *@
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
+        <script src="/owlcarousel/jquery.min.js"></script>
+        <script src="/owlcarousel/owl.carousel.min.js"></script>
+        <script src="/js/carousel.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.js"></script>
+        <script src="/js/main.js"></script>
 </body>
 
 </html>

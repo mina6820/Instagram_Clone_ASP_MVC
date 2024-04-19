@@ -43,9 +43,10 @@
     <div class="follow-request">
         <p><strong>@Model.userName</strong> wants to follow you.</p>
         <div class="action-links">
-            <a href="@Url.Action("AcceptRequest", "Follow", new { followId = Model.followID, userId = Model.userID })" class="accept-btn">Accept</a>
+            <a href="@Url.Action("AcceptRequest", "Follow", new { followID = Model.followID, userID = Model.userID })" class="accept-btn">Accept</a>
             <a href="@Url.Action("RejectRequest", "Follow", new { requestId = Model.followID })" class="reject-btn">Reject</a>
         </div>
+
     </div>
 
 </body>

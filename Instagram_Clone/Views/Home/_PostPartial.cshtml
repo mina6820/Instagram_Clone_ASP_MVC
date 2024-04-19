@@ -228,6 +228,7 @@
     <script>
         var currentUserID = document.getElementById("hiddenID").value;
         console.log(`the ID =  ${currentUserID}`);
+
         var hub = new signalR.HubConnectionBuilder().withUrl("/PostH").build();
 
         hub.start().then(function () {

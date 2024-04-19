@@ -1,10 +1,12 @@
-using Instagram_Clone.Models;
 using Instagram_Clone.Repositories.PostRepo;
+using Instagram_Clone.Repositories.StoryRepo;
 using Instagram_Clone.Repositories.UserFollowRepo;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Runtime.Intrinsics.X86;
 using System.Security.Claims;
 
 namespace Instagram_Clone.Controllers
@@ -14,21 +16,23 @@ namespace Instagram_Clone.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IPostRepository postRepository;
+        private readonly IStoryRepository storyRepository;
         private readonly Context context;
         private IUserRelationshipRepository userRelationshipRepository;
-
+        private INotificationRepository notificationRepository;
 
         /// <summary>
         /// messi
         /// </summary>
         /// <param name="logger"></param>
-        public HomeController(ILogger<HomeController> logger , IPostRepository postRepository, Context context, IUserRelationshipRepository _userRelationship)
+        public HomeController(IStoryRepository _storyRepository,ILogger<HomeController> logger , IPostRepository postRepository, Context context, IUserRelationshipRepository _userRelationship , INotificationRepository notificationRepository)
         {
             _logger = logger;
             this.postRepository = postRepository;
             this.context = context;
             userRelationshipRepository = _userRelationship;
-
+            storyRepository = _storyRepository;
+            this.notificationRepository= notificationRepository;
         }
 
         public IActionResult Index()
@@ -58,10 +62,7 @@ namespace Instagram_Clone.Controllers
                 postViewModel.Likes = post.Likes;
                 postViewModel.Comments = post.Comments;
                 postViewModel.CreatedAt = post.Date;
-                //postViewModel.ProfilePhoto = post.User.ProfilePicture;
-
-
-               
+                
                 ViewBag.CurrentUserId = user?.Id;
 
                 TimeSpan TimeSincePost = DateTime.Now - post.Date;
@@ -74,9 +75,6 @@ namespace Instagram_Clone.Controllers
                 else
                     postViewModel.TimeAgo = $"{(int)TimeSincePost.TotalDays} day ago";
 
-                //postViewModel.TimeAgo = post.Date;
-
-
                 postsViewModel.Add(postViewModel);
             }
             ViewBag.postsList = postsViewModel;
@@ -88,18 +86,21 @@ namespace Instagram_Clone.Controllers
             Claim claim2 = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
             ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim2.Value);
             ApplicationUser user3 = context.Users.Include(u => u.ProfilePicture).FirstOrDefault(u => u.Id == user2.Id);
+           
 
+            List<ApplicationUser> NonFollowing = userRelationshipRepository.GetNonFollowees(user.Id);
+            ViewBag.NonFollowingUsers = NonFollowing;
+
+            List<ApplicationUser> applicationUsers = userRelationshipRepository.GetRandomlyTopFive(user2.Id);
+            ViewBag.applicationUsers = applicationUsers;
+            
 
             List<ApplicationUser> AllUsers = context.Users
                 .Include(u=>u.ProfilePicture)
                 .ToList();
 
-            AllUsers.Remove(user2);
 
-            //List<ApplicationUser> allUsers = userRelationshipRepository.GetFollowersAndFollowings(user3.Id);
-            //return View("Index", AllUsers);
-            //List<UserRelationship> test = new List<UserRelationship>();
-            //test.Add(AllUsers.First());
+            AllUsers.Remove(user2);
 
             ViewBag.Users = AllUsers;
             ViewBag.UserName = user3.UserName;
@@ -172,8 +173,64 @@ namespace Instagram_Clone.Controllers
 
             return PartialView("_CommentPartial");
             // return RedirectToAction("Home/Index");
+            ViewBag.picture = user3.ProfilePicture?.Name;
+
+
+
+            // Story
+            var userId = user.Id;
+
+            var myStories = storyRepository.GetMyStories(userId);
+
+            var stories = storyRepository.GetAllStories(userId);
+
+            ViewBag.myStories = myStories;
+            ViewBag.Stories = stories;
+
+
+            //Notifications
+            List<FollowRequest_notification> notifications = notificationRepository.GetNotifications(user3.Id);
+            ViewBag.notifications = notifications;
+            return View();
+
 
         }
+
+
+        public IActionResult SearchUsers(string Name)
+        {
+            Claim claim2 = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+            ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim2.Value);
+            ApplicationUser user3 = context.Users.Include(u => u.ProfilePicture).FirstOrDefault(u => u.Id == user2.Id);
+
+            List<ApplicationUser> AllUsers = context.Users
+                .Include(u => u.ProfilePicture)
+                //.Include(u=>u.)
+                .ToList();
+
+            AllUsers.Remove(user2);
+
+            List<ApplicationUser> searchResults = AllUsers;
+
+            if (Name != null)
+            {
+                searchResults = AllUsers
+                    .Where(u => u.UserName.Contains(Name)) // Example search logic, modify according to your requirements
+                    .ToList();
+            }
+
+            return PartialView("_DataBaseUsersPartial", searchResults);
+        }
+
+        //public IActionResult GetNonFollowees()
+        //{
+        //    Claim claim2 = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+        //    ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim2.Value);
+        //    List<UserRelationship> applicationUsers = userRelationshipRepository.GetNonFollowees(user2.Id);
+        //    return PartialView("_SideBarPartial", applicationUsers);
+        //}
+
+
 
 
         public IActionResult Privacy()
@@ -243,8 +300,6 @@ namespace Instagram_Clone.Controllers
         //{
         //    return View();
         //}
-
-     
 
     }
 }

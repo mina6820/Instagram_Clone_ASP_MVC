@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications</title>
+    <link rel="stylesheet" href="path/to/your/styles.css">
+</head>
+<body>
+    <div id="notification" class="notification_section">
+        <h2>Notifications</h2>
+        <div class="notifications">
+            @if (ViewBag.notifications != null)
+            {
+                @foreach (var notification in ViewBag.notifications)
+                {
+                    <div class="notif follow_notif">
+                        <div class="cart">
+                            <div>
+                                <div class="img">
+                                    <img src="/images/profile_img.jpg" alt="">
+                                    <!-- You can include the user's profile picture here -->
+                                </div>
+                                <div class="info">
+                                    <p class="name">
+                                        <span class="desc">Notification:</span>
+                                        <span class="sender-name" style="font-weight: bold;">@notification.Sender.UserName</span>
+                                       @*  <!-- Replace @notification.Sender.UserName with the appropriate property -->
+                                        <span class="time">@notification.Time</span>
+                                        <!-- Replace @notification.Time with the appropriate property --> *@
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="follow_actions">
+                                    @* Use Url.Action to generate action URLs *@
+
+                                <a href="@Url.Action("AcceptRequest", "Follow", new { NotificationID = notification.Id, receiverId = notification.ReceiverId, senderId = notification.SenderId })" class="btn-confirm-follow-back btn btn-primary" style="width: 100px;height: 30px; margin: 2px;">Accept</a>
+                                <a href="@Url.Action("Follow_Back", "Follow", new { NotificationID = notification.Id, followeeid = notification.ReceiverId, loginuser = notification.SenderId })" class="btn-confirm-follow-back btn btn-primary" style="width: 100px;height: 30px; margin: 2px;">FollowBack</a>
+                                <a href="@Url.Action("Reject_Request", "Follow", new { NotificationID = notification.Id })" class="btn-confirm-follow-back btn btn-primary" style="width: 100px;height: 30px; margin: 2px;">Reject</a>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p>No notifications available.</p>
+            }
+            <!-- Notifications will be displayed here dynamically -->
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Include the SignalR library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.8/signalr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"
+            integrity="sha512-7rhBJh1om/W5Ztx7WiYOR9h2wlSaTmPyQMoHFtbT/FVNIA12y6S6I8HY9mrBS1uJ3dSU/R3qaSAXsGYuRjMDxg=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+             <script src="/js/ConnectHub.js"></script>
+
+   @*  // Establish a connection to the SignalR hub
+    // var connection = new signalR.HubConnectionBuilder()
+    //     .withUrl("/NotificationHub")
+    //     .build(); *@
+    <script>
+       
+
+        connection.start().then(function () {
+            console.log("SignalRrrr Connected");
+
+            // Define the ReceiveNotification function to handle incoming notifications
+            connection.on("ReceiveFollowNotification", function (senderUserName) {
+                console.log("I am here");
+                // Update the UI to display the received notification
+                // You can customize this part based on your UI structure
+                var notificationElement =
+                    '<div class="notif follow_notif">' +
+                    '<div class="cart">' +
+                    '<div>' +
+                    '<div class="img">' +
+                    '<img src="/images/profile_img.jpg" alt="">' +
+                    '</div>' +
+                    '<div class="info">' +
+                    '<p class="name">' +
+                    '<span class="sender-name" style="font-weight: bold;">' + senderUserName + '</span>' +
+                    '<span class="desc"> Wants to Follow You:</span>' +
+                    '<span class="time">' + new Date().toLocaleTimeString() + '</span>' +
+                    '</p>' +
+                    '<div class="follow_actions">' +
+                    '<a class="btn-confirm btn btn-primary" style="width: 100px;height: 30px; margin: 2px;">Confirm</a>' +
+                    '<a class="btn-confirm-follow-back btn btn-primary" style="width: 100px;height: 30px;">Follow Back</a>' +
+                    '<a class="btn-confirm-follow-back btn btn-danger" style="width: 100px;height: 30px;">Reject</a>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>';
+
+                // Append the notification element to the notification section
+                $("#notification .notifications").append(notificationElement);
+            });
+        });
+
+    </script>
+</body>
+</html>
