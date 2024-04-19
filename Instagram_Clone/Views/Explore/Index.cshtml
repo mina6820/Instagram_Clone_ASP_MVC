@@ -1,0 +1,38 @@
+﻿@model List<Post>
+
+<div class="explore_container" style="margin-left: 200px">
+
+
+
+    
+    @for (int index = 0; index < Model.Count; index++)
+    {
+        <form method="post" action="@Url.Action("openPost", "Explore")" class="postForm">
+            <input type="hidden" name="postId" value="@Model[index].Id" />
+            <img width="500px" height="500px" src="~/images/@ViewBag.paths[index]" class="postImage">
+        </form>
+    }
+
+
+</div>
+
+<style>
+    img:hover
+    {
+        cursor: pointer;
+    }
+</style>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var postForms = document.querySelectorAll('.postForm');
+        postForms.forEach(function (form) {
+            form.addEventListener('click', function () {
+                this.submit();
+            });
+        });
+    });
+</script>
+
+
