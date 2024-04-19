@@ -1,18 +1,14 @@
-﻿using Instagram_Clone.Repositories.MessageRepo;
-using Instagram_Clone.Repositories.NotificationRepo;
-using Instagram_Clone.Repositories.NotificationRepo.FollowRequestContainer;
+﻿using Microsoft.AspNetCore.SignalR;
+using System.Threading.Tasks;
+using Instagram_Clone.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
+using NuGet.Protocol.Plugins;
+using System.Threading.Tasks;
 
-namespace Instagram_Clone.Hubs
+public class NotificationHub : Hub
 {
-    public class NotificationHub:Hub
-    {
-      
-        public async Task SendNotification(string userId, string message)
-        {
-            // Send the notification to the specific user
-            await Clients.User(userId).SendAsync("ReceiveNotification", message);
-        }
-
-    }
+   
 }
+
+

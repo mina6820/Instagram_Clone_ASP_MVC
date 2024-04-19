@@ -96,6 +96,7 @@ namespace Instagram_Clone.Controllers
                 .Include(u => u.ProfilePicture)
                 .FirstOrDefault(u => u.Id == loginneduser.Id);
 
+
           ApplicationUser user = context.Users
                 .Include(u => u.Followers)
                 .Include(u => u.Following)
@@ -156,8 +157,6 @@ namespace Instagram_Clone.Controllers
 
             //List<ApplicationUser> Mutualusers= userRelationship.GetMutualFollowers(loginneduser.Id, user.Id);
             //List<ApplicationUser> NonMutualusers = userRelationship.GetNonMutualFollowers(loginneduser.Id, user.Id);
-
-            //List<ApplicationUser> MutualFollowers = userRelationship.MutualFollowers(profileUserViewModel.Followers, loginneduser.Id, user.Id);
 
             return PartialView("_FollowersFriendPartial", profileUserViewModel);
         }
@@ -230,26 +229,25 @@ namespace Instagram_Clone.Controllers
 
         public ActionResult SearchFollower(string Name, string Id)
         {
+            
             ApplicationUser user = context.Users.Include(u => u.ProfilePicture).FirstOrDefault(u => u.Id == Id);
 
             // Assuming you have a way to get followers from your user model
-            var followers = userRelationship.searchFollowers2(Name,user.Id); // Replace this with your actual logic
 
             // Assuming ProfileUserViewModel has a property named Followers
-            var profileUserViewModel = new ProfileUserViewModel
-            {
-                Followers = followers
-            };
+            var profileUserViewModel = new ProfileUserViewModel();
 
             if (Name != null)
             {
-                return PartialView("_FollowersFriendPartial", profileUserViewModel);
+                var followers = userRelationship.searchFollowers2(Name, user.Id); // Replace this with your actual logic
+                profileUserViewModel.Followers=followers;
             }
             else
             {
                 profileUserViewModel.Followers = new List<UserRelationship>();
-                return PartialView("_FollowersFriendPartial", profileUserViewModel);
             }
+
+            return PartialView("_FollowersFriendPartial", profileUserViewModel);
         }
 
         public ActionResult SearchFollowee(string Name, string Id)
@@ -260,20 +258,18 @@ namespace Instagram_Clone.Controllers
             var followees = userRelationship.searchFollowees2(Name, user.Id); // Replace this with your actual logic
 
             // Assuming ProfileUserViewModel has a property named Followers
-            var profileUserViewModel = new ProfileUserViewModel
-            {
-                Following = followees
-            };
+            var profileUserViewModel = new ProfileUserViewModel();
 
             if (Name != null)
             {
-                return PartialView("_FollowingFriendPartial", profileUserViewModel);
+                profileUserViewModel.Following = followees;
             }
             else
             {
                 profileUserViewModel.Following = new List<UserRelationship>();
-                return PartialView("_FollowingFriendPartial", profileUserViewModel);
             }
+            return PartialView("_FollowingFriendPartial", profileUserViewModel);
+
         }
 
 
