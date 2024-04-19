@@ -1,5 +1,6 @@
 using Instagram_Clone.Authentication;
 using Instagram_Clone.Hubs;
+using Instagram_Clone.Repositories.ChatRepo;
 using Instagram_Clone.Repositories.CommentRepo;
 using Instagram_Clone.Repositories.LikeRepo;
 using Instagram_Clone.Repositories.MessageRepo;
@@ -17,7 +18,7 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-
+using Microsoft.Extensions.Hosting;
 namespace Instagram_Clone
 {
     public class Program
@@ -55,9 +56,11 @@ namespace Instagram_Clone
             builder.Services.AddScoped<IStoryRepository, StoryRepository>();
             builder.Services.AddScoped<IStoryViewRepository, StoryViewRepository>();
             builder.Services.AddScoped<IpostPhotoRepository, postPhotoRepository>();
+            builder.Services.AddScoped<IChatRepository, ChatRepository>();
 
+            builder.Services.AddHostedService<StoryExpirationService>();
 
-           // builder.Services.AddSingleton<IUserIdProvider, CustomEmailProvider>();
+            // builder.Services.AddSingleton<IUserIdProvider, CustomEmailProvider>();
 
 
             builder.Services.AddSignalR();
@@ -84,7 +87,7 @@ namespace Instagram_Clone
             // The Hub
             app.MapHub<ChatterHub>("/ChatH");
             app.MapHub<PostHub>("/PostH");
-
+            app.MapHub<NotificationHub>("/NotificationHub");
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");

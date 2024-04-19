@@ -1,6 +1,8 @@
 using Instagram_Clone.Repositories.PostRepo;
+using Instagram_Clone.Repositories.StoryRepo;
 using Instagram_Clone.Repositories.UserFollowRepo;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
@@ -14,6 +16,7 @@ namespace Instagram_Clone.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IPostRepository postRepository;
+        private readonly IStoryRepository storyRepository;
         private readonly Context context;
         private IUserRelationshipRepository userRelationshipRepository;
 
@@ -22,13 +25,13 @@ namespace Instagram_Clone.Controllers
         /// messi
         /// </summary>
         /// <param name="logger"></param>
-        public HomeController(ILogger<HomeController> logger , IPostRepository postRepository, Context context, IUserRelationshipRepository _userRelationship)
+        public HomeController(IStoryRepository _storyRepository,ILogger<HomeController> logger , IPostRepository postRepository, Context context, IUserRelationshipRepository _userRelationship)
         {
             _logger = logger;
             this.postRepository = postRepository;
             this.context = context;
             userRelationshipRepository = _userRelationship;
-
+            storyRepository = _storyRepository;
         }
 
         public IActionResult Index()
@@ -81,16 +84,37 @@ namespace Instagram_Clone.Controllers
             Claim claim2 = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
             ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim2.Value);
             ApplicationUser user3 = context.Users.Include(u => u.ProfilePicture).FirstOrDefault(u => u.Id == user2.Id);
+           
 
+            List<ApplicationUser> NonFollowing = userRelationshipRepository.GetNonFollowees(user.Id);
+            ViewBag.NonFollowingUsers = NonFollowing;
+
+            List<ApplicationUser> applicationUsers = userRelationshipRepository.GetRandomlyTopFive(user2.Id);
+            ViewBag.applicationUsers = applicationUsers;
+            
 
             List<ApplicationUser> AllUsers = context.Users
                 .Include(u=>u.ProfilePicture)
                 .ToList();
 
+
             AllUsers.Remove(user2);
 
             ViewBag.Users = AllUsers;
             ViewBag.UserName = user3.UserName;
+            ViewBag.picture = user3.ProfilePicture?.Name;
+
+
+
+            // Story
+            var userId = user.Id;
+
+            var myStories = storyRepository.GetMyStories(userId);
+
+            var stories = storyRepository.GetAllStories(userId);
+
+            ViewBag.myStories = myStories;
+            ViewBag.Stories = stories;
             return View();
 
         }
@@ -118,6 +142,14 @@ namespace Instagram_Clone.Controllers
 
             return PartialView("_DataBaseUsersPartial", searchResults);
         }
+
+        //public IActionResult GetNonFollowees()
+        //{
+        //    Claim claim2 = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+        //    ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim2.Value);
+        //    List<UserRelationship> applicationUsers = userRelationshipRepository.GetNonFollowees(user2.Id);
+        //    return PartialView("_SideBarPartial", applicationUsers);
+        //}
 
 
 
@@ -189,8 +221,6 @@ namespace Instagram_Clone.Controllers
         //{
         //    return View();
         //}
-
-     
 
     }
 }

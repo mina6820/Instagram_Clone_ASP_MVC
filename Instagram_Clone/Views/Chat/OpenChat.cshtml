@@ -20,18 +20,31 @@
             </div>
         </div>
     </div>
-
-
-
 </div>
+
 <div id="Conv" class="content">
-    <div class="my_message">
-        <p class="p_message">hello how are you?</p>
-    </div>
-    <div class="response_message">
-        <p class="p_message">hi! i'm fine and you?</p>
-    </div>
+@if (ViewBag.Messages != null)
+{
+    @foreach (var message in ViewBag.Messages)
+    {
+
+        @if (ViewBag.SenderId == message.SenderId)
+        {
+            <div class="my_message">
+                <p class="p_message">@message.Content</p>
+            </div>
+        }
+        else
+        {
+            <div class="response_message">
+                <p class="p_message">@message.Content</p>
+            </div>
+        }
+    }
+}
 </div>
+
+
 
 <div class="form-group">
 
@@ -45,9 +58,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"
         integrity="sha512-7rhBJh1om/W5Ztx7WiYOR9h2wlSaTmPyQMoHFtbT/FVNIA12y6S6I8HY9mrBS1uJ3dSU/R3qaSAXsGYuRjMDxg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 <script>
-
-
     // Establish a connection to the SignalR hub
     var connection = new signalR.HubConnectionBuilder()
         .withUrl("/ChatH")
@@ -57,28 +69,31 @@
         console.log("SignalR Connected");
     });
 
-
-
-
     // Receive message from the server
-    connection.on("ReceiveMessage", function (messageInput2) {
-        console.log("On")
-        $("#Conv").append("<li>" + messageInput2 + "</li>");
-    })
+    connection.on("ReceiveMessage", function (messageInput, senderId, date) {
+        // Check if the message is from the sender or the receiver
+        if (senderId === "@ViewBag.senderId") {
+            $("#Conv").append('<div class="my_message"><p class="p_message">' + messageInput + '</p></div>');
+        } else {
+            $("#Conv").append('<div class="response_message"><p class="p_message">' + messageInput + '</p></div>');
+        }
+    });
 
-
-
-    // Function to send a message
+    // Function to send a message to the Server Basha
     function sendMessage() {
-
-        var messageInput = document.getElementById("messageInput").value;
-        var receiverId = document.getElementById("receiverId").value;
-        var chatId = document.getElementById("chatId").value;
-
+        var messageInput = $("#messageInput").val();
+        var receiverId = $("#receiverId").val();
+        var chatId = $("#chatId").val();
 
         connection.invoke("SendMessage", messageInput, receiverId, chatId);
-        console.log("invoke");
     }
-
-
 </script>
+
+
+
+
+
+
+
+
+
