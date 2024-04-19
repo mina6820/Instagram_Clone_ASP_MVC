@@ -42,24 +42,6 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
             return Following;
         }
 
-        //public List<UserRelationship> GetFollowersAndFollowings(string id)
-        //{
-        //    List<UserRelationship> followers = context.UserRelationship
-        //        .Where(ur => ur.FolloweeId == id && ur.Follower.IsDeleted == false && ur.IsDeleted == false)
-        //        .Include(ur => ur.Follower)
-        //        .Include(ur => ur.Follower.ProfilePicture)
-        //        .ToList();
-
-        //    List<UserRelationship> followings = context.UserRelationship
-        //        .Where(ur => ur.FollowerId == id && ur.Followee.IsDeleted == false && ur.IsDeleted == false)
-        //        .Include(ur => ur.Followee)
-        //        .Include(ur => ur.Followee.ProfilePicture)
-        //        .ToList();
-
-        //    List<UserRelationship> followersAndFollowings = followers.Concat(followings).ToList();
-
-        //    return followersAndFollowings;
-        //}
 
         public List<ApplicationUser> GetFollowersAndFollowings(string id)
         {
@@ -79,24 +61,6 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
 
             return followersAndFollowings;
         }
-
-
-        
-
-
-        //انا هديك ال فلويي و انت تبعتلى الفلور
-        //public List<UserRelationship> searchFollowers(string Name)
-        //{
-
-
-        //   List< UserRelationship> searchedUsers =
-        //        context.UserRelationship
-        //        .Include(ur => ur.Follower)
-        //        .Where(ur => ur.Follower.UserName.Contains(Name))
-        //        .ToList();
-
-        //    return searchedUsers;
-        //}
 
         public List<ApplicationUser> searchFollowers(string Name )
         {
@@ -141,9 +105,6 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
                     searchedUsers.Add(item);
                 }
             }
-
-
-
             return searchedUsers;
         }
 
@@ -161,56 +122,6 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
             }
             return searchedUsers;
         }
-
-
-        //public List<UserRelationship> searchFollowers(string name)
-        //{
-        //    List<UserRelationship> searchedUsers =
-        //        context.UserRelationship
-        //        .Include(ur => ur.Follower)
-        //        .Where(ur => ur.Follower.UserName.Contains(name))
-        //        .ToList();
-        //    return searchedUsers;
-        //}
-
-        /////Abadeer
-
-        //public UserRelationship GetFollowerRelationship(string followerId, string followeeId)
-        //{
-        //    return context.UserRelationship.FirstOrDefault(ur => ur.FollowerId == followeeId && ur.FolloweeId == followerId);
-        //}
-        //public UserRelationship GetFollowingRelationship(string followerId, string followeeId)
-        //{
-        //    return context.UserRelationship.FirstOrDefault(ur => ur.FollowerId == followerId && ur.FolloweeId == followeeId);
-        //}
-        //public void removeFollowing(string id)
-        //{
-
-        //    UserRelationship following = context.UserRelationship.FirstOrDefault(u => u.FolloweeId == id);
-        //    if (following != null)
-        //    {
-        //        following.IsDeleted = true;
-        //        context.SaveChanges();
-        //    }
-
-        //}
-        //public void removeFollower(string id)
-        //{
-        //    UserRelationship Follower = context.UserRelationship.FirstOrDefault(u => u.FollowerId == id);
-        //    if (Follower != null)
-        //    {
-        //        Follower.IsDeleted = true;
-        //        context.SaveChanges();
-        //    }
-
-        //}
-
-        //public bool UnFollow(string LoginUserID , string FollowerID)
-        //{
-        //    var user = context.Users.FirstOrDefault(u => u.Id == LoginUserID);
-        //    var Relation = context.UserRelationship
-        //   .FirstOrDefault(ur=>ur.user.Id == LoginUserID && ur=>ur.Follower.Id == FollowerID);
-        //}
 
 
         public void GetFollowingRelationship(string followeeId, string LoginUsrer)
@@ -240,42 +151,6 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
 
         }
 
-        //public void Follow(string followeeid, string loginuser)
-        //{
-        //    // assuming context is your dbcontext instance
-        //    ApplicationUser followeruser = context.Users.FirstOrDefault(u => u.Id == loginuser);
-        //    ApplicationUser followinguser = context.Users.FirstOrDefault(u => u.Id == followeeid);
-
-        //    if (followinguser != null && followeruser != null)
-        //    {
-        //        // check if the relationship already exists
-        //        bool alreadyexists = context.UserRelationship.Any(ur => ur.FollowerId == followeruser.Id && ur.FolloweeId == followinguser.Id);
-
-        //        if (!alreadyexists)
-        //        {
-        //            var relation = new UserRelationship
-        //            {
-        //                IsDeleted = false, // assuming default value
-        //                FolloweeId = followinguser.Id,
-        //                FollowerId = followeruser.Id
-        //            };
-
-        //            context.UserRelationship.Add(relation);
-        //            Save();
-        //            //context.savechanges();
-        //        }
-        //        else
-        //        {
-        //            // handle case where the relationship already exists
-        //            // you can add logging or throw an exception here
-        //        }
-        //    }
-        //    else
-        //    {
-        //        // handle case where either followeruser or followinguser is null
-        //        // you can add logging or throw an exception here
-        //    }
-        //}
         public async Task<bool> IsFollowing(string followerId, string followeeId)
         {
             return await context.UserRelationship.AnyAsync(ur => ur.FollowerId == followerId && ur.FolloweeId == followeeId && !ur.IsDeleted);
@@ -297,44 +172,10 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
             }
         }
 
-        //public async Task Follow(string followeeId, string followerId)
-        //{
-        //    // Fetch users by their IDs
-        //    ApplicationUser followerUser = await context.Users.FirstOrDefaultAsync(u => u.Id == followerId);
-        //    ApplicationUser followeeUser = await context.Users.FirstOrDefaultAsync(u => u.Id == followeeId);
-
-        //    if (followerUser != null && followeeUser != null)
-        //    {
-        //        // Check if the relationship already exists
-        //        bool alreadyExists = context.UserRelationship.Any(ur => ur.FollowerId == followerUser.Id && ur.FolloweeId == followeeUser.Id);
-
-        //        if (!alreadyExists)
-        //        {
-        //            var relation = new UserRelationship
-        //            {
-        //                IsDeleted = false, // assuming default value
-        //                FolloweeId = followeeUser.Id,
-        //                FollowerId = followerUser.Id
-        //            };
-
-        //            context.UserRelationship.Add(relation);
-        //            await context.SaveChangesAsync();
-        //        }
-        //        else
-        //        {
-        //            // Handle case where the relationship already exists
-        //            // You can add logging or throw an exception here
-        //        }
-        //    }
-        //    else
-        //    {
-        //        // Handle case where either followerUser or followeeUser is null
-        //        // You can add logging or throw an exception here
-        //    }
-        //}
 
         //followback
-        public void followback(string followeeid, string loginuser)
+     
+        public void Followback(string followeeid, string loginuser)
         {
             // assuming context is your dbcontext instance
             ApplicationUser followeruser = context.Users.FirstOrDefault(u => u.Id == loginuser);
@@ -355,6 +196,16 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
                         FolloweeId = followeruser.Id
                     };
 
+                   
+
+                    var relation = new UserRelationship
+                    {
+                        IsDeleted = false, // assuming default value
+                        FolloweeId = followinguser.Id,
+                        FollowerId = followeruser.Id
+                    };
+
+                    context.UserRelationship.Add(relation);
                     context.UserRelationship.Add(relation2);
                     Save();
                     //context.savechanges();
@@ -372,59 +223,6 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
             }
         }
 
-        //////////////////////////////////////////////////////////////
-
-        //public List<ApplicationUser> GetMutualFollowers(string loggedInUserId, string friendUserId)
-        //{
-        //    // Get followers of the logged-in user
-        //    List<UserRelationship> loggedInUserFollowers = GetFollowers(loggedInUserId);
-
-        //    // Get followers of the friend
-        //    List<UserRelationship> friendFollowers = GetFollowers(friendUserId);
-
-        //    // Extract user IDs from the followers
-        //    var loggedInUserFollowerIds = loggedInUserFollowers.Select(ur => ur.FollowerId).ToList();
-        //    var friendFollowerIds = friendFollowers.Select(ur => ur.FollowerId).ToList();
-
-        //    // Find mutual follower IDs
-        //    var mutualFollowerIds = loggedInUserFollowerIds.Intersect(friendFollowerIds).ToList();
-
-        //    // Get the ApplicationUser objects corresponding to the mutual follower IDs
-        //    var mutualFollowers = context.Users
-        //        .Include(u => u.ProfilePicture)
-        //        .Where(u => mutualFollowerIds.Contains(u.Id))
-        //        .ToList();
-
-        //    return mutualFollowers;
-
-        //}
-
-        //public List<ApplicationUser> GetNonMutualFollowers(string loggedInUserId, string friendUserId)
-        //{
-        //    // Get followers of the logged-in user
-        //    List<UserRelationship> loggedInUserFollowers = GetFollowers(loggedInUserId);
-
-        //    // Get followers of the friend
-        //    List<UserRelationship> friendFollowers = GetFollowers(friendUserId);
-
-        //    // Extract user IDs from the followers
-        //    var loggedInUserFollowerIds = loggedInUserFollowers.Select(ur => ur.FollowerId).ToList();
-        //    var friendFollowerIds = friendFollowers.Select(ur => ur.FollowerId).ToList();
-
-        //    // Find followers of the logged-in user who are not also followers of the friend
-        //    var nonMutualFollowerIds = loggedInUserFollowerIds.Except(friendFollowerIds).ToList();
-
-        //    // Remove the friend's user ID from the non-mutual follower IDs
-        //    nonMutualFollowerIds.Remove(friendUserId);
-
-        //    // Get the ApplicationUser objects corresponding to the non-mutual follower IDs
-        //    var nonMutualFollowers = context.Users
-        //        .Include(u => u.ProfilePicture)
-        //        .Where(u => nonMutualFollowerIds.Contains(u.Id))
-        //        .ToList();
-
-        //    return nonMutualFollowers;
-        //}
 
         public List<ApplicationUser> GetNonFollowees(string id)
         {
@@ -446,22 +244,7 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
             return nonFollowedUsers;
 
         }
-        //public List<ApplicationUser> GetNonFolloweesFromFriendProfile(string id)
-        //{
-        //    List<ApplicationUser> allUsers = context.Users.Include(u => u.ProfilePicture).ToList();
-
-        //    // Get the IDs of the users followed by the given user
-        //    List<string> followedUserIds = context.UserRelationship
-        //        .Where(ur => ur.FollowerId == id && ur.Followee.IsDeleted == false && ur.IsDeleted == false)
-        //        .Select(ur => ur.FolloweeId)
-        //        .ToList();
-
-        //    // Remove followed users from the list of all users
-        //    var nonFollowedUsers = allUsers.Where(u => !followedUserIds.Contains(u.Id) && u.Id != id).ToList();
-
-        //    return nonFollowedUsers;
-
-        //}
+       
 
 
 

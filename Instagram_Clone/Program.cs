@@ -20,6 +20,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using Microsoft.Extensions.Hosting;
+using Instagram_Clone.Repositories.NotificationRepo;
 namespace Instagram_Clone
 {
     public class Program
@@ -43,8 +44,6 @@ namespace Instagram_Clone
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
                             .AddEntityFrameworkStores<Context>().AddDefaultTokenProviders();
-            builder.Services.AddSignalR();
-            //builder.Services.AddScoped<IPhotoRepository, PhotoRepository>();
             builder.Services.AddScoped<IprofilePhotoRepository, profilePhotoRepository>();
             builder.Services.AddScoped<IpostPhotoRepository, postPhotoRepository>();
             builder.Services.AddScoped<ImessagePhotoRepository, messagePhotoRepository>();
@@ -58,13 +57,14 @@ namespace Instagram_Clone
             builder.Services.AddScoped<IStoryViewRepository, StoryViewRepository>();
             builder.Services.AddScoped<IpostPhotoRepository, postPhotoRepository>();
             builder.Services.AddScoped<IChatRepository, ChatRepository>();
+            builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+
             // builder.Services.AddScoped<IFollowRequestRepository,FollowRequestRepository>();
             builder.Services.AddScoped<NotificationHub>();
-            //builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+            //builder.Services.AddSingleton<NotificationHub>();
+
 
             builder.Services.AddHostedService<StoryExpirationService>();
-
-            // builder.Services.AddSingleton<IUserIdProvider, CustomEmailProvider>();
 
 
             builder.Services.AddSignalR();

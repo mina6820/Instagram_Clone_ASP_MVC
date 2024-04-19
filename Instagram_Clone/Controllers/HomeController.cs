@@ -1,3 +1,4 @@
+using Instagram_Clone.Repositories.NotificationRepo;
 using Instagram_Clone.Repositories.PostRepo;
 using Instagram_Clone.Repositories.StoryRepo;
 using Instagram_Clone.Repositories.UserFollowRepo;
@@ -19,19 +20,20 @@ namespace Instagram_Clone.Controllers
         private readonly IStoryRepository storyRepository;
         private readonly Context context;
         private IUserRelationshipRepository userRelationshipRepository;
-
+        private INotificationRepository notificationRepository;
 
         /// <summary>
         /// messi
         /// </summary>
         /// <param name="logger"></param>
-        public HomeController(IStoryRepository _storyRepository,ILogger<HomeController> logger , IPostRepository postRepository, Context context, IUserRelationshipRepository _userRelationship)
+        public HomeController(IStoryRepository _storyRepository,ILogger<HomeController> logger , IPostRepository postRepository, Context context, IUserRelationshipRepository _userRelationship , INotificationRepository notificationRepository)
         {
             _logger = logger;
             this.postRepository = postRepository;
             this.context = context;
             userRelationshipRepository = _userRelationship;
             storyRepository = _storyRepository;
+            this.notificationRepository= notificationRepository;
         }
 
         public IActionResult Index()
@@ -115,6 +117,11 @@ namespace Instagram_Clone.Controllers
 
             ViewBag.myStories = myStories;
             ViewBag.Stories = stories;
+
+
+            //Notifications
+            List<FollowRequest_notification> notifications = notificationRepository.GetNotifications(user3.Id);
+            ViewBag.notifications = notifications;
             return View();
 
 
@@ -129,6 +136,7 @@ namespace Instagram_Clone.Controllers
 
             List<ApplicationUser> AllUsers = context.Users
                 .Include(u => u.ProfilePicture)
+                //.Include(u=>u.)
                 .ToList();
 
             AllUsers.Remove(user2);

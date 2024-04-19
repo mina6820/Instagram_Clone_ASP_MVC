@@ -29,7 +29,7 @@
         {
                         <div class="p-3 bg-white text-center">
 
-                            <div class="d-flex flex-row justify-content-between align-items-center mt-2">
+                            <div class="d-flex flex-row justify-content-between align-items-center mt-2 follower-info">
                                 <img class="rounded-circle" src="/images/@followee.Followee.ProfilePicture.Name" width="55">
                                 <div class="d-flex flex-column align-items-start ml-2"><a class="font-weight-bold" href="/Profile/index">@followee.Followee.UserName</a><span class="followers"><span style="margin:2px">@followee.Followee.FirstName</span><span style="margin:2px">@followee.Followee.LastName</span></span></div>
                                 <div class="d-flex flex-row align-items-center">
@@ -42,12 +42,12 @@
         {
                         <div class="p-3 bg-white text-center">
 
-                            <div class="d-flex flex-row justify-content-between align-items-center mt-2">
+                            <div class="d-flex flex-row justify-content-between align-items-center mt-2 follower-info">
                                 <img class="rounded-circle" src="/images/@followee.Followee.ProfilePicture.Name" width="55">
                                 <div class="d-flex flex-column align-items-start ml-2"><a class="font-weight-bold" href="/FriendsProfile/index/@followee.FolloweeId">@followee.Followee.UserName</a><span class="followers"><span style="margin:2px">@followee.Followee.FirstName</span><span style="margin:2px">@followee.Followee.LastName</span></span></div>
                                 <div class="d-flex flex-row align-items-center">
 
-                        @foreach (ApplicationUser userLogginFriend in ViewBag.NonFollowingLoginnedUser)
+                        @* @foreach (ApplicationUser userLogginFriend in ViewBag.NonFollowingLoginnedUser)
                         {
                             bool isFollowing = false;
 
@@ -95,7 +95,7 @@
                             }
                         }
 
-                           
+                            *@
 
                        @*  @foreach (ApplicationUser userLogginFriend in ViewBag.FollowingLoginnedUser)
                         {
@@ -135,22 +135,16 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         var input = document.getElementById("NameSearch");
-        var userId = ""; // You need to set this value to the current user's Id
+        var userId = "@Model.Id"; // Set the current user's Id here
 
         input.addEventListener("input", function () {
-            // Fetch data using AJAX based on the search input
             var searchTerm = input.value;
-            // Example AJAX call
-            // Replace this with your actual AJAX call to fetch followers based on search term
-            fetch("/FriendsProfile/SearchFollowee?Name=" + searchTerm + "&Id=" + userId)
+            fetch("@Url.Action("SearchFollowee", "FriendsProfile")?Name=" + searchTerm + "&Id=" + userId)
                 .then(response => response.text())
                 .then(data => {
-                    // Create a temporary element to hold the fetched data
                     var tempElement = document.createElement('div');
                     tempElement.innerHTML = data;
-                    // Select only the elements you want to append
-                    var followers = tempElement.querySelectorAll('.p-3.bg-white.text-center');
-                    // Append each follower element to the existing content
+                    var followers = tempElement.querySelectorAll('.follower-info');
                     document.getElementById("searchResults").innerHTML = "";
                     followers.forEach(function (follower) {
                         document.getElementById("searchResults").appendChild(follower);
@@ -162,3 +156,6 @@
         });
     });
 </script>
+
+
+
