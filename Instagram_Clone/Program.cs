@@ -44,8 +44,6 @@ namespace Instagram_Clone
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
                             .AddEntityFrameworkStores<Context>().AddDefaultTokenProviders();
-            builder.Services.AddSignalR();
-            //builder.Services.AddScoped<IPhotoRepository, PhotoRepository>();
             builder.Services.AddScoped<IprofilePhotoRepository, profilePhotoRepository>();
             builder.Services.AddScoped<IpostPhotoRepository, postPhotoRepository>();
             builder.Services.AddScoped<ImessagePhotoRepository, messagePhotoRepository>();
@@ -67,8 +65,6 @@ namespace Instagram_Clone
 
 
             builder.Services.AddHostedService<StoryExpirationService>();
-
-            // builder.Services.AddSingleton<IUserIdProvider, CustomEmailProvider>();
 
 
             builder.Services.AddSignalR();
