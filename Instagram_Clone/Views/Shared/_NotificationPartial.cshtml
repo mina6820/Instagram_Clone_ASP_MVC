@@ -1,40 +1,4 @@
-﻿@* <!DOCTYPE html>
-<html lang="en">
-<head>
-    <!-- Your head section with necessary meta tags, title, and CSS links -->
-</head>
-<body>
-    <div id="notification" class="notification_section">
-        <h2>Notifications</h2>
-        <div class="notifications">
-            <!-- Notifications will be displayed here dynamically -->
-        </div>
-    </div>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.8/signalr.min.js"></script>
-    <script src="/js/ConnectHub.js"></script>
-    <script>
-        // Establish a connection to the SignalR hub
-        connection.start().then(function () {
-            console.log("SignalRRRR Connected");
-
-            connection.on("ReceiveFollowNotification", function (senderUserName) {
-                // Handle incoming follow notifications here
-                console.log("Received follow notification:", senderUserName);
-                // You can update the UI or perform any other actions based on the received notification
-            });
-
-        }).catch(function (error) {
-            console.error("Error connecting to SignalR:", error);
-        });
-    </script>
-</body>
-</html>
-
- *@
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -122,6 +86,7 @@
                     '<div class="follow_actions">' +
                     '<a class="btn-confirm btn btn-primary" style="width: 100px;height: 30px; margin: 2px;">Confirm</a>' +
                     '<a class="btn-confirm-follow-back btn btn-primary" style="width: 100px;height: 30px;">Follow Back</a>' +
+                    '<a class="btn-confirm-follow-back btn btn-danger" style="width: 100px;height: 30px;">Reject</a>' +
                     '</div>' +
                     '</div>' +
                     '</div>' +
