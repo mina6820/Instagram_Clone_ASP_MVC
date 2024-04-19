@@ -32,8 +32,14 @@
                                 </div>
                             </div>
                             <div class="follow_actions">
-                                <button class="btn-confirm btn btn-primary" style="width: 100px;height: 30px; margin: 2px;">Confirm</button>
-                                <a href="#" class="btn-confirm-follow-back btn btn-primary" style="width: 100px;height: 30px; margin: 2px;">Follow Back</a>
+                                    @* Use Url.Action to generate action URLs *@
+
+                                <a href="@Url.Action("AcceptRequest", "Follow", new { NotificationID = notification.Id, receiverId = notification.ReceiverId, senderId = notification.SenderId })" class="btn-confirm-follow-back btn btn-primary" style="width: 100px;height: 30px; margin: 2px;">Accept</a>
+                                <a href="@Url.Action("Follow_Back", "Follow", new { NotificationID = notification.Id, followeeid = notification.ReceiverId, loginuser = notification.SenderId })" class="btn-confirm-follow-back btn btn-primary" style="width: 100px;height: 30px; margin: 2px;">FollowBack</a>
+                                <a href="@Url.Action("Reject_Request", "Follow", new { NotificationID = notification.Id })" class="btn-confirm-follow-back btn btn-primary" style="width: 100px;height: 30px; margin: 2px;">Reject</a>
+
+
+
                             </div>
                         </div>
                     </div>

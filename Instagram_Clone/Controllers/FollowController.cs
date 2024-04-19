@@ -1,6 +1,8 @@
 ﻿using Instagram_Clone.Authentication;
 using Instagram_Clone.Hubs;
 using Instagram_Clone.Models;
+using Instagram_Clone.Repositories.NotificationRepo;
+
 //using Instagram_Clone.Repositories.NotificationRepo;
 using Instagram_Clone.Repositories.UserFollowRepo;
 using Instagram_Clone.ViewModels;
@@ -9,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol.Plugins;
 using System.Security.Claims;
 
 namespace Instagram_Clone.Controllers
@@ -19,14 +22,16 @@ namespace Instagram_Clone.Controllers
         private readonly Context context;
 
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly INotificationRepository notificationRepository;
         private readonly IHubContext<NotificationHub> _notificationHub;
         //private readonly INotificationRepository _notificationRepository;
 
 
 
-        public FollowController(IHubContext <NotificationHub> notificationHub , IUserRelationshipRepository userRelationshipRepository, Context context,
+        public FollowController(IHubContext <NotificationHub> notificationHub ,
+            IUserRelationshipRepository userRelationshipRepository, Context context,
                             UserManager<ApplicationUser> userManager
-                            //, INotificationRepository notificationRepository
+                            , INotificationRepository  notificationRepository
             )
 
         {
@@ -34,6 +39,7 @@ namespace Instagram_Clone.Controllers
             this.context = context;
 
             _userManager = userManager;
+            this.notificationRepository = notificationRepository;
             _notificationHub = notificationHub;
             //_notificationRepository = notificationRepository;
 
@@ -58,7 +64,8 @@ namespace Instagram_Clone.Controllers
                 if (!isAlreadyFollowing)
                 {
                     // Follow the user asynchronously
-                    await userRelationshipRepository.Follow(receiver.Id, sender.Id);
+                    //await userRelationshipRepository.Accept_FollowRequest(receiver.Id, sender.Id);
+
 
                     // Add a follow notification
                     //await _notificationRepository.AddNotificationAsync(new Notification
@@ -97,8 +104,31 @@ namespace Instagram_Clone.Controllers
             }
         }
 
+        public async Task<IActionResult> AcceptRequest(int NotificationID , string receiverId, string senderId)
+        {
+            await userRelationshipRepository.Accept_FollowRequest(receiverId, senderId);
+            notificationRepository.Hide_Request(NotificationID);
+            // return View("");
+            return RedirectToAction("Index", "Profile");
+        }
 
-      
+
+        public async Task<IActionResult> Follow_Back(int NotificationID , string followeeid, string loginuser)
+        {
+
+            await userRelationshipRepository.Followback(followeeid, loginuser);
+            notificationRepository.Hide_Request(NotificationID);
+            // return View("");
+            return RedirectToAction("Index", "Profile");
+        }
+          
+        public  IActionResult Reject_Request(int NotificationID)
+        {
+             notificationRepository.Hide_Request(NotificationID);
+            // return View("");
+            return RedirectToAction("Index", "Profile");
+        }
+
 
         public IActionResult Profile(string id)
         {

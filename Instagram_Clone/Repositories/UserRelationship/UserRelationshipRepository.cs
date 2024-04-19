@@ -156,15 +156,17 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
             return await context.UserRelationship.AnyAsync(ur => ur.FollowerId == followerId && ur.FolloweeId == followeeId && !ur.IsDeleted);
         }
 
-        public async Task Follow(string followeeId, string followerId)
+        //public async Task Follow(string followeeId, string followerId)
+       public async Task Accept_FollowRequest(string receiverId, string senderId)
+
         {
-            if (!await IsFollowing(followeeId, followerId))
+            if (!await IsFollowing(receiverId, senderId))
             {
                 var relation = new UserRelationship
                 {
                     IsDeleted = false,
-                    FolloweeId = followeeId,
-                    FollowerId = followerId
+                    FolloweeId = receiverId,
+                    FollowerId = senderId
                 };
 
                 context.UserRelationship.Add(relation);
@@ -172,10 +174,13 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
             }
         }
 
+        //public async Task Accept_FollowRequest(string followeeId, string followerId)
+
+
 
         //followback
-     
-        public void Followback(string followeeid, string loginuser)
+
+        public async Task Followback(string followeeid, string loginuser)
         {
             // assuming context is your dbcontext instance
             ApplicationUser followeruser = context.Users.FirstOrDefault(u => u.Id == loginuser);
@@ -223,6 +228,8 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
             }
         }
 
+     
+
 
         public List<ApplicationUser> GetNonFollowees(string id)
         {
@@ -246,7 +253,7 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
         }
        
 
-
+        
 
         public List<ApplicationUser> GetAppUserFollowees(string id)
         {

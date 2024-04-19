@@ -48,7 +48,10 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
         //public void removeFollowing(string id);
 
         public  Task<bool> IsFollowing(string followerId, string followeeId);
-        public  Task Follow(string followeeId, string followerId);
+        //public  Task Follow(string followeeId, string followerId);
+        public Task Accept_FollowRequest(string receiverId, string senderId);
+        public  Task Followback(string followeeid, string loginuser);
+
 
 
 
