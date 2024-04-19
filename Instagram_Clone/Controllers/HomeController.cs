@@ -1,3 +1,4 @@
+using Instagram_Clone.Models;
 using Instagram_Clone.Repositories.PostRepo;
 using Instagram_Clone.Repositories.UserFollowRepo;
 using Microsoft.AspNetCore.Authorization;
@@ -31,7 +32,7 @@ namespace Instagram_Clone.Controllers
         }
 
         public IActionResult Index()
-        {
+            {
             // get the current user
             Claim? claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
             ApplicationUser? user = context.Users.FirstOrDefault(u => u.Id == claim.Value);
@@ -102,9 +103,78 @@ namespace Instagram_Clone.Controllers
 
             ViewBag.Users = AllUsers;
             ViewBag.UserName = user3.UserName;
-            return View();
+
+            // wessa code 
+
+            //Post? post2 = postRepository.GetPostwithUserAndCommentsAndFollowersById(postId);
+            //List<CommentViewModel>? comments = new List<CommentViewModel>();
+            //List<Comment>? listcomments = post2?.Comments;
+
+            //if (post2 != null && post2.Comments != null)
+            //{
+            //    foreach (var comment in listcomments)
+            //    {
+            //        CommentViewModel commentView = new CommentViewModel();
+            //        commentView.ProfilePicture = comment.User.ProfilePicture;
+            //        commentView.Content = comment.Content;
+            //        commentView.UserName = comment.User.UserName;
+            //        comments.Add(commentView);
+            //    }
+
+
+            //}
+
+            //ViewBag.Comments = comments;
+
+            return View("index");
 
         }
+
+        public IActionResult Comment(int postId)
+        {
+
+
+            Post? post = postRepository.GetPostwithUserAndCommentsAndFollowersById(postId);
+            List<CommentViewModel> comments = new List<CommentViewModel>();
+
+            if (post.Comments != null)
+            {
+                foreach (var comment in post.Comments)
+                {
+                    CommentViewModel commentView = new CommentViewModel();
+                    commentView.ProfilePicture = comment.User.ProfilePicture.Path;
+                    commentView.Content = comment.Content;
+                    commentView.UserName = comment.User.UserName;
+                    comments.Add(commentView);
+                }
+
+
+
+            }
+            ViewBag.Comments = comments;
+
+
+
+            //List<int> nums = new List<int>() { 1,2,3,4,5};
+            //ViewBag.Nums = nums;
+
+            //ViewData["Nums"] = nums;
+
+            //PostViewModel postViewModel = new PostViewModel();
+            //postViewModel.UserName = post.User.UserName;
+            //postViewModel.ProfilePhoto = post.User.ProfilePicture;
+            //postViewModel.Comments = post.Comments;
+            //postViewModel.Followers = post.User.Followers;
+
+            //List<PostViewModel> posts = new List<PostViewModel>();  
+            //posts.Add(postViewModel);
+
+
+            return PartialView("_CommentPartial");
+            // return RedirectToAction("Home/Index");
+
+        }
+
 
         public IActionResult Privacy()
         {

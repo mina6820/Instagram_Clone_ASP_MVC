@@ -14,7 +14,7 @@ namespace Instagram_Clone.Repositories.PostRepo
 
         public List<Post>? GetAllPostsByUserID(string userID)
         {
-            return context.Posts.Where(p => p.UserId == userID).ToList();
+            return context.Posts.Where(p => p.UserId == userID && p.IsDeleted == false).ToList();
         }
 
         public Post? GetPostByIDWithLikes(int id)
@@ -22,7 +22,11 @@ namespace Instagram_Clone.Repositories.PostRepo
             return context.Posts.Include(p => p.Likes.Where(l => l.IsDeleted == false)).FirstOrDefault(p => p.Id == id);
         }
 
-       
+        public Post? GetPostByIDWithUser(int id)
+        {
+            return context.Posts.Include(p => p.User).FirstOrDefault(p => p.Id == id);
+        }
+
         //public List<Post>? GetAllPostsWithPhotosAndLikes()
         //{
         //    return context.Posts.Where(p => p.IsDeleted == false)

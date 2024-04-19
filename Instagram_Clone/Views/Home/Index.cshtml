@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@* @model List<CommentViewModel> *@
+    @* @model List<Instagram_Clone.ViewModels.CommentViewModel> *@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -225,7 +227,129 @@
 
             </div>
         </div>
-        <partial name="_CommentPartial"></partial>
+        @* <partial name="_CommentPartial"></partial> *@
+
+
+
+      @*   <div class="modal fade" id="message_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Comments</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    
+                    <div class="modal-body">
+                        <div class="comments">
+                            <div class="comment">
+                                @if (ViewBag.Comments != null)
+                                {
+
+                                    @foreach (var comment in ViewBag.Comments)
+                                    {
+                                        <h1>ana zhgt</h1>
+                                        <div class="d-flex">
+                                            <div class="img">
+                                                <img src="/images/profile_img.jpg" alt="">
+                                            </div>
+                                            <div class="content">
+                                                <div class="person">
+                                                    <span>3j</span>
+
+
+                                                </div>
+                                                @* <p>Wow amzing shot</p> *@
+                                               @*  <p>@comment.Content</p>
+                                                <div class="replay">
+                                                    <button class="replay">replay</button>
+                                                    <button class="translation">see translation</button>
+                                                </div>
+                                                <div class="answers">
+                                                    <button class="see_comment">
+                                                        <span class="hide_com">Hide all responses</span>
+                                                        <span class="show_c">
+                                                            <span class="line"></span> See the @comment.UserName <span>
+                                                                1
+                                                            </span> answers
+                                                        </span>
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="like">
+                                            <img class="not_loved" src="/images/love.png" alt="">
+                                            <img class="loved" src="/images/heart.png" alt="">
+                                            <p> 55</p>
+
+                                        </div>
+                                        @* </div> *@
+                                   @*  }
+                                }
+                                else
+                                {
+                                    <h1>not comments </h1>
+                                }
+
+                                <div class="responses">
+                                    <div class="response comment">
+                                        <div class="d-flex">
+                                            <div class="img">
+                                                <img src="/images/profile_img.jpg" alt="">
+                                            </div>
+                                            <div class="content">
+                                                <div class="person">
+                                                    <h4>namePerson</h4>
+                                                    <span>3j</span>
+
+                                                </div>
+                                                <p>Wow amzing shot</p>
+                                                <div class="replay">
+                                                    <button>replay</button>
+                                                    <button>see translation</button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="like">
+                                            <img class="not_loved" src="/images/love.png" alt="">
+                                            <img class="loved" src="/images/heart.png" alt="">
+                                            <p> 55</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        }
+                        <div class="modal-footer">
+                            <form method="post">
+                                <div class="input">
+                                    <img src="/images/profile_img.jpg" alt="">
+                                    <input type="text" id="emoji_comment" placeholder="Add a comment..." />
+                                </div>
+
+                                <input type="submit" asp-controller="Post" asp-action="SaveComment" />
+                                <!-- <div class="emogi">
+                                    <img src="/images/emogi.png" alt="">
+                                </div> -->
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+ *@
+            @*  <script>
+            var hub2 = new signalR.HubConnectionBuilder().withUrl("/PostH").build();
+
+
+            hub2.on("ReceiveComments" , function(comments){
+            console.log("hello wessa");
+            })
+
+            </script> *@
+
+
 
         <!-- Modal for add messages--> <!-- comment here not above -->
         @* <div class="modal fade" id="message_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
