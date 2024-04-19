@@ -1,3 +1,4 @@
+using Instagram_Clone.Repositories.NotificationRepo;
 using Instagram_Clone.Repositories.PostRepo;
 using Instagram_Clone.Repositories.StoryRepo;
 using Instagram_Clone.Repositories.UserFollowRepo;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.Intrinsics.X86;
 using System.Security.Claims;
 
@@ -36,14 +38,15 @@ namespace Instagram_Clone.Controllers
         }
 
         public IActionResult Index()
-            {
-            // get the current user
+        {
             Claim? claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
             ApplicationUser? user = context.Users.FirstOrDefault(u => u.Id == claim.Value);
 
+            List<Post> myPosts = postRepository.GetMyPosts(user.Id);
             List<Post> posts = postRepository.GetAllPostsWithPhotosAndLikes(user.Id);
             List<PostViewModel> postsViewModel = new List<PostViewModel>();
-            foreach (Post post in posts)
+            var finalPosts = posts.Concat(myPosts);
+            foreach (Post post in finalPosts)
             {
                 PostViewModel postViewModel = new PostViewModel();
                 postViewModel.Caption = post.Caption;
@@ -62,7 +65,7 @@ namespace Instagram_Clone.Controllers
                 postViewModel.Likes = post.Likes;
                 postViewModel.Comments = post.Comments;
                 postViewModel.CreatedAt = post.Date;
-                
+
                 ViewBag.CurrentUserId = user?.Id;
 
                 TimeSpan TimeSincePost = DateTime.Now - post.Date;
@@ -77,8 +80,10 @@ namespace Instagram_Clone.Controllers
 
                 postsViewModel.Add(postViewModel);
             }
-            ViewBag.postsList = postsViewModel;
+            // ViewBag.postsList = postsViewModel;
+            //ViewBag.myPosts = myPosts;
 
+            ViewBag.postsList = postsViewModel;
             //habeba
 
 
@@ -86,17 +91,17 @@ namespace Instagram_Clone.Controllers
             Claim claim2 = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
             ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim2.Value);
             ApplicationUser user3 = context.Users.Include(u => u.ProfilePicture).FirstOrDefault(u => u.Id == user2.Id);
-           
+
 
             List<ApplicationUser> NonFollowing = userRelationshipRepository.GetNonFollowees(user.Id);
             ViewBag.NonFollowingUsers = NonFollowing;
 
             List<ApplicationUser> applicationUsers = userRelationshipRepository.GetRandomlyTopFive(user2.Id);
             ViewBag.applicationUsers = applicationUsers;
-            
+
 
             List<ApplicationUser> AllUsers = context.Users
-                .Include(u=>u.ProfilePicture)
+                .Include(u => u.ProfilePicture)
                 .ToList();
 
 
@@ -104,30 +109,26 @@ namespace Instagram_Clone.Controllers
 
             ViewBag.Users = AllUsers;
             ViewBag.UserName = user3.UserName;
-
-            // wessa code 
-
-            //Post? post2 = postRepository.GetPostwithUserAndCommentsAndFollowersById(postId);
-            //List<CommentViewModel>? comments = new List<CommentViewModel>();
-            //List<Comment>? listcomments = post2?.Comments;
-
-            //if (post2 != null && post2.Comments != null)
-            //{
-            //    foreach (var comment in listcomments)
-            //    {
-            //        CommentViewModel commentView = new CommentViewModel();
-            //        commentView.ProfilePicture = comment.User.ProfilePicture;
-            //        commentView.Content = comment.Content;
-            //        commentView.UserName = comment.User.UserName;
-            //        comments.Add(commentView);
-            //    }
+            ViewBag.picture = user3.ProfilePicture?.Name;
 
 
-            //}
 
-            //ViewBag.Comments = comments;
+            // Story
+            var userId = user.Id;
 
-            return View("index");
+            var myStories = storyRepository.GetMyStories(userId);
+
+            var stories = storyRepository.GetAllStories(userId);
+
+            ViewBag.myStories = myStories;
+            ViewBag.Stories = stories;
+
+
+            //Notifications
+            List<FollowRequest_notification> notifications = notificationRepository.GetNotifications(user3.Id);
+            ViewBag.notifications = notifications;
+            return View();
+
 
         }
 
@@ -171,27 +172,9 @@ namespace Instagram_Clone.Controllers
             //posts.Add(postViewModel);
 
 
-            return PartialView("_CommentPartial");
+           return PartialView("_CommentPartial");
             // return RedirectToAction("Home/Index");
-            ViewBag.picture = user3.ProfilePicture?.Name;
-
-
-
-            // Story
-            var userId = user.Id;
-
-            var myStories = storyRepository.GetMyStories(userId);
-
-            var stories = storyRepository.GetAllStories(userId);
-
-            ViewBag.myStories = myStories;
-            ViewBag.Stories = stories;
-
-
-            //Notifications
-            List<FollowRequest_notification> notifications = notificationRepository.GetNotifications(user3.Id);
-            ViewBag.notifications = notifications;
-            return View();
+            
 
 
         }

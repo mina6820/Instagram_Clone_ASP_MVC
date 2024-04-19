@@ -42,12 +42,44 @@ namespace Instagram_Clone.Repositories.PostRepo
         //}
         public List<Post>? GetAllPostsWithPhotosAndLikes(string id)
         {
-            return context.Posts
-                .Where(p => p.IsDeleted == false && context.Users.FirstOrDefault(u => u.Id == id).Following.Any(f => f.FolloweeId == p.UserId))
+            //return context.Posts
+            //    .Where(p => p.IsDeleted == false && context.Users.FirstOrDefault(u => u.Id == id).Following.Any(f => f.FolloweeId == p.UserId))
+            //    .Include(p => p.Likes.Where(l => l.IsDeleted == false))
+            //    .Include(p => p.Comments)
+            //    .Include(p => p.User)
+            //    .ThenInclude(p => p.ProfilePicture)
+            //    .ToList();
+
+
+            List<string> followingIds = context.UserRelationship
+               .Where(ur => ur.FollowerId == id && ur.Followee.IsDeleted == false && ur.IsDeleted == false)
+               .Select(ur => ur.FolloweeId)
+               .ToList();
+
+            // Retrieve stories posted by the users you are following
+            var posts = context.Posts
+                                 .Include(p => p.Likes.Where(l => l.IsDeleted == false))
+                                 .Include(p => p.Comments)
+                                .Include(p => p.User)
+                                .ThenInclude(p => p.ProfilePicture)
+                                .Where(s => s.IsDeleted == false)
+                               .Where(s => followingIds.Contains(s.UserId))
+                               .ToList();
+
+            return posts;
+        }
+
+
+        public List<Post> GetMyPosts(string id)
+        {
+            return context
+                .Posts
                 .Include(p => p.Likes.Where(l => l.IsDeleted == false))
                 .Include(p => p.Comments)
                 .Include(p => p.User)
                 .ThenInclude(p => p.ProfilePicture)
+                .Where(s => s.IsDeleted == false)
+                .Where(s => s.UserId == id)
                 .ToList();
         }
 
