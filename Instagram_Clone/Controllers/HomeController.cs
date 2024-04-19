@@ -1,3 +1,4 @@
+using Instagram_Clone.Repositories.NotificationRepo;
 using Instagram_Clone.Repositories.PostRepo;
 using Instagram_Clone.Repositories.StoryRepo;
 using Instagram_Clone.Repositories.UserFollowRepo;
@@ -105,27 +106,7 @@ namespace Instagram_Clone.Controllers
             ViewBag.Users = AllUsers;
             ViewBag.UserName = user3.UserName;
 
-            // wessa code 
 
-            //Post? post2 = postRepository.GetPostwithUserAndCommentsAndFollowersById(postId);
-            //List<CommentViewModel>? comments = new List<CommentViewModel>();
-            //List<Comment>? listcomments = post2?.Comments;
-
-            //if (post2 != null && post2.Comments != null)
-            //{
-            //    foreach (var comment in listcomments)
-            //    {
-            //        CommentViewModel commentView = new CommentViewModel();
-            //        commentView.ProfilePicture = comment.User.ProfilePicture;
-            //        commentView.Content = comment.Content;
-            //        commentView.UserName = comment.User.UserName;
-            //        comments.Add(commentView);
-            //    }
-
-
-            //}
-
-            //ViewBag.Comments = comments;
 
             return View("index");
 
@@ -156,42 +137,9 @@ namespace Instagram_Clone.Controllers
 
 
 
-            //List<int> nums = new List<int>() { 1,2,3,4,5};
-            //ViewBag.Nums = nums;
-
-            //ViewData["Nums"] = nums;
-
-            //PostViewModel postViewModel = new PostViewModel();
-            //postViewModel.UserName = post.User.UserName;
-            //postViewModel.ProfilePhoto = post.User.ProfilePicture;
-            //postViewModel.Comments = post.Comments;
-            //postViewModel.Followers = post.User.Followers;
-
-            //List<PostViewModel> posts = new List<PostViewModel>();  
-            //posts.Add(postViewModel);
-
-
             return PartialView("_CommentPartial");
-            // return RedirectToAction("Home/Index");
-            ViewBag.picture = user3.ProfilePicture?.Name;
 
 
-
-            // Story
-            var userId = user.Id;
-
-            var myStories = storyRepository.GetMyStories(userId);
-
-            var stories = storyRepository.GetAllStories(userId);
-
-            ViewBag.myStories = myStories;
-            ViewBag.Stories = stories;
-
-
-            //Notifications
-            List<FollowRequest_notification> notifications = notificationRepository.GetNotifications(user3.Id);
-            ViewBag.notifications = notifications;
-            return View();
 
 
         }
