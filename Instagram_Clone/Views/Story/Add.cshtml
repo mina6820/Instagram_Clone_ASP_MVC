@@ -4,59 +4,91 @@
     ViewData["Title"] = "Add";
     Layout = null;
 }
-<style>
-    body{
-    background-color:beige;
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram</title>
+    <link rel="stylesheet" href="/sass/vender/bootstrap.min.css">
+    <link rel="stylesheet" href="/owlcarousel/owl.theme.default.min.css">
+    <link rel="stylesheet" href="/owlcarousel/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.css">
+    <link rel="stylesheet" href="/sass/main.css">
+    <style>
+        body {
+            background: linear-gradient(90deg, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+            font-weight:bold;
+        }
+        form{
+            background-color:#fff;
+            width:100%;
+            padding:16px;
+            border-radius:5px;
+        }
+        label{
+            font-weight: bold;
+        }
+        .input_select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .btn-primary {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="col-md-4">
+            <h1>Add Story</h1>
+            <form asp-action="Add" id="upload-form" enctype="multipart/form-data" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group mb-5 d-flex">
+                    <label for="image-upload" class="align-content-center">Image:</label>
+                    <input class="form-control" type="file" id="image-upload" name="Image">
+                </div>
+
+                <div class="form-group mb-5 d-flex">
+                    <label for="audio-upload" class="align-content-center">Audio:</label>
+                    <input class="form-control" type="file" id="audio-upload" name="Audio">
+                </div>
+                <div class="d-flex justify-content-center">
+                <input type="submit" value="Create" class="btn btn-primary me-3 w-50"/>
+                <button asp-action="index" asp-controller="home" class="btn btn-danger">Close</button>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
+
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
     }
-</style>
-
-<h1>Add Story</h1>
-
-<hr />
-
-@* <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Add" id="upload-form" enctype="multipart/form-data" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-                <input class="input_select" type="file" id="image-upload" name="Image">
-
-            <div class="form-group">
-                <label for="audio-upload">Audio:</label>
-                <input class="input_select" type="file" id="audio-upload" name="Audio">
-            </div>
-
-                <input type="submit" value="Create" class="btn btn-primary" />
-
-
-        </form>
-    </div>
-</div> *@
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Add" id="upload-form" enctype="multipart/form-data" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            <div class="form-group">
-                <label for="image-upload">Image:</label>
-                <input class="input_select" type="file" id="image-upload" name="Image">
-            </div>
-
-            <div class="form-group">
-                <label for="audio-upload">Audio:</label>
-                <input class="input_select" type="file" id="audio-upload" name="Audio">
-            </div>
-
-            <input type="submit" value="Create" class="btn btn-primary" />
-
-            <div class="form-group">
-            </div>
-        </form>
-    </div>
-</div>
-
-
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+</body>
+</html>
