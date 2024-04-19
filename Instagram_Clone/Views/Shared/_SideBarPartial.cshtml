@@ -26,7 +26,8 @@
                     </div>
                 </div>
                 <div class="switch">
-                    <input class="follow_text btn btn-primary" type="button" value="Follow" />
+                    @* <input class="follow_text btn btn-primary" type="button" value="Follow" /> *@
+                    <a href="/follow/FollowUser?id=@user.Id" class="text-light btn btn-primary">Follow</a>
                     <input style="visibility:hidden" value="@user.Id" class="UserToFollowId" />
                 </div>
             </div>

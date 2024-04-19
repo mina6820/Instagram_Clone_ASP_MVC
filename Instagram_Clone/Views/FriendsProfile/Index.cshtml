@@ -371,10 +371,10 @@
                             <a id="FollowingCounter" href="#" style="color:black ; margin:2px" class="ClickFollowing" data-bs-toggle="modal" data-bs-target="#followingModal">@Model.Followers.Count</a>
                             <a href="#" style="color:black; margin:2px" class="ClickFollowing" data-bs-toggle="modal" data-bs-target="#followingModal">Following</a>
  *@
-                            <a id="FollowersCounter" href="/FriendsProfile/ShowFollowers?ID=@Model.Id" style="color:black ; margin:2px">@Model.Followers.Count</a>
-                            <a href="/FriendsProfile/ShowFollowers?ID=@Model.Id" style="color:black; margin:2px">Followewers</a>
+                            <a href="/FriendsProfile/ShowFollowers?ID=@Model.Id" style="color:black ; margin:2px">@Model.Following.Count</a>
+                            <a href="/FriendsProfile/ShowFollowers?ID=@Model.Id" style="color:black; margin:2px">Followers</a>
 
-                            <a id="FollowingCounter" href="/FriendsProfile/showFollowees?ID=@Model.Id" style="color:black ; margin:2px">@Model.Following.Count</a>
+                            <a href="/FriendsProfile/showFollowees?ID=@Model.Id" style="color:black ; margin:2px">@Model.Followers.Count</a>
                             <a href="/FriendsProfile/ShowFollowees?ID=@Model.Id" style="color:black; margin:2px">Following</a>
 
                             @* <a id="FollowersCounter" asp-action="showFollowers" asp-controller="Follow" style="color:black ; margin:2px" class="ClickFollowers"> @Model.Followers.Count</a> <a style="color:black; margin:2px" asp-action="showFollowers" asp-controller="Follow" asp-route-ProfileUserViewModel="@Model" class="ClickFollowers"> Followers</a> *@

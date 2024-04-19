@@ -75,7 +75,7 @@
                         <div class="d-flex flex-row justify-content-between align-items-center mt-2">
                             <img class="rounded-circle" src="/images/@followee.Followee.?ProfilePicture.Name" width="55">
                             <div class="d-flex flex-column align-items-start ml-2">
-                                <a class="font-weight-bold" href="/FriendsProfile/index/@followee.FolloweeId">@followee.Followee.UserName</a>
+                                <a class="font-weight-bold" href="/FriendsProfile/index/@followee.FolloweeId" >@followee.Followee.UserName</a>
                                 <span class="followers">
                                     <span style="margin:2px">@followee.Followee.FirstName</span>
                                     <span style="margin:2px">@followee.Followee.LastName</span>
@@ -108,6 +108,7 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             var input = document.getElementById("NameSearch")
@@ -116,11 +117,19 @@
                 var searchTerm = input.value;
                 // Example AJAX call
                 // Replace this with your actual AJAX call to fetch followers based on search term
-                fetch("/Follow/SearchFollowee?Name=" + searchTerm)
+                fetch("/Follow/showFollowees?Name=" + searchTerm)
                     .then(response => response.text())
                     .then(data => {
-                        document.getElementById("searchResults").innerHTML = data;
-                        this.contains.log(data);
+                        // Create a temporary element to hold the fetched data
+                        var tempElement = document.createElement('div');
+                        tempElement.innerHTML = data;
+                        // Select only the elements you want to append
+                        var followers = tempElement.querySelectorAll('.p-3.bg-white.text-center');
+                        // Append each follower element to the existing content
+                        document.getElementById("searchResults").innerHTML = "";
+                        followers.forEach(function (follower) {
+                            document.getElementById("searchResults").appendChild(follower);
+                        });
                     })
                     .catch(error => {
                         console.error('Error:', error);
@@ -128,6 +137,8 @@
             });
         });
     </script>
+
+
     <script>
         $(document).ready(function () {
             // Attach click event to the "Following" button

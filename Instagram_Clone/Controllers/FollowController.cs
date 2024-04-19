@@ -19,12 +19,12 @@ namespace Instagram_Clone.Controllers
         private readonly Context context;
 
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly NotificationHub _notificationHub;
+        private readonly IHubContext<NotificationHub> _notificationHub;
         //private readonly INotificationRepository _notificationRepository;
 
 
 
-        public FollowController( NotificationHub notificationHub , IUserRelationshipRepository userRelationshipRepository, Context context,
+        public FollowController(IHubContext <NotificationHub> notificationHub , IUserRelationshipRepository userRelationshipRepository, Context context,
                             UserManager<ApplicationUser> userManager
                             //, INotificationRepository notificationRepository
             )
@@ -55,7 +55,6 @@ namespace Instagram_Clone.Controllers
                 }
 
                 bool isAlreadyFollowing = await userRelationshipRepository.IsFollowing(sender.Id, receiver.Id);
-
                 if (!isAlreadyFollowing)
                 {
                     // Follow the user asynchronously
@@ -83,12 +82,12 @@ namespace Instagram_Clone.Controllers
 
                     // Send a follow notification via SignalR
 
-                    await _notificationHub.SendFollowNotification(receiver.Id, sender.UserName);
+                    //await _notificationHub.SendFollowNotification(receiver.Id, sender.UserName);
+                    await _notificationHub.Clients.User(receiver.Id).SendAsync("ReceiveFollowNotification", sender.UserName);
 
                     // Redirect to home or another appropriate action
                     return RedirectToAction("Index", "Home");
                 }
-
                 return View("AlreadyFollowingView");
             }
             catch (Exception ex)
@@ -99,93 +98,7 @@ namespace Instagram_Clone.Controllers
         }
 
 
-        //public IActionResult AutocompleteSearch(string term)
-        //{
-        //    Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
-        //    ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim.Value);
-        //    ApplicationUser user = context.Users.Include(u => u.ProfilePicture).FirstOrDefault(u => u.Id == user2.Id);
-
-        //    // Replace this with your actual implementation to search for usernames based on the term
-        //    List<string> userNames = SearchUserNames(term);
-
-        //    return Json(userNames);
-        //}
-
-        //public IActionResult ShowFollowers(string Name)
-        //{
-        //    ProfileUserViewModel profileUserViewModel = new ProfileUserViewModel();
-        //    Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
-        //    ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim.Value);
-
-        //    ApplicationUser user = context.Users.Include(u => u.ProfilePicture).FirstOrDefault(u => u.Id == user2.Id);
-        //    profileUserViewModel.UserName = user.UserName;
-        //    profileUserViewModel.FirstName = user.FirstName;
-        //    profileUserViewModel.LastName = user.LastName;
-        //    profileUserViewModel.ProfilePicture = user.ProfilePicture;
-
-        //    if (Name == null)
-        //    {
-        //        profileUserViewModel.Followers = userRelationshipRepository.GetFollowers(user.Id);
-        //        profileUserViewModel.Following = userRelationshipRepository.GetFollowees(user.Id);
-        //    }
-        //    else
-        //    {
-        //        profileUserViewModel.Followers = userRelationshipRepository.searchFollowers2(Name, user.Id);
-        //        profileUserViewModel.Following = userRelationshipRepository.searchFollowees2(Name, user.Id);
-        //    }
-
-        //    return PartialView("_FollowersList", profileUserViewModel);
-        //}
-
-
-        //public ActionResult SearchFollower(string name)
-        //{
-        //    //Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
-        //    //ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim.Value);
-        //    //ApplicationUser user = context.Users.Include(u => u.ProfilePicture).FirstOrDefault(u => u.Id == user2.Id);
-        //    //List<UserRelationship> searchedUsers = userRelationshipRepository.searchFollowers2(name,user.Id);
-        //    //if (name != null)
-        //    //{
-
-        //    //    return PartialView("_FollowersList", searchedUsers);
-        //    //}
-        //    //else
-        //    //{
-
-        //    //    searchedUsers = new List<UserRelationship>();
-        //    //    return PartialView("_FollowersList", searchedUsers);
-
-        //    //}
-        //    Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
-        //    ApplicationUser user = context.Users.FirstOrDefault(u => u.Id == claim.Value);
-
-        //    // Search for followers based on the provided name
-        //    List<UserRelationship> searchedUsers = userRelationshipRepository.searchFollowers2(name, user.Id);
-        //    ProfileUserViewModel profileUserViewModel = new ProfileUserViewModel();
-        //    //{
-        //    //    // Assign properties accordingly
-        //    //    // For example:
-        //    //    Followers = searchedUsers,
-        //    //    // Following = ...
-        //    //};
-        //    if (name!=null)
-        //    {
-        //        // Convert the searched users to the appropriate view model
-        //        profileUserViewModel.Followers = searchedUsers;
-        //        return PartialView("_FollowersList", profileUserViewModel);
-
-        //    }
-        //    else
-        //    {
-        //        profileUserViewModel.Followers = new List<UserRelationship>();
-        //        return PartialView("_FollowersList", profileUserViewModel);
-        //    }
-
-
-        //    // Return the PartialView with the searched users
-        //}
-
-
+      
 
         public IActionResult Profile(string id)
         {
@@ -233,35 +146,7 @@ namespace Instagram_Clone.Controllers
             return RedirectToAction("Index", "Profile");
         }
 
-        //public IActionResult GetFollowersAndFollowings()
-        //{
-        //    Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
-        //    ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim.Value);
-        //    List<UserRelationship> AllUsers = userRelationshipRepository.GetFollowersAndFollowings(user2.Id);
-        //    return RedirectToAction("Index", "Home", AllUsers);
-        //    //return PartialView("_DataBaseUsersPartial", AllUsers);
-        //}
-
-        //public IActionResult GetFollowersAndFollowings()
-        //{
-        //    Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
-        //    ApplicationUser user = context.Users.FirstOrDefault(u => u.Id == claim.Value);
-        //    List<ApplicationUser> allUsers = userRelationshipRepository.GetFollowersAndFollowings(user.Id);
-        //    return PartialView("_DataBaseUsersPartial", allUsers);
-        //}
-
-        //public IActionResult GetFollowersAndFollowings()
-        //{
-        //    Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
-        //    ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim.Value);
-        //    List<UserRelationship> AllUsers = userRelationshipRepository.GetFollowersAndFollowings(user2.Id);
-        //    //return View("Index", AllUsers);
-        //    List<UserRelationship> test = new List<UserRelationship>();
-        //    test.Add(AllUsers.First());
-
-        //    ViewBag.Users = test;
-        //    return PartialView("_DataBaseUsersPartial");
-        //}
+      
         //habeba and messi 
 
         public IActionResult ShowFollowers(string Name)
@@ -364,123 +249,7 @@ namespace Instagram_Clone.Controllers
         }
 
 
-        //    /follow/FollowUser? id =
-        //public IActionResult FollowUser(string id)
-        //{
-        //    //user1
-        //    Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
-        //    ApplicationUser user1 = context.Users.FirstOrDefault(u => u.Id == claim.Value);
-        //    List<UserRelationship> followersList = userRelationshipRepository.GetFollowers(id);
-        //    string user1Name = user1.UserName;
-
-        //    //Follow user
-        //    ApplicationUser FollowUser = context.Users.FirstOrDefault(u => u.Id == id);
-        //    string FollowUserName = FollowUser.UserName;
-
-
-        //    if (followersList != null)
-        //    {
-        //        return View("");
-        //    }
-
-        //    else
-        //    {
-        //        //store these Data in VM
-        //        UserRequestFollowVM userRequestFollowVM = new UserRequestFollowVM();
-        //        userRequestFollowVM.userID = user1.Id;
-        //        userRequestFollowVM.userName = user1Name;
-        //        userRequestFollowVM.followID = id;
-        //        userRequestFollowVM.followName = FollowUserName;
-
-        //        return View("Request", userRequestFollowVM);
-        //    }
-
-        //}
-        //public IActionResult FollowUser(string id)
-        //{
-        //    Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
-        //    ApplicationUser user1 = context.Users.FirstOrDefault(u => u.Id == claim.Value);
-
-        //    // Check if user1 is already following the user with the given id
-        //    bool isAlreadyFollowing = context.UserRelationship
-        //        .Any(ur => ur.FolloweeId == id && ur.FollowerId == user1.Id && ur.IsDeleted == false);
-
-        //    if (isAlreadyFollowing)
-        //    {
-        //        return View("AlreadyFollowingView");
-        //    }
-        //    else
-        //    {
-        //        // Fetch the user to follow
-        //        ApplicationUser followUser = context.Users.FirstOrDefault(u => u.Id == id);
-
-        //        if (followUser != null)
-        //        {
-        //            // Inside the FollowUser action where you create the UserRequestFollowVM instance
-        //            UserRequestFollowVM userRequestFollowVM = new UserRequestFollowVM
-        //            {
-        //                userID = user1.Id,
-        //                userName = user1.UserName,
-        //                followID = id, // Ensure id is properly passed from the action parameter
-        //                followName = followUser.UserName
-        //            };
-
-        //            return View("FollowUser", userRequestFollowVM);
-
-        //        }
-        //        else
-        //        {
-        //            // Handle case where followUser is not found
-        //            return NotFound();
-        //        }
-        //    }
-        //}
-
-        //public async Task<IActionResult> FollowUser(string id)
-        //{
-        //    Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
-        //    ApplicationUser user1 = context.Users.FirstOrDefault(u => u.Id == claim.Value);
-
-        //    // Check if user1 is already following the user with the given id
-        //    bool isAlreadyFollowing = context.UserRelationship
-        //        .Any(ur => ur.FolloweeId == id && ur.FollowerId == user1.Id && ur.IsDeleted == false);
-
-        //    if (isAlreadyFollowing)
-        //    {
-        //        return View("AlreadyFollowingView");
-        //    }
-        //    else
-        //    {
-        //        // Fetch the user to follow
-        //        ApplicationUser followUser = context.Users.FirstOrDefault(u => u.Id == id);
-
-        //        if (followUser != null)
-        //        {
-        //            // Inside the FollowUser action where you create the UserRequestFollowVM instance
-        //            UserRequestFollowVM userRequestFollowVM = new UserRequestFollowVM
-        //            {
-        //                userID = user1.Id,
-        //                userName = user1.UserName,
-        //                followID = id, // Ensure id is properly passed from the action parameter
-        //                followName = followUser.UserName
-        //            };
-
-
-        //            // Create and save the notification
-        //            //await notificationRepository.CreateNotification(user1.Id, id);
-
-        //            // Invoke the SignalR hub to send the notification
-        //            await hubContext.Clients.User(id).SendAsync("ReceiveNotification", user1.UserName + " Wants to follow you.");
-
-
-        //            return View("FollowUser", userRequestFollowVM);
-
-        //        }
-        //        else
-        //        {
-        //            // Handle case where followUser is not found
-        //            return NotFound();
-        //        }
+      
     }
     //}
 }

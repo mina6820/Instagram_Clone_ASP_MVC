@@ -96,6 +96,7 @@ namespace Instagram_Clone.Controllers
                 .Include(u => u.ProfilePicture)
                 .FirstOrDefault(u => u.Id == loginneduser.Id);
 
+
           ApplicationUser user = context.Users
                 .Include(u => u.Followers)
                 .Include(u => u.Following)
@@ -245,8 +246,8 @@ namespace Instagram_Clone.Controllers
             {
                 profileUserViewModel.Followers = new List<UserRelationship>();
             }
-            return PartialView("_FollowersFriendPartial", profileUserViewModel);
 
+            return PartialView("_FollowersFriendPartial", profileUserViewModel);
         }
 
         public ActionResult SearchFollowee(string Name, string Id)

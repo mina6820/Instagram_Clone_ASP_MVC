@@ -17,8 +17,9 @@
 
     <form class="form-inline" id="searchForm" method="get" asp-action="SearchFollower" asp-controller="FriendsProfile" asp-route-Id="@Model.Id">
         <input class="form-control me-2" placeholder="Search..." id="NameSearch" name="Name" type="text">
-@*         <input type="submit" class="btn btn-primary btn-sm mt-1" value="Search">
- *@    </form>
+   </form>
+
+
 
     <div  class="container mt-5" ">
         <div class="d-flex justify-content-center row">
@@ -29,22 +30,25 @@
         @if (follower.Follower.UserName == ViewBag.UserName )
         {
                         <div class="p-3 bg-white text-center">
-                            <div class="d-flex flex-row justify-content-between align-items-center mt-2">
+                            <div class="d-flex flex-row justify-content-between align-items-center mt-2 follower-info">
                                 <img class="rounded-circle" src="/images/@follower.Follower.ProfilePicture.Name" width="55">
-                                <div class="d-flex flex-column align-items-start ml-2"><a class="font-weight-bold" href="/Profile/index">@follower.Follower.UserName</a><span class="followers"><span style="margin:2px">follower.Id @follower.Id</span><span style="margin:2px">follower.Follower.Id @follower.Follower.Id</span><span style="margin:2px">follower.FolloweeId @follower.FolloweeId</span></span></div>
+                               
+                                <div class="d-flex flex-column align-items-start ml-2"><a class="font-weight-bold" href="/Profile/index">@follower.Follower.UserName</a><span class="followers"><span style="margin:2px">@follower.Follower.FirstName</span><span style="margin:2px">@follower.Follower.LastName</span></span></div>
                     
                                
                             </div>
             </div>
         }
+
         else
         {
                         <div class="p-3 bg-white text-center">
-                            <div class="d-flex flex-row justify-content-between align-items-center mt-2">
+                            <div class="d-flex flex-row justify-content-between align-items-center mt-2 follower-info">
                                 <img class="rounded-circle" src="/images/@follower.Follower.ProfilePicture.Name" width="55">
-                                <div class="d-flex flex-column align-items-start ml-2"><a class="font-weight-bold" href="/FriendsProfile/index/@follower.FollowerId">@follower.Follower.UserName</a><span class="followers"><span style="margin:2px">follower.Id @follower.Id</span><span style="margin:2px">follower.Follower.Id @follower.Follower.Id</span><span style="margin:2px">follower.FolloweeId @follower.FolloweeId</span></span></div>
 
-                    @foreach (ApplicationUser user in ViewBag.NonFollowingUsers)
+                                <div class="d-flex flex-column align-items-start ml-2"><a class="font-weight-bold" href="/FriendsProfile/index/@follower.FollowerId">@follower.Follower.UserName</a><span class="followers"><span style="margin:2px">@follower.Follower.FirstName</span><span style="margin:2px"> @follower.Follower.LastName</span></span></div>
+
+                   @*  @foreach (ApplicationUser user in ViewBag.NonFollowingUsers)
                     {
                         @if (user.Id == Model.Id)
                         {
@@ -63,14 +67,13 @@
                                         </div>
                                     
                         }
-                    }
+                    } *@
                             </div>
                         </div>
         }
        
     }
 
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="/resources/demos/style.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -81,25 +84,21 @@
 </body>
 </html>
 
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         var input = document.getElementById("NameSearch");
-        var userId = ""; // You need to set this value to the current user's Id
+        var userId = "@Model.Id"; // Set the current user's Id here
 
         input.addEventListener("input", function () {
-            // Fetch data using AJAX based on the search input
             var searchTerm = input.value;
-            // Example AJAX call
-            // Replace this with your actual AJAX call to fetch followers based on search term
-            fetch("/FriendsProfile/SearchFollower?Name=" + searchTerm + "&Id=" + userId)
+            fetch("@Url.Action("SearchFollower", "FriendsProfile")?Name=" + searchTerm + "&Id=" + userId)
                 .then(response => response.text())
                 .then(data => {
-                    // Create a temporary element to hold the fetched data
                     var tempElement = document.createElement('div');
                     tempElement.innerHTML = data;
-                    // Select only the elements you want to append
-                    var followers = tempElement.querySelectorAll('.p-3.bg-white.text-center');
-                    // Append each follower element to the existing content
+                    var followers = tempElement.querySelectorAll('.follower-info');
                     document.getElementById("searchResults").innerHTML = "";
                     followers.forEach(function (follower) {
                         document.getElementById("searchResults").appendChild(follower);

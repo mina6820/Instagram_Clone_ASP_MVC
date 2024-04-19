@@ -8,13 +8,12 @@ using System.Threading.Tasks;
 
 public class NotificationHub : Hub
 {
-    public async Task SendFollowNotification(string receiverUserId, string senderUserName)
-    {
-        await Clients.User(receiverUserId).SendAsync("ReceiveFollowNotification", senderUserName);
-    }
+   
 }
 
-
+//public async Task SendFollowNotification(string receiverUserId, string senderUserName)
+//{
+//}
 
 //using Instagram_Clone.Models;
 //using Microsoft.AspNetCore.Authorization;
