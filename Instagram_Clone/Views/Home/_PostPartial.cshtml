@@ -4,6 +4,12 @@
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
 
+@* <style>
+    .hide_img {
+        display: none;
+    }
+</style> *@
+
 @model List<PostViewModel>
 
 <input type="hidden" id="hiddenID" value="@ViewBag.CurrentUserId" />
@@ -236,12 +242,23 @@
         });
 
         function Like(postID) {
-            var imgElement = document.getElementById(`not-Loved-${postID}`)
-            if (!imgElement.classList.contains("hide_img")) {
+            var notLoveImg = document.getElementById(`not-Loved-${postID}`);
+            var loveImg = document.getElementById(`loved-${postID}`);
+            if (loveImg.style.display=="none") {
+                // loveImg.classList.remove("hide_img");
+                // notLoveImg.classList.add("hide_img");
+                notLoveImg.style.display = "none";
+                loveImg.style.display = "block";
+                
                 hub.invoke("AddLike", postID, currentUserID);
+                
             }
             else {
+                loveImg.style.display = "none";
+                notLoveImg.style.display = "block";
+                
                 hub.invoke("DeleteLike", postID, currentUserID);
+                
             }
 
         }

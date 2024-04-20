@@ -76,8 +76,8 @@ namespace Instagram_Clone.Controllers
             //< img src = "D:\Mvc\project\Instagram_Clone\wwwroot\images\71ed0bca-c360-4885-ac83-458d38a18d3e_oii.jpeg" style = "width:100px; height:100px;" >
 
 
-            return View("SaveAdd", post);
-
+            // return View("SaveAdd", post);
+            return RedirectToAction("Index", "Home");
         }
 
         //List<PostViewModel> posts = new List<PostViewModel>();

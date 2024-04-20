@@ -47,7 +47,7 @@
 
 
 <!--Create model-->
-        <div class="modal fade" id="create_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      @*   <div class="modal fade" id="create_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -86,7 +86,7 @@
                                 </div>
                                 @* <form>
                                     <textarea type="text" id="emoji_create" placeholder="write your email"></textarea>
-                                </form> *@
+                                </form> 
                             </div>
                         </div>
                         <div class="post_published hide_img">
@@ -97,4 +97,84 @@
             </div>
         </div>
 
+    </div>*@
+
+
+
+@*     @using Instagram_Clone.ViewModels
+@model AddPostVM
+ *@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>@ViewData["Title"]</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Add your custom styles here if needed */
+        .card {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            max-height: 600vh;
+            border: 2px solid blue; /* Add blue border */
+            border-radius: 10px; /* Add border radius */
+            box-shadow: 0 8px 15px -4px rgba(0, 0, 255, 0.2), 0 -8px 15px -4px rgba(0, 0, 255, 0.2);
+            padding: 20px; /* Add padding */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="row justify-content-center align-items-center" style="min-height: 100vh;">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="mt-4 text-center">
+                        <h2>Create New Post</h2>
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="SaveAdd" asp-controller="Post" enctype="multipart/form-data" method="post">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="form-group">
+                                <label for="Caption">Input Caption:</label>
+                                <input asp-for="Caption" class="form-control" id="Caption" />
+                                <span asp-validation-for="Caption" class="text-danger"></span>
+                            </div>
+                            <div class="form-group text-center" id="imagePreview" style="display: none;">
+                                <img id="preview" class="img-fluid rounded" alt="Selected Image Preview" style="max-width: 200px; max-height: 200px;" />
+                            </div>
+                            <div class="form-group">
+                                <div class="custom-file">
+                                    <input type="file" name="image" class="custom-file-input" id="image" onchange="previewImage(this)">
+                                    <label class="custom-file-label" for="image">Choose Image</label>
+                                </div>
+                            </div>
+                            <div class="form-group text-center">
+                                <button type="submit" class="btn btn-primary btn-block">Share</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <script>
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('preview').setAttribute('src', e.target.result);
+                    document.getElementById('imagePreview').style.display = 'block';
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+
+</body>
+</html>
+
