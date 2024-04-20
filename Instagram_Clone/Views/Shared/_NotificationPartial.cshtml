@@ -31,12 +31,18 @@
                                     </p>
                                 </div>
                             </div>
-                            <div class="follow_actions">
-                                    @* Use Url.Action to generate action URLs *@
-
+                            <div class="info">
+                                @* Use Url.Action to generate action URLs *@
+@* 
                                 <a href="@Url.Action("AcceptRequest", "Follow", new { NotificationID = notification.Id, receiverId = notification.ReceiverId, senderId = notification.SenderId })" class="btn-confirm-follow-back btn btn-primary" style="width: 100px;height: 30px; margin: 2px;">Accept</a>
                                 <a href="@Url.Action("Follow_Back", "Follow", new { NotificationID = notification.Id, followeeid = notification.ReceiverId, loginuser = notification.SenderId })" class="btn-confirm-follow-back btn btn-primary" style="width: 100px;height: 30px; margin: 2px;">FollowBack</a>
                                 <a href="@Url.Action("Reject_Request", "Follow", new { NotificationID = notification.Id })" class="btn-confirm-follow-back btn btn-primary" style="width: 100px;height: 30px; margin: 2px;">Reject</a>
+
+ *@
+                                <input type="hidden" class="NotificationId" value="@notification.Id" />
+                                <input type="hidden" class="receiverId" value="@notification.ReceiverId" />
+                                <input type="hidden" class="senderId" value="@notification.SenderId" />
+
 
 
 
@@ -59,51 +65,136 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"
             integrity="sha512-7rhBJh1om/W5Ztx7WiYOR9h2wlSaTmPyQMoHFtbT/FVNIA12y6S6I8HY9mrBS1uJ3dSU/R3qaSAXsGYuRjMDxg=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-             <script src="/js/ConnectHub.js"></script>
+    <script src="/js/ConnectHub.js"></script>
 
-   @*  // Establish a connection to the SignalR hub
-    // var connection = new signalR.HubConnectionBuilder()
-    //     .withUrl("/NotificationHub")
-    //     .build(); *@
     <script>
-       
+        $(document).ready(function () {
+            // Establish a connection to the SignalR hub
+            var connection = new signalR.HubConnectionBuilder()
+                .withUrl("/NotificationHub")
+                .build();
 
-        connection.start().then(function () {
-            console.log("SignalRrrr Connected");
+            // Start the connection
+            connection.start().then(function () {
+                console.log("SignalR Connected");
 
-            // Define the ReceiveNotification function to handle incoming notifications
-            connection.on("ReceiveFollowNotification", function (senderUserName) {
-                console.log("I am here");
-                // Update the UI to display the received notification
-                // You can customize this part based on your UI structure
-                var notificationElement =
-                    '<div class="notif follow_notif">' +
-                    '<div class="cart">' +
-                    '<div>' +
-                    '<div class="img">' +
-                    '<img src="/images/profile_img.jpg" alt="">' +
-                    '</div>' +
-                    '<div class="info">' +
-                    '<p class="name">' +
-                    '<span class="sender-name" style="font-weight: bold;">' + senderUserName + '</span>' +
-                    '<span class="desc"> Wants to Follow You:</span>' +
-                    '<span class="time">' + new Date().toLocaleTimeString() + '</span>' +
-                    '</p>' +
-                    '<div class="follow_actions">' +
-                    '<a class="btn-confirm btn btn-primary" style="width: 100px;height: 30px; margin: 2px;">Confirm</a>' +
-                    '<a class="btn-confirm-follow-back btn btn-primary" style="width: 100px;height: 30px;">Follow Back</a>' +
-                    '<a class="btn-confirm-follow-back btn btn-danger" style="width: 100px;height: 30px;">Reject</a>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>';
+                // Define the ReceiveNotification function to handle incoming notifications
+                connection.on("ReceiveFollowNotification", function (senderUserName, notificationId, receiverId, senderId) {
+                    console.log("Received notification: " + senderUserName);
+                    console.log("n" + notificationId);
+                    console.log("r" + receiverId);
+                    console.log("s" + senderId);
 
-                // Append the notification element to the notification section
-                $("#notification .notifications").append(notificationElement);
+
+                    // Update the UI to display the received notification
+                    var notificationElement =
+                        '<div class="notif follow_notif" data-notification-id="' + notificationId + '" data-receiver-id="' + receiverId + '" data-sender-id="' + senderId + '">' +
+                        '<div class="cart">' +
+                        '<div>' +
+                        '<div class="img">' +
+                        '<img src="/images/profile_img.jpg" alt="">' +
+                        '</div>' +
+                        '<div class="info">' +
+                        '<p class="name">' +
+                        '<span class="sender-name" style="font-weight: bold;">' + senderUserName + '</span>' +
+                        '<span class="desc"> Wants to Follow You:</span>' +
+                        '<span class="time">' + new Date().toLocaleTimeString() + '</span>' +
+                        '</p>' +
+                        '<div class="follow_actions">' +
+                        '<a class="btn-confirm btn btn-primary" style="width: 100px;height: 30px; margin: 2px;">Accept</a>' +
+                        '<a class="btn-confirm-follow-back btn btn-primary" style="width: 100px;height: 30px;">Follow Back</a>' +
+                        '<a class="btn-confirm-follow-back btn btn-danger" style="width: 100px;height: 30px;">Reject</a>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>';
+
+                    // Append the notification element to the notification section
+                    $("#notification .notifications").append(notificationElement);
+                });
             });
-        });
 
+            // Event listener for Accept button click
+            $('.notifications').on('click', '.btn-confirm', function () {
+                var notificationId = $(this).closest('.notif').data('notification-id');
+                var receiverId = $(this).closest('.notif').data('receiver-id');
+                var senderId = $(this).closest('.notif').data('sender-id');
+                acceptRequest(notificationId, receiverId, senderId);
+            });
+            console.log("n"+notificationId);
+            console.log("r" + receiverId);
+            console.log("s" + senderId);
+
+
+            // Event listener for Follow Back button click
+            $('.notifications').on('click', '.btn-confirm-follow-back', function () {
+                var notificationId = $(this).closest('.notif').data('notification-id');
+                var receiverId = $(this).closest('.notif').data('receiver-id');
+                var senderId = $(this).closest('.notif').data('sender-id');
+                followBack(notificationId, receiverId, senderId);
+            });
+
+            // Event listener for Reject button click
+            $('.notifications').on('click', '.btn-danger', function () {
+                var notificationId = $(this).closest('.notif').data('notification-id');
+                rejectRequest(notificationId);
+            });
+
+            function acceptRequest(notificationId, receiverId, senderId) {
+                $.ajax({
+                    url: "@Url.Action("AcceptRequest", "Follow")",
+                    type: "POST",
+                    data: {
+                        NotificationID: notificationId,
+                        receiverId: receiverId,
+                        senderId: senderId
+                    },
+                    success: function (response) {
+                        console.log("Accept request successful");
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            }
+
+            function followBack(notificationId, receiverId, senderId) {
+                $.ajax({
+                    url: "@Url.Action("Follow_Back", "Follow")",
+                    type: "POST",
+                    data: {
+                        NotificationID: notificationId,
+                        followeeid: receiverId,
+                        loginuser: senderId
+                    },
+                    success: function (response) {
+                        console.log("Follow back successful");
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            }
+
+            function rejectRequest(notificationId) {
+                $.ajax({
+                    url: "@Url.Action("Reject_Request", "Follow")",
+                    type: "POST",
+                    data: {
+                        NotificationID: notificationId
+                    },
+                    success: function (response) {
+                        console.log("Reject request successful");
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            }
+        });
     </script>
+
+
 </body>
 </html>

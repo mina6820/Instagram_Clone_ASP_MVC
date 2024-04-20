@@ -89,8 +89,8 @@ namespace Instagram_Clone.Controllers
 
                     // Send a follow notification via SignalR
 
-                    //await _notificationHub.SendFollowNotification(receiver.Id, sender.UserName);
-                    await _notificationHub.Clients.User(receiver.Id).SendAsync("ReceiveFollowNotification", sender.UserName);
+                    //await _notificationHub.SendFollowNotification(receiver.Id, sender.UserName);senderUserName, , followRequest.Id,receiver.Id,sender.Id
+                    await _notificationHub.Clients.User(receiver.Id).SendAsync("ReceiveFollowNotification",sender.UserName, followRequest.Id, receiver.Id, sender.Id);
 
                     // Redirect to home or another appropriate action
                     return RedirectToAction("Index", "Home");
