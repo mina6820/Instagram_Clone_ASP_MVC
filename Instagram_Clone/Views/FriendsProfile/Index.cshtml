@@ -562,6 +562,20 @@
                                 }
                             }
 
+                            @foreach (ApplicationUser user in ViewBag.RequestedUsers)
+                            {
+                                @if (user.Id == Model.Id)
+                                {
+                                    <div class="switch me-2">
+
+                                        <a href="#" class="btn btn-secondary btn-sm unfollow-btn text-light disabled" data-id="@Model.Id">Requested</a>
+
+                                        @* <a class="text-light btn btn-secondary">Following</a> *@
+                                    </div>
+                                   
+                                }
+                            }
+
 
                             @* @foreach (ApplicationUser user in ViewBag.Users)
                             {

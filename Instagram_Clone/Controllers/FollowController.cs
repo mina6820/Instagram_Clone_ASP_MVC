@@ -1,6 +1,7 @@
 ﻿using Instagram_Clone.Authentication;
 using Instagram_Clone.Hubs;
 using Instagram_Clone.Models;
+using Instagram_Clone.Repositories.ChatRepo;
 using Instagram_Clone.Repositories.NotificationRepo;
 
 //using Instagram_Clone.Repositories.NotificationRepo;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Protocol.Plugins;
 using System.Security.Claims;
@@ -21,6 +23,7 @@ namespace Instagram_Clone.Controllers
         private IUserRelationshipRepository userRelationshipRepository;
         private readonly Context context;
 
+        private readonly IChatRepository chatRepository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly INotificationRepository notificationRepository;
         private readonly IHubContext<NotificationHub> _notificationHub;
@@ -31,7 +34,8 @@ namespace Instagram_Clone.Controllers
         public FollowController(IHubContext <NotificationHub> notificationHub ,
             IUserRelationshipRepository userRelationshipRepository, Context context,
                             UserManager<ApplicationUser> userManager
-                            , INotificationRepository  notificationRepository
+                            , INotificationRepository  notificationRepository,
+                            IChatRepository _chatRepository
             )
 
         {
@@ -41,6 +45,7 @@ namespace Instagram_Clone.Controllers
             _userManager = userManager;
             this.notificationRepository = notificationRepository;
             _notificationHub = notificationHub;
+            chatRepository = _chatRepository;
             //_notificationRepository = notificationRepository;
 
 
@@ -81,7 +86,8 @@ namespace Instagram_Clone.Controllers
                     {
                         SenderId = sender.Id,
                         ReceiverId = receiver.Id,
-                        IsAccepted = false // Set as needed
+                        IsAccepted = false, // Set as needed
+                        IsRequested = true
                     };
                      context.FollowRequest_notifications.Add(followRequest);
                     await context.SaveChangesAsync();
@@ -108,7 +114,23 @@ namespace Instagram_Clone.Controllers
         {
             await userRelationshipRepository.Accept_FollowRequest(receiverId, senderId);
             notificationRepository.Hide_Request(NotificationID);
-            // return View("");
+
+            var chat = new Chat { SenderId = senderId, RecieverId = receiverId };
+
+            try
+            {
+               chatRepository.Insert(chat);
+                chatRepository.Save(); 
+            }
+            catch (DbUpdateException ex) when ((ex.InnerException as SqlException)?.Number == 2627)
+            {
+                // Unique constraint violation, chat already exists
+                // Do nothing, as you don't want to take any action
+            }
+            catch (Exception ex)
+            {
+                // Handle other exceptions
+            }
             return RedirectToAction("Index", "Profile");
         }
 
@@ -278,8 +300,7 @@ namespace Instagram_Clone.Controllers
 
         }
 
-
-      
+       
     }
     //}
 }
