@@ -40,8 +40,15 @@ namespace Instagram_Clone
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            //modelBuilder.Entity<Connection>()
-            //.HasKey(c => new { c.followingId, c.followerId });
+
+            modelBuilder.Entity<Chat>()
+                .HasIndex(c => new { c.SenderId, c.RecieverId })
+                .IsUnique();
+
+            // Ensure unique combination of SenderId and RecieverId
+            modelBuilder.Entity<Chat>()
+                .HasAlternateKey(c => new { c.SenderId, c.RecieverId });
+
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
