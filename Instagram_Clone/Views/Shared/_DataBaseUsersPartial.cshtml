@@ -1,9 +1,9 @@
 ﻿@model List<ApplicationUser>
 
 <div id="search" class="search_section">
-    <h2>Search</h2>
+    <h2 >Search</h2>
     <form id="searchForm" method="get" asp-action="SearchUsers" asp-controller="Home">
-        <input type="text" placeholder="Search" id="NameSearch" name="Name">
+        <input type="text" placeholder="Search" id="NameSearch" name="Name" >
     </form>
     <div class="find">
         <div class="desc"></div>
@@ -35,18 +35,30 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        var searchForm = document.getElementById("searchForm");
-        var searchResults = document.getElementById("searchResults");
+        var input = document.getElementById("NameSearch");
+        input.addEventListener("input", function () {
+            var searchTerm = input.value;
+            // Check if the search term is empty
+            if (searchTerm.trim() === "") {
+                document.getElementById("searchResults").innerHTML = "";
+                return; // Exit function early if search term is empty
+            }
 
-        searchForm.addEventListener("submit", function (event) {
-            event.preventDefault(); // Prevent the form from submitting normally
-
-            var searchTerm = document.getElementById("NameSearch").value;
-
+            // Fetch data using AJAX based on the search input
             fetch("/Home/SearchUsers?Name=" + searchTerm)
                 .then(response => response.text())
                 .then(data => {
-                    searchResults.innerHTML = data; // Update the search results section
+                    // Create a temporary element to hold the fetched data
+                    var tempElement = document.createElement('div');
+                    tempElement.innerHTML = data;
+                    // Select only the elements you want to append
+                    var followers = tempElement.querySelectorAll('.cart');
+                    // Clear previous results
+                    document.getElementById("searchResults").innerHTML = "";
+                    // Append each follower element to the existing content
+                    followers.forEach(function (follower) {
+                        document.getElementById("searchResults").appendChild(follower);
+                    });
                 })
                 .catch(error => {
                     console.error('Error:', error);
