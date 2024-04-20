@@ -593,21 +593,23 @@
                         <div id="posts_sec" class="post">
 
                             @foreach (var post in Model.Posts)
-            {
-                @foreach (var photo in post.PhotosPathes)
-                {
-                    <div class="item">
-                        <div class="image-container">
-                            <img src="~/images/@photo" asp-append-version="true" alt="My Image" onclick="openOverlay('/images/@photo')" />
-                            <div class="Showmore">
-                                <button type="button" onclick="setPostId(@post.Id)" class="btn p-0" data-bs-toggle="modal" data-bs-target="#delete_post_modal">
-                                    <img src="./images/show_more.png" alt="show more" id="showMoreButton" style="width:50px;">
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                }
-            }
+                            {
+                                @foreach (var photo in post.PhotosPathes)
+                                {
+                                    <div id="posts-box">
+                                        <div class="more">
+                                            <button type="button" onclick="setPostId(@post.Id)" class="btn p-0" data-bs-toggle="modal" data-bs-target="#delete_post_modal">
+                                            <img src="./images/show_more.png" alt="show more" id="showMoreButton" style="width: 31px;">
+                                            </button>
+                                        </div>
+                                        <div class="item">
+                                            <img src="~/images/@photo" asp-append-version="true" alt="My Image" onclick="openOverlay('/images/@photo')" style="width: 239px; height: 233px" />
+
+                                            @* <img class="img-fluid item_img" src="~/images/@photo" alt=""> *@
+                                        </div>
+                                    </div>
+                                }
+                            }
 
 
                             @* <div class="item">

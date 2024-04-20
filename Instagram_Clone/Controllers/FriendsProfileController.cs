@@ -67,6 +67,9 @@ namespace Instagram_Clone.Controllers
             List<ApplicationUser> Following = userRelationship.GetAppUserFollowees(user3.Id);
             ViewBag.FollowingUsers = Following;
 
+            List<ApplicationUser> RequestedUsers = userRelationship.GetRequestedUsers(user3.Id);
+            ViewBag.RequestedUsers = RequestedUsers;
+
 
             List<ApplicationUser> AllUsers = context.Users
                                             .Include(u => u.ProfilePicture)

@@ -26,12 +26,14 @@ namespace Instagram_Clone.Repositories.NotificationRepo
                 .ToList();
         }
 
+
         public FollowRequest_notification Hide_Request(int NotificationID)
         {
             FollowRequest_notification notification = context.FollowRequest_notifications
                 .FirstOrDefault(n=>n.Id == NotificationID);
 
             notification.IsAccepted = true;
+            notification.IsRequested = false;
             context.SaveChanges();
             return notification;
         }

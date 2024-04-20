@@ -33,17 +33,15 @@
                             </div>
                             <div class="info">
                                 @* Use Url.Action to generate action URLs *@
-@* 
-                                <a href="@Url.Action("AcceptRequest", "Follow", new { NotificationID = notification.Id, receiverId = notification.ReceiverId, senderId = notification.SenderId })" class="btn-confirm-follow-back btn btn-primary" style="width: 100px;height: 30px; margin: 2px;">Accept</a>
-                                <a href="@Url.Action("Follow_Back", "Follow", new { NotificationID = notification.Id, followeeid = notification.ReceiverId, loginuser = notification.SenderId })" class="btn-confirm-follow-back btn btn-primary" style="width: 100px;height: 30px; margin: 2px;">FollowBack</a>
-                                <a href="@Url.Action("Reject_Request", "Follow", new { NotificationID = notification.Id })" class="btn-confirm-follow-back btn btn-primary" style="width: 100px;height: 30px; margin: 2px;">Reject</a>
 
- *@
+                                <a href="@Url.Action("AcceptRequest", "Follow", new { NotificationID = notification.Id, receiverId = notification.ReceiverId, senderId = notification.SenderId })" class="btn-confirm btn btn-primary notifications" style="width: 100px;height: 30px; margin: 2px;">Confirm</a>
+                                <a href="@Url.Action("Follow_Back", "Follow", new { NotificationID = notification.Id, followeeid = notification.ReceiverId, loginuser = notification.SenderId })" class="btn-confirm-follow-back btn btn-primary notifications" style="width: 100px;height: 30px; margin: 2px;">Follow Back</a>
+                                <a href="@Url.Action("Reject_Request", "Follow", new { NotificationID = notification.Id })" class="btn-confirm-follow btn btn-danger notifications" style="width: 100px;height: 30px; margin: 2px;">Reject</a>
+
+
                                 <input type="hidden" class="NotificationId" value="@notification.Id" />
                                 <input type="hidden" class="receiverId" value="@notification.ReceiverId" />
                                 <input type="hidden" class="senderId" value="@notification.SenderId" />
-
-
 
 
                             </div>
@@ -101,9 +99,9 @@
                         '<span class="time">' + new Date().toLocaleTimeString() + '</span>' +
                         '</p>' +
                         '<div class="follow_actions">' +
-                        '<a class="btn-confirm btn btn-primary" style="width: 100px;height: 30px; margin: 2px;">Accept</a>' +
+                        '<a class="btn-confirm btn btn-primary" style="width: 100px;height: 30px; margin: 2px;">Confirm</a>' +
                         '<a class="btn-confirm-follow-back btn btn-primary" style="width: 100px;height: 30px;">Follow Back</a>' +
-                        '<a class="btn-confirm-follow-back btn btn-danger" style="width: 100px;height: 30px;">Reject</a>' +
+                        '<a class="btn-confirm-follow btn btn-danger" style="width: 100px;height: 30px;">Reject</a>' +
                         '</div>' +
                         '</div>' +
                         '</div>' +
@@ -115,32 +113,40 @@
                 });
             });
 
+
+            function hideNotificationCard(button) {
+                button.closest('.notif').hide(); // Hide the parent notification card
+            }
+
             // Event listener for Accept button click
             $('.notifications').on('click', '.btn-confirm', function () {
-                var notificationId = $(this).closest('.notif').data('notification-id');
-                var receiverId = $(this).closest('.notif').data('receiver-id');
-                var senderId = $(this).closest('.notif').data('sender-id');
+                var button = $(this);
+                var notificationId = button.closest('.notif').data('notification-id');
+                var receiverId = button.closest('.notif').data('receiver-id');
+                var senderId = button.closest('.notif').data('sender-id');
                 acceptRequest(notificationId, receiverId, senderId);
+                hideNotificationCard(button); // Hide the notification card
             });
-            console.log("n"+notificationId);
-            console.log("r" + receiverId);
-            console.log("s" + senderId);
-
 
             // Event listener for Follow Back button click
             $('.notifications').on('click', '.btn-confirm-follow-back', function () {
-                var notificationId = $(this).closest('.notif').data('notification-id');
-                var receiverId = $(this).closest('.notif').data('receiver-id');
-                var senderId = $(this).closest('.notif').data('sender-id');
+                var button = $(this);
+                var notificationId = button.closest('.notif').data('notification-id');
+                var receiverId = button.closest('.notif').data('receiver-id');
+                var senderId = button.closest('.notif').data('sender-id');
                 followBack(notificationId, receiverId, senderId);
+                hideNotificationCard(button); // Hide the notification card
             });
 
             // Event listener for Reject button click
             $('.notifications').on('click', '.btn-danger', function () {
-                var notificationId = $(this).closest('.notif').data('notification-id');
+                var button = $(this);
+                var notificationId = button.closest('.notif').data('notification-id');
                 rejectRequest(notificationId);
+                hideNotificationCard(button); // Hide the notification card
             });
 
+            // Function to send AJAX request to accept follow request
             function acceptRequest(notificationId, receiverId, senderId) {
                 $.ajax({
                     url: "@Url.Action("AcceptRequest", "Follow")",
@@ -159,6 +165,7 @@
                 });
             }
 
+            // Function to send AJAX request to follow back
             function followBack(notificationId, receiverId, senderId) {
                 $.ajax({
                     url: "@Url.Action("Follow_Back", "Follow")",
@@ -177,6 +184,7 @@
                 });
             }
 
+            // Function to send AJAX request to reject follow request
             function rejectRequest(notificationId) {
                 $.ajax({
                     url: "@Url.Action("Reject_Request", "Follow")",
