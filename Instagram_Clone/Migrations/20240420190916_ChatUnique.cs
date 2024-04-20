@@ -21,8 +21,7 @@ namespace Instagram_Clone.Migrations
                 name: "IX_Chats_CombinedId",
                 table: "Chats",
                 column: "CombinedId",
-                unique: true,
-                filter: "[CombinedId] IS NOT NULL");
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

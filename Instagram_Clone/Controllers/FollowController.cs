@@ -23,9 +23,10 @@ namespace Instagram_Clone.Controllers
         private IUserRelationshipRepository userRelationshipRepository;
         private readonly Context context;
 
-        private readonly IChatRepository chatRepository;
+        //private readonly IChatRepository chatRepository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly INotificationRepository notificationRepository;
+        private readonly IChatRepository chatRepository;
         private readonly IHubContext<NotificationHub> _notificationHub;
         //private readonly INotificationRepository _notificationRepository;
 
@@ -35,7 +36,7 @@ namespace Instagram_Clone.Controllers
             IUserRelationshipRepository userRelationshipRepository, Context context,
                             UserManager<ApplicationUser> userManager
                             , INotificationRepository  notificationRepository,
-                            IChatRepository _chatRepository
+                            IChatRepository chatRepository
             )
 
         {
@@ -44,8 +45,9 @@ namespace Instagram_Clone.Controllers
 
             _userManager = userManager;
             this.notificationRepository = notificationRepository;
+            this.chatRepository = chatRepository;
             _notificationHub = notificationHub;
-            chatRepository = _chatRepository;
+            //chatRepository = _chatRepository;
             //_notificationRepository = notificationRepository;
 
 
@@ -110,7 +112,7 @@ namespace Instagram_Clone.Controllers
             }
         }
 
-        public async Task<IActionResult> AcceptRequest(int NotificationID , string receiverId, string senderId)
+        public async Task<IActionResult> AcceptRequest(int NotificationID, string receiverId, string senderId)
         {
             await userRelationshipRepository.Accept_FollowRequest(receiverId, senderId);
             notificationRepository.Hide_Request(NotificationID);
@@ -119,8 +121,8 @@ namespace Instagram_Clone.Controllers
 
             try
             {
-               chatRepository.Insert(chat);
-                chatRepository.Save(); 
+                chatRepository.Insert(chat);
+                chatRepository.Save();
             }
             catch (DbUpdateException ex) when ((ex.InnerException as SqlException)?.Number == 2627)
             {
