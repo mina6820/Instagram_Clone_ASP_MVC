@@ -250,7 +250,7 @@
         overflow: hidden;
     }
 
-    .more {
+    .Showmore {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -259,7 +259,7 @@
         transition: opacity 0.3s ease;
     }
 
-    .item:hover .more {
+    .item:hover .Showmore {
         opacity: 1;
     }
 
@@ -599,7 +599,7 @@
                     <div class="item">
                         <div class="image-container">
                             <img src="~/images/@photo" asp-append-version="true" alt="My Image" onclick="openOverlay('/images/@photo')" />
-                            <div class="more">
+                            <div class="Showmore">
                                 <button type="button" onclick="setPostId(@post.Id)" class="btn p-0" data-bs-toggle="modal" data-bs-target="#delete_post_modal">
                                     <img src="./images/show_more.png" alt="show more" id="showMoreButton" style="width:50px;">
                                 </button>
