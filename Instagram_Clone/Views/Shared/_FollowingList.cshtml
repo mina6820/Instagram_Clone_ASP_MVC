@@ -59,13 +59,22 @@
                     border: none;
                     color: white;
                 }
+
+        
+        .UserName {
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+        }
     </style>
+   
 </head>
 <body>
+    <div class="container mt-5">
     <form class="form-inline" id="searchForm" method="get" asp-action="ShowFollowees" asp-controller="Follow">
         <input class="form-control me-2" placeholder="Search..." id="NameSearch" name="Name" type="text">
-        <button type="submit" class="btn btn-primary">Search</button>
     </form>
+    </div>
     <div class="container mt-5">
         <div class="d-flex justify-content-center row">
             <div class="col-md-6" id="searchResults">
@@ -75,7 +84,7 @@
                         <div class="d-flex flex-row justify-content-between align-items-center mt-2">
                             <img class="rounded-circle" src="/images/@followee.Followee.?ProfilePicture.Name" width="55">
                             <div class="d-flex flex-column align-items-start ml-2">
-                                <a class="font-weight-bold" href="/FriendsProfile/index/@followee.FolloweeId" >@followee.Followee.UserName</a>
+                                <a class="font-weight-bold UserName" href="/FriendsProfile/index/@followee.FolloweeId" >@followee.Followee.UserName</a>
                                 <span class="followers">
                                     <span style="margin:2px">@followee.Followee.FirstName</span>
                                     <span style="margin:2px">@followee.Followee.LastName</span>
