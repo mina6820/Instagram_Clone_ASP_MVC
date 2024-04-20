@@ -239,7 +239,29 @@
         max-width: 100%;
     }
 }
+ .item {
+        position: relative;
+        display: inline-block;
+        margin: 10px;
+    }
 
+    .image-container {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .more {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .item:hover .more {
+        opacity: 1;
+    }
 
 
 
@@ -571,21 +593,21 @@
                         <div id="posts_sec" class="post">
 
                             @foreach (var post in Model.Posts)
-                            {
-                                @foreach (var photo in post.PhotosPathes)
-                                {
-                                    <div class="more">
-                                        <button type="button" onclick="setPostId(@post.Id)" class="btn p-0" data-bs-toggle="modal" data-bs-target="#delete_post_modal">
-                                        <img src="./images/show_more.png" alt="show more" id="showMoreButton" style="width:50px;">
-                                        </button>
-                                    </div>
-                                    <div class="item">
-                                        <img src="~/images/@photo" asp-append-version="true" alt="My Image" onclick="openOverlay('/images/@photo')" />
-
-                                        @* <img class="img-fluid item_img" src="~/images/@photo" alt=""> *@
-                                    </div>
-                                }
-                            }
+            {
+                @foreach (var photo in post.PhotosPathes)
+                {
+                    <div class="item">
+                        <div class="image-container">
+                            <img src="~/images/@photo" asp-append-version="true" alt="My Image" onclick="openOverlay('/images/@photo')" />
+                            <div class="more">
+                                <button type="button" onclick="setPostId(@post.Id)" class="btn p-0" data-bs-toggle="modal" data-bs-target="#delete_post_modal">
+                                    <img src="./images/show_more.png" alt="show more" id="showMoreButton" style="width:50px;">
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
 
 
                             @* <div class="item">
