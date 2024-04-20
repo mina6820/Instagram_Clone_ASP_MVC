@@ -231,29 +231,73 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
 
 
 
+        //public List<ApplicationUser> GetNonFollowees(string id)
+        //{
+        //List<ApplicationUser> allUsers = context.Users
+        //        .Where(u=>u.IsDeleted==false)
+        //        .Include(u => u.ProfilePicture)
+        //        .ToList();
+
+        //    // Get the IDs of the users followed by the given user
+        //    List<string> followedUserIds = context.UserRelationship
+        //        .Where(ur => ur.FollowerId == id && ur.Followee.IsDeleted == false 
+        //        && ur.IsDeleted == false && ur.Follower.IsDeleted==false)
+        //        .Select(ur => ur.FolloweeId)
+        //        .ToList();
+
+        //    // Remove followed users from the list of all users
+        //    var nonFollowedUsers = allUsers.Where(u => !followedUserIds.Contains(u.Id) && u.Id != id).ToList();
+
+        //    return nonFollowedUsers;
+
+        //}
+
+
         public List<ApplicationUser> GetNonFollowees(string id)
         {
-        List<ApplicationUser> allUsers = context.Users
-                .Where(u=>u.IsDeleted==false)
+            List<ApplicationUser> allUsers = context.Users
+                .Where(u => u.IsDeleted == false)
                 .Include(u => u.ProfilePicture)
                 .ToList();
 
             // Get the IDs of the users followed by the given user
             List<string> followedUserIds = context.UserRelationship
-                .Where(ur => ur.FollowerId == id && ur.Followee.IsDeleted == false 
-                && ur.IsDeleted == false && ur.Follower.IsDeleted==false)
+                .Where(ur => ur.FollowerId == id &&
+                             ur.Followee.IsDeleted == false &&
+                             ur.IsDeleted == false &&
+                             ur.Follower.IsDeleted == false)
                 .Select(ur => ur.FolloweeId)
                 .ToList();
 
-            // Remove followed users from the list of all users
-            var nonFollowedUsers = allUsers.Where(u => !followedUserIds.Contains(u.Id) && u.Id != id).ToList();
+            // Get the IDs of users who have sent follow requests that are not yet accepted (requested)
+            List<string> requestedUserIds = context.FollowRequest_notifications
+                .Where(frn => frn.SenderId == id && frn.IsRequested == true )
+                .Select(frn => frn.ReceiverId)
+                .ToList();
+
+            // Remove followed users and users who have sent requested follow requests from the list of all users
+            var nonFollowedUsers = allUsers
+                .Where(u => !followedUserIds.Contains(u.Id) &&
+                            !requestedUserIds.Contains(u.Id) &&
+                            u.Id != id)
+                .ToList();
 
             return nonFollowedUsers;
+        }
+
+        public List<ApplicationUser> GetRequestedUsers(string id)
+        {
+            List<ApplicationUser> requestedUsers = context.FollowRequest_notifications
+                    .Where(frn => frn.SenderId == id && frn.IsRequested == true)
+                    .Join(context.Users,
+                          frn => frn.ReceiverId,
+                          user => user.Id,
+                          (frn, user) => user)
+                    .ToList();
+            return requestedUsers;
 
         }
-       
 
-        
 
         public List<ApplicationUser> GetAppUserFollowees(string id)
         {

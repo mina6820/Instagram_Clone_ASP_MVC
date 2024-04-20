@@ -19,5 +19,6 @@ namespace Instagram_Clone.Models
         public  NotificationType NotificationType => NotificationType.FollowRequest;
 
         public bool IsAccepted { get; set; } = false;
+        public bool IsRequested { get; set; } = false;  
     }
 }

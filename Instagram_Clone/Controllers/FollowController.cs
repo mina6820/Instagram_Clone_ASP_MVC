@@ -81,7 +81,8 @@ namespace Instagram_Clone.Controllers
                     {
                         SenderId = sender.Id,
                         ReceiverId = receiver.Id,
-                        IsAccepted = false // Set as needed
+                        IsAccepted = false, // Set as needed
+                        IsRequested = true
                     };
                      context.FollowRequest_notifications.Add(followRequest);
                     await context.SaveChangesAsync();
@@ -278,8 +279,7 @@ namespace Instagram_Clone.Controllers
 
         }
 
-
-      
+       
     }
     //}
 }

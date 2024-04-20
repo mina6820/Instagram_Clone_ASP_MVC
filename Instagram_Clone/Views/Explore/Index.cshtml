@@ -2,29 +2,44 @@
 
 
 
-
-<div class="explore_container" style="margin-left: 200px">
-
-
-
-    
-    @for (int index = 0; index < Model.Count; index++)
-    {
-         <form method="post" action="@Url.Action("openPost", "Explore")" class="postForm">
-            <input type="hidden" name="postId" value="@Model[index].Id" />
-            <img width="500px" height="500px" src="~/images/@ViewBag.paths[index]" class="postImage">
-
-          </form>
-    }
-
-
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="container mt-3">
+                @for (int index = 0; index < Model.Count; index += 2)
+                {
+                    <div class="row mb-4">
+                        <div class="col-md-6 mb-2">
+                            <form method="post" action="@Url.Action("openPost", "Explore")" class="postForm">
+                                <input type="hidden" name="postId" value="@Model[index].Id" />
+                                <img width="100%" src="~/images/@ViewBag.paths[index]" class="postImage">
+                            </form>
+                        </div>
+                        @if (index + 1 < Model.Count)
+                        {
+                            <div class="col-md-6">
+                                <form method="post" action="@Url.Action("openPost", "Explore")" class="postForm">
+                                    <input type="hidden" name="postId" value="@Model[index + 1].Id" />
+                                    <img width="100%" src="~/images/@ViewBag.paths[index + 1]" class="postImage">
+                                </form>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
 </div>
+
+
 
 <style>
     img:hover
     {
         cursor: pointer;
+        height:max-content;
     }
+
 
 </style>
 

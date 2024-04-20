@@ -51,7 +51,7 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
         //public  Task Follow(string followeeId, string followerId);
         public Task Accept_FollowRequest(string receiverId, string senderId);
         public  Task Followback(string followeeid, string loginuser);
-
+        public  List<ApplicationUser> GetRequestedUsers(string id);
 
 
 
