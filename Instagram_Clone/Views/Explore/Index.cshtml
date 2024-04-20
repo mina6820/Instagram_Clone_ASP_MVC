@@ -2,289 +2,58 @@
 
 
 
-
-<div class="explore_container" style="margin-left: 200px">
-
-
-
-    
-    @for (int index = 0; index < Model.Count; index++)
-    {
-        @* <form method="post" action="@Url.Action("openPost", "Explore")" class="postForm"> *@
-            <input type="hidden" name="postId" value="@Model[index].Id" />
-            <img onclick="openOverlay('/images/@ViewBag.paths[index]') width="500px" height="500px" src="~/images/@ViewBag.paths[index]" class="postImage">
-
-
-
-
-
-@*             <div class="overlay" id="overlay">
-                <span class="close" id="close">&times;</span>
-
-                <div class="overlay-content">
-                    <img src="" alt="Overlay Image" id="overlayImg">
-
-                    <div class="overlay-info">
-                        <div class="sec1">
-                            <img src="~/images/@Model[index].User.ProfilePicture?.Name" alt="userImg">
-                            <div class="user">@Model[index].User.UserName</div>
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="container mt-3">
+                @for (int index = 0; index < Model.Count; index += 2)
+                {
+                    <div class="row mb-4">
+                        <div class="col-md-6 mb-2">
+                            <form method="post" action="@Url.Action("openPost", "Explore")" class="postForm">
+                                <input type="hidden" name="postId" value="@Model[index].Id" />
+                                <img width="100%" src="~/images/@ViewBag.paths[index]" class="postImage">
+                            </form>
                         </div>
-                        <hr class="line">
-                        <div class="sec2">
-
-                            <img src="~/images/@Model[index].User.ProfilePicture?.Name" alt="userImg">
-                            <div class="user">@Model[index].User.UserName</div>
-                        </div>
-
-                        <div class="Comments">
-                            <img src="img_5_1650907043400.jpg" alt="userImg">
-                            <div class="user">UserName</div>
-                            <div class="caption">Hola</div>
-                        </div>
-
-
-                        <div class="L_C">
-                            <hr class="line">
-
-                            <div class="icons">
-                                <i class="fa-regular fa-heart"></i>
-                                <i class="fa-regular fa-comment"></i>
+                        @if (index + 1 < Model.Count)
+                        {
+                            <div class="col-md-6">
+                                <form method="post" action="@Url.Action("openPost", "Explore")" class="postForm">
+                                    <input type="hidden" name="postId" value="@Model[index + 1].Id" />
+                                    <img width="100%" src="~/images/@ViewBag.paths[index + 1]" class="postImage">
+                                </form>
                             </div>
-
-                            <div class="likes">Liked by UserName and Other</div>
-                            <hr class="line">
-
-                            <div class="comments">Add a Comment...</div>
-                        </div>
+                        }
                     </div>
-                </div>
-            </div> *@
-
-    }
-
-
+                }
+            </div>
+        </div>
+    </div>
 </div>
+
+
 
 <style>
     img:hover
     {
         cursor: pointer;
+        height:max-content;
     }
 
-
-    /* Overlay */
-    #overlay {
-        display: none;
-    }
-
-    .overlay {
-        display: none;
-        position: fixed;
-        z-index: 999;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.7); /* Transparent background */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    /* Overlay Content */
-    .overlay-content {
-        max-width: 600px; /* Adjust as needed */
-        width: 100%;
-        height: 80%;
-        padding: 40px;
-        display: flex;
-        justify-content: center;
-        margin: auto;
-    }
-
-    /* Image Container */
-    .img-container {
-        max-width: 50%;
-        text-align: center;
-    }
-
-    .overlay img {
-        width: 50%;
-    }
-
-    /* Overlay Info */
-    .overlay-info {
-        background-color: #fff;
-        width: max-content;
-        position: relative;
-    }
-
-    .sec1, .sec2, .Comments {
-        display: flex;
-        align-items: center;
-        padding-top: 10px;
-    }
-
-        .sec1 img, .sec2 img, .Comments img {
-            border-radius: 50%;
-            width: 12%;
-            height: 12%;
-            margin-left: 6px;
-        }
-
-        .sec1 .user, .sec2 .user, .Comments .user {
-            margin-left: 6px;
-        }
-
-        .sec2 .caption {
-            padding-left: 6px;
-        }
-
-    .L_C {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-    }
-
-        .L_C .icons {
-            display: flex;
-            padding-left: 8px;
-        }
-
-    .fa-regular {
-        padding-right: 5px;
-        padding-bottom: 5px;
-        font-size: x-large;
-    }
-
-    .likes,
-    .comments {
-        padding-left: 10px;
-        margin-bottom: 10px;
-    }
-
-    /* Close Button */
-    .close {
-        position: absolute;
-        top: 15px;
-        right: 15px;
-        color: #fff;
-        font-size: 20px;
-        cursor: pointer;
-    }
-
-        .close:hover {
-            color: #ccc;
-        }
-
-    /* Gallery */
-    .gallery {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
-    }
-
-    .gallery-img {
-        width: 200px;
-        height: 200px;
-        object-fit: cover;
-        border-radius: 5px;
-        margin: 10px;
-        cursor: pointer;
-    }
-
-        .gallery-img:hover {
-            opacity: 0.7;
-        }
-    /* Left and Right Arrows */
-    .prev,
-    .next {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        color: white;
-        font-size: 40px;
-        cursor: pointer;
-        z-index: 9999;
-    }
-
-
-    .line {
-        border: none; /* Remove default border */
-        border-top: 1px solid #fff; /* Set border color */
-    }
-
-    /* Media Query for Responsive Design */
-    @@media (max-width: 768px) {
-        .overlay-content {
-            max-width: 90%;
-            padding: 20px;
-        }
-
-        .img-container {
-            max-width: 100%;
-        }
-
-        .overlay-info {
-            max-width: 100%;
-        }
-    }
-
-    @@media (max-width: 768px) {
-        .overlay-content {
-            max-width: 60%;
-            padding: 20px;
-        }
-
-        .img-container {
-            max-width: 100%;
-        }
-
-        .overlay-info {
-            max-width: 100%;
-        }
-    }
 
 </style>
 
 
 <script>
-    // document.addEventListener('DOMContentLoaded', function () {
-    //     var postForms = document.querySelectorAll('.postForm');
-    //     postForms.forEach(function (form) {
-    //         form.addEventListener('click', function () {
-    //             this.submit();
-    //         });
-    //     });
-    // });
+    document.addEventListener('DOMContentLoaded', function () {
+        var postForms = document.querySelectorAll('.postForm');
+        postForms.forEach(function (form) {
+            form.addEventListener('click', function () {
+                this.submit();
+            });
+        });
+    });
 
-    var currentIndex = 0;
-
-    function openOverlay(imgSrc) {
-        var overlay = document.getElementById('overlay');
-        var overlayImg = document.getElementById('overlayImg');
-
-        overlay.style.display = 'block';
-        overlayImg.src = imgSrc;
-        currentIndex = images.indexOf(imgSrc);
-        updateInfo(currentIndex);
-        console.log("Holllla");
-
-
-
-    }
-
-
-    document.getElementById('overlay').onclick = function (event) {
-        if (event.target === this) {
-            this.style.display = 'none';
-        }
-    };
-
-    document.getElementById('close').onclick = function () {
-        document.getElementById('overlay').style.display = 'none';
-    };
 
 </script>
 

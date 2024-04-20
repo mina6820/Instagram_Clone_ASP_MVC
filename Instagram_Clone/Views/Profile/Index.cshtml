@@ -239,7 +239,29 @@
         max-width: 100%;
     }
 }
+ .item {
+        position: relative;
+        display: inline-block;
+        margin: 10px;
+    }
 
+    .image-container {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .Showmore {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .item:hover .Showmore {
+        opacity: 1;
+    }
 
 
 
@@ -507,11 +529,11 @@
                         </div>
                         <div class="general_info">
                             <p><span>@Model.Posts.Count</span> post</p>
-                            <a id="FollowersCounter" href="Follow/ShowFollowers?Name=" style="color:black ; margin:2px">@Model.Followers.Count</a>
-                            <a href="Follow/ShowFollowers?Name=" style="color:black; margin:2px">Followers</a>
+                            <a id="FollowersCounter" href="/Follow/ShowFollowers?Name=" style="color:black ; margin:2px">@Model.Followers.Count</a>
+                            <a href="/Follow/ShowFollowers?Name=" style="color:black; margin:2px">Followers</a>
 
-                            <a id="FollowingCounter" href="Follow/showFollowees?Name=" style="color:black ; margin:2px">@Model.Following.Count</a>
-                            <a href="Follow/showFollowees?Name=" style="color:black; margin:2px">Following</a>
+                            <a id="FollowingCounter" href="/Follow/showFollowees?Name=" style="color:black ; margin:2px">@Model.Following.Count</a>
+                            <a href="/Follow/showFollowees?Name=" style="color:black; margin:2px">Following</a>
                             @* <a id="FollowersCounter" asp-action="showFollowers" asp-controller="Follow" style="color:black ; margin:2px" class="ClickFollowers"> @Model.Followers.Count</a> <a style="color:black; margin:2px" asp-action="showFollowers" asp-controller="Follow" asp-route-ProfileUserViewModel="@Model" class="ClickFollowers"> Followers</a> *@
                             @* <a id="FolloweesCounter" asp-action="showFollowees" asp-controller="Follow" style="color:black ; margin:2px" class="ClickFollowing"> @Model.Following.Count</a> <a style="color:black; margin:2px" asp-action="showFollowees" asp-controller="Follow" asp-route-ProfileUserViewModel="@Model" class="ClickFollowing"> Following</a> *@
                         </div>
@@ -574,15 +596,17 @@
                             {
                                 @foreach (var photo in post.PhotosPathes)
                                 {
-                                    <div class="more">
-                                        <button type="button" onclick="setPostId(@post.Id)" class="btn p-0" data-bs-toggle="modal" data-bs-target="#delete_post_modal">
-                                        <img src="./images/show_more.png" alt="show more" id="showMoreButton" style="width:50px;">
-                                        </button>
-                                    </div>
-                                    <div class="item">
-                                        <img src="~/images/@photo" asp-append-version="true" alt="My Image" onclick="openOverlay('/images/@photo')" />
+                                    <div id="posts-box">
+                                        <div class="more">
+                                            <button type="button" onclick="setPostId(@post.Id)" class="btn p-0" data-bs-toggle="modal" data-bs-target="#delete_post_modal">
+                                            <img src="./images/show_more.png" alt="show more" id="showMoreButton" style="width: 31px;">
+                                            </button>
+                                        </div>
+                                        <div class="item">
+                                            <img src="~/images/@photo" asp-append-version="true" alt="My Image" onclick="openOverlay('/images/@photo')" style="width: 239px; height: 233px" />
 
-                                        @* <img class="img-fluid item_img" src="~/images/@photo" alt=""> *@
+                                            @* <img class="img-fluid item_img" src="~/images/@photo" alt=""> *@
+                                        </div>
                                     </div>
                                 }
                             }
