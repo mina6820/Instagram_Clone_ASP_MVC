@@ -79,11 +79,12 @@ namespace Instagram_Clone.Controllers
                     postViewModel.TimeAgo = $"{(int)TimeSincePost.TotalDays} day ago";
 
                 postsViewModel.Add(postViewModel);
+
             }
             // ViewBag.postsList = postsViewModel;
             //ViewBag.myPosts = myPosts;
 
-            ViewBag.postsList = postsViewModel;
+            ViewBag.postsList = postsViewModel.OrderByDescending(post => post.CreatedAt);
             //habeba
 
 
