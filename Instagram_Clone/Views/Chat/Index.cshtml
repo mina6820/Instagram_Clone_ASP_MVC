@@ -24,12 +24,12 @@
                         <!-- Determine which user's name to display based on the current user's ID -->
                         var currentUserId = ViewBag.SenderId;
                         var userName = currentUserId == chat.SenderId ? chat.Reciever.UserName : chat.Sender.UserName;
-
+                        var profilepicture = currentUserId == chat.SenderId ? chat.Reciever.ProfilePicture?.Name : chat.Sender.ProfilePicture?.Name;
                         <div class="cart">
                             <div>
                                 <div class="img">
                                     <!-- Make sure to use proper syntax to render the profile picture -->
-                                    @* <img src="~/images/@(currentUserId == chat.SenderId ? chat.Reciever.ProfilePicture.Name : chat.Sender.ProfilePicture.Name)" alt=""> *@
+                                    <img src="~/images/@profilepicture" alt="">
                                 </div>
                                 @*asp-route-senderId="@chat.SenderId" asp-route-chatId="@chat.id" asp-route-receiverId="@chat.RecieverId" *@
                                 <div class="info">

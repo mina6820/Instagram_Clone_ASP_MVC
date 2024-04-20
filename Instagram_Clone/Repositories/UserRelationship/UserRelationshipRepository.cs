@@ -150,14 +150,14 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
             }
 
         }
-
-        public async Task<bool> IsFollowing(string followerId, string followeeId)
+     
+        public async Task<bool> IsFollowing(string followeeId, string followerId)
         {
             return await context.UserRelationship.AnyAsync(ur => ur.FollowerId == followerId && ur.FolloweeId == followeeId && !ur.IsDeleted);
         }
 
         //public async Task Follow(string followeeId, string followerId)
-       public async Task Accept_FollowRequest(string receiverId, string senderId)
+        public async Task Accept_FollowRequest(string receiverId, string senderId)
 
         {
             if (!await IsFollowing(receiverId, senderId))
@@ -201,7 +201,7 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
                         FolloweeId = followeruser.Id
                     };
 
-                   
+
 
                     var relation = new UserRelationship
                     {
@@ -228,7 +228,7 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
             }
         }
 
-     
+
 
 
         public List<ApplicationUser> GetNonFollowees(string id)
