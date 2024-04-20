@@ -31,7 +31,9 @@ namespace Instagram_Clone.Controllers
         public IActionResult openPost(int postId)
         {
             Post post = PostRepository.GetPostwithUserAndCommentsAndFollowersById(postId);
-            return Content($"{postId} {post.UserId} {post.Likes.Count}");
+
+            return RedirectToAction("Index", "Profile", new { UserId = post.UserId });
+            //return View("openPost", post);
         }
     }
 }
