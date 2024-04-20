@@ -5,6 +5,8 @@
         public int ID { get; set; }
         public string? UserName { get; set; }
 
+        public string? UserId { get; set; } 
+
         //public string? CurrentUserID { get; set; }
 
         public string? TimeAgo { get; set; }

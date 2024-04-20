@@ -23,7 +23,7 @@
                 }
                 
 
-                <a href="#">@post.UserName</a>
+                <a asp-controller="Profile" asp-action="Index" asp-route-userId="@post.UserId">@post.UserName</a>
                 <span class="circle">.</span>
                 <span>@post.TimeAgo</span>
             </div>

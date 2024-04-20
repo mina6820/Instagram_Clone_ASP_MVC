@@ -65,6 +65,7 @@ namespace Instagram_Clone.Controllers
                 postViewModel.Likes = post.Likes;
                 postViewModel.Comments = post.Comments;
                 postViewModel.CreatedAt = post.Date;
+                postViewModel.UserId = post.User.Id;
 
                 ViewBag.CurrentUserId = user?.Id;
 
