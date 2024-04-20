@@ -1,4 +1,4 @@
-﻿
+﻿@* 
     
     <div class="modal fade" id="message_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -7,7 +7,7 @@
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Comments</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-           
+                <h1>messi</h1>
                 <div class="modal-body">
                     <div class="comments">
                         <div class="comment">
@@ -27,7 +27,7 @@
 
 
                                         </div>
-                                        @* <p>Wow amzing shot</p> *@
+                                         <p>Wow amzing shot</p> 
                                         <p>@comment.Content</p>
                                         <div class="replay">
                                             <button class="replay">replay</button>
@@ -52,7 +52,7 @@
                                     <p> 55</p>
 
                                 </div>
-                                    @* </div> *@
+                                     </div> 
                                 }
                         }
                         else
@@ -108,3 +108,41 @@
         </div>
     </div>
 
+   @*  <script>
+        var hub2 = new signalR.HubConnectionBuilder().withUrl("/PostH").build();
+
+
+        hub2.on("ReceiveComments" , function(comments){
+            console.log("hello wessa");
+        })
+
+    </script> *@
+<div class="modal fade" id="message_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Comments</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="commentsId" class="comments">
+                </div>
+
+
+                <div class="modal-footer">
+                    <form method="post">
+                        <div class="input">
+                            <img src="/images/profile_img.jpg" alt="">
+                            <input type="text" id="emoji_comment" name="comment" placeholder="Add a comment..." />
+                            <input type="hidden" id="postIdInput" name="postId" />
+                        </div>
+
+                        <input type="submit" asp-controller="Post" asp-action="SaveComment" style="display:none;" />
+                        <!-- <div class="emogi">
+                            <img src="/images/emogi.png" alt="">
+                        </div> -->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>

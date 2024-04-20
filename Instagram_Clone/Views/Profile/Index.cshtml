@@ -573,6 +573,11 @@
                             {
                                 @foreach (var photo in post.PhotosPathes)
                                 {
+                                    <div class="more">
+                                        <button type="button" onclick="setPostId(@post.Id)" class="btn p-0" data-bs-toggle="modal" data-bs-target="#delete_post_modal">
+                                        <img src="./images/show_more.png" alt="show more" id="showMoreButton" style="width:50px;">
+                                        </button>
+                                    </div>
                                     <div class="item">
                                         <img src="~/images/@photo" asp-append-version="true" alt="My Image" onclick="openOverlay('/images/@photo')" />
 
@@ -657,9 +662,75 @@
 
 
 
+        @* --------------------- start delete ----------------------- *@
+        <div class="modal fade" id="delete_post_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Are You Sure To Delete This Post</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Add your post content here if needed -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                        <a  class="btn btn-danger" href="#" id="confirm_delete_btn">Yes</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+       
+
+        @* ------------------------ end delete ------------------------------- *@
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
 
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script>
+            let postID;
 
+            function setPostId(postId) 
+            {
+                postID = postId;
+                console.log(postID);
+            }
+
+                document.addEventListener("DOMContentLoaded", function () {
+                    var confirmDeleteBtn = document.getElementById("confirm_delete_btn");
+
+                    confirmDeleteBtn.addEventListener("click", function () {
+                      
+
+                        // Log the postId to the console
+                        console.log("Button clicked! Post ID: " + postID);
+
+                        // Perform any other actions you need here, such as making an AJAX request to delete the post
+                    $.ajax({
+                        url: "/Post/Delete", // URL of the action
+                        type: "POST",
+                        data: { postId: postID },
+                        success: function (response) {
+                            // Update the content of the modal body with the response (partial view)
+                            console.log(response);
+                            location.reload();
+                            
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(xhr.responseText);
+                        }
+                    });
+
+                    //$('#delete_post_modal').modal('hide');
+
+                    });
+                });
+       
+
+        </script>
         <script>
             $(document).ready(function () {
                 // Add event listener to followers count link
@@ -680,9 +751,31 @@
                     });
                 });
             });
+
+            
         </script>
 
 
+        @* <script>
+            $(document).ready(function () {
+
+                $("#confirm_delete_btn").on("click", function () {
+                    // Get the postId associated with the clicked post and store it in the global variable
+                    postId = $(this).data("post-id");
+
+                // Add event listener to the delete button when the document is ready
+                $("#confirm_delete_btn").on("click", function () {
+                    // Get the postId associated with the clicked post
+                    var postId = $(this).data("post-id");
+
+                    // Log the postId to the console
+                    console.log("Button clicked! Post ID: " + postId);
+
+                    // Perform any other actions you need here, such as making an AJAX request to delete the post
+                });
+            });
+        </script>
+ *@
 
 
         <script>

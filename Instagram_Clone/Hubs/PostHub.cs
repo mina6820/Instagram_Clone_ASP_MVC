@@ -1,4 +1,5 @@
-﻿using Instagram_Clone.Repositories.LikeRepo;
+﻿using Instagram_Clone.Models;
+using Instagram_Clone.Repositories.LikeRepo;
 using Instagram_Clone.Repositories.PostRepo;
 using Microsoft.AspNetCore.SignalR;
 using System.Security.Claims;
@@ -56,6 +57,28 @@ namespace Instagram_Clone.Hubs
             await Clients.All.SendAsync("ReceiveLikes", postID, post.Likes.Count());
         }
 
+
+        public async Task ShowComments(int postId)
+        {
+            Post? post = postRepository.GetPostwithUserAndCommentsAndFollowersById(postId);
+            List<CommentViewModel> comments = new List<CommentViewModel>();
+
+            if (post.Comments != null)
+            {
+                foreach (var comment in post.Comments)
+                {
+                    CommentViewModel commentView = new CommentViewModel();
+                    commentView.ProfilePicture = comment.User.ProfilePicture.Path;
+                    commentView.Content = comment.Content;
+                    commentView.UserName = comment.User.UserName;
+                    comments.Add(commentView);
+                }
+
+                // ViewBag.Comments = comments;
+                await Clients.All.SendAsync("ReceiveComments", comments);
+
+            }
+        }
 
     }
 }

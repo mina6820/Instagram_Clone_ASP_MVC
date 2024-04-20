@@ -27,9 +27,21 @@
                 <span class="circle">.</span>
                 <span>@post.TimeAgo</span>
             </div>
-            <div class="more">
+           @*  <div class="more">
                 <img src="./images/show_more.png" alt="show more">
+            </div> *@
+
+            <div class="more">
+
+                      <img src="./images/show_more.png" alt="show more" id="showMoreButton">
+                
+
+                     @*  <select id="selectOptions"  style="display: none;">
+                    <option value="update">Update</option>
+                    <option value="delete" id=" deleteOption">Delete</option>
+                </select> *@
             </div>
+
         </div>
         <div class="image">
             @if (post.ImagesNames != null)
@@ -59,6 +71,7 @@
                         <img class="not_loved" src="./images/love.png">
                         <img class="loved" src="./images/heart.png">
                     </div> *@
+
 
                     <button style="background-color:transparent;border:none;" class="like" onclick="Like(@post.ID)">
                         <img class="not-loved" id="not-Loved-@post.ID" src="./images/love.png">
@@ -93,8 +106,122 @@
                     <input type="text" placeholder="Add a comments...">
                 </div>
             </div>
-        </div>
+    </div>
+
+
+
+
+    /////////////////////////////////////////////////////////////////
+    ///
+
+
+
+
+
     }
+
+  @* ----------------start comment --------------------- *@
+
+<div class="modal fade" id="message_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Comments</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="commentsId" class="comments">
+                </div>
+
+
+                <div class="modal-footer">
+                    <form method="post">
+                        <div class="input">
+                            <img src="/images/profile_img.jpg" alt="">
+                            <input type="text" id="emoji_comment" name="comment" placeholder="Add a comment..." />
+                            <input type="hidden" id="postIdInput" name="postId" /> 
+                        </div>
+
+                        <input type="submit" asp-controller="Post" asp-action="SaveComment" style="display:none;" />
+                        <!-- <div class="emogi">
+                            <img src="/images/emogi.png" alt="">
+                        </div> -->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  @* ----------------end comment --------------------- *@
+
+
+  @* --------------------- start delete ----------------------- *@
+   @*  <div class="modal fade" id="delete_post_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                     <h1 class="modal-title fs-5" id="exampleModalLabel">Comments</h1> 
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <h1>messi</h1>
+                <div class="modal-body">
+                    <div class="comments">
+                        <div class="comment">
+                        
+                                <div class="d-flex">
+                                    <div class="img">
+                                        <img src="/images/profile_img.jpg" alt="">
+                                    </div>
+                                    <div class="content">
+                                        <div class="person">
+                                            <span>3j</span>
+
+
+                                        </div>
+                                         <p>Wow amzing shot</p> 
+                                        <p>@comment.Content</p> 
+                                        <div class="replay">
+                                            <button class="replay">replay</button>
+                                            <button class="translation">see translation</button>
+                                        </div>
+                                        <div class="answers">
+                                            <button class="see_comment">
+                                                <span class="hide_com">Hide all responses</span>
+                                                <span class="show_c">
+                                                    <span class="line"></span> See the <span>
+                                                        1
+                                                    </span> answers
+                                                </span>
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                
+
+                        
+                               
+                              
+            
+                <div class="modal-footer">
+                    <form method="post">
+                        <div class="input">
+                            <img src="/images/profile_img.jpg" alt="">
+                            <input type="text" id="emoji_comment" placeholder="Add a comment..." />
+                        </div>
+
+                        <input type="submit" asp-controller="Post" asp-action="SaveComment"/>
+                        <!-- <div class="emogi">
+                            <img src="/images/emogi.png" alt="">
+                        </div> -->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+ *@
+
+  @* ------------------------ end delete ------------------------------- *@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.12/signalr.min.js"></script>
 
@@ -124,19 +251,147 @@
         element.textContent = likesCount + " Likes" ;
     })
 
+    // function comment(postId)
+    // {
+    //     hub.invoke("ShowComments" , postId)
+    // }
+
+        var postID;
 
     function comment(postId){
        
             $.ajax({
                 url: "/Post/Comment",
-                success: function () {
-                    console.log("successhdhdh");
+                data: { postId: postId },
+                success: function (data) {
+                    console.log("comment action executed succefully", data);
+                    const array = data["$values"];
+                    DisplayComments(array);
+                   
 
+                    
                 },
-            data: { PostID: postId }
             });
-        
+
+            var inputElement = document.getElementById("postIdInput");
+
+            // Set the value of the input field to the value of the variable
+            inputElement.value = postId;
     }
+        function DisplayComments(comments) {
+
+            console.log("----------------------start DisplayComments----------")
+            console.log(comments);
+
+            //console.log("comments", comments);
+            let com = "";
+            comments.forEach(function (currentValue, index) {
+                 com += `<div class="comment">
+                        <div class="d-flex">
+                            <div class="img">
+                                      <img src="/images/d2acb591-f545-4e9c-981e-f76de25c655c_download.jpeg" alt="">
+                            </div>
+                            <div class="content">
+                                <div class="person">
+                                    <h5>${currentValue.userName}</h5>
+                                    <span>${currentValue.timeAgo}</span>
+                                </div>
+                                <p>${currentValue.content}</p>
+                                <div class="replay">
+                                    <button class="replay">replay</button>
+                                    <button class="translation">see translation</button>
+                                </div>
+                                <div class="answers">
+                                    <button class="see_comment">
+                                        <span class="hide_com">Hide all responses</span>
+                                        <span class="show_c">
+                                            <span class="line"></span> See the <span>1</span> answers
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="like">
+                            <img class="not_loved" src="/images/love.png" alt="">
+                            <img class="loved" src="/images/heart.png" alt="">
+                            <p>55</p>
+                        </div>
+                    </div>`;
+
+
+          
+            });
+           
+            const commentsElement = document.getElementById("commentsId");
+            commentsElement.innerHTML = com;
+            console.log("----------------------end DisplayComments----------")
+
+        }
+
+
+        // start of select statement
+        
+                document.getElementById('showMoreButton').addEventListener('click', function () {
+                var selectOptions = document.getElementById('selectOptions');
+                if (selectOptions.style.display === 'none') {
+                    selectOptions.style.display = 'block';
+                    selectOptions.focus();
+                } else {
+                    selectOptions.style.display = 'none';
+                }
+            });
+
+       
+
+        // document.getElementById('deleteOption').addEventListener('click', function () {
+        //     // Show the delete post modal
+        //     //$('#delete_post_modal').modal('show');
+        //     document.getElementById('delete_post_modal').classList.add('show');
+        // }); 
+
+
+        // document.getElementById('selectOptions').addEventListener('change', function () {
+        //     var selectValue = this.value;
+        //     if (selectValue === 'delete') {
+        //         // Show the view for delete
+        //         // For example:
+        //         //alert('Show delete view');
+
+        //         $.ajax({
+        //             url: "/Post/Delete",
+        //             //data: { postId: postId },
+        //             success: function (res) {
+        //                 // console.log("comment action executed succefully", data);
+        //                 // const array = data["$values"];
+        //                 // DisplayComments(array);
+
+        //                 console.log(res);
+
+        //             },
+        //         });
+
+        //     }
+        // });
+
+
+        // document.getElementById('selectOptions').addEventListener('change', function () {
+        //     var selectValue = this.value;
+        //     if (selectValue === 'delete') {
+        //         // Trigger the delete post modal
+        //         $('#delete_post_modal').modal('show');
+        //     }
+        // });
+
+
+        // document.getElementById('showMoreButton').addEventListener('click', function () {
+        //     var selectOptions = document.getElementById('selectOptions');
+        //     selectOptions.click(); // Simulate click on select element
+        // });
+
+        // end of select statement
+
+   
+
 
 </script>
 

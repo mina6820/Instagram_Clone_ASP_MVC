@@ -1,0 +1,92 @@
+﻿
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+  @*   <div class="modal fade" id="delete_post_modal" tabindex="-1" aria-labelledby="deletePostModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="deletePostModalLabel">Delete Post</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this post?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form method="post" action="path_to_delete_post_action" id="deleteForm">
+                        <!-- Add necessary form fields for deleting the post -->
+                        <button type="submit" class="btn btn-danger" id="deleteButton">Delete</button>
+                    </form>
+                    <button type="button" class="btn btn-primary" id="cancelDeleteButton" data-bs-dismiss="modal">Do Not Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+ *@
+
+<div class="modal fade" id="delete_post_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                @*  <h1 class="modal-title fs-5" id="exampleModalLabel">Comments</h1> *@
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <h1>messi</h1>
+            <div class="modal-body">
+                <div class="comments">
+                    <div class="comment">
+
+                        <div class="d-flex">
+                            <div class="img">
+                                <img src="/images/profile_img.jpg" alt="">
+                            </div>
+                            <div class="content">
+                                <div class="person">
+                                    <span>3j</span>
+
+
+                                </div>
+                                <p>Wow amzing shot</p>
+                                @* <p>@comment.Content</p> *@
+                                <div class="replay">
+                                    <button class="replay">replay</button>
+                                    <button class="translation">see translation</button>
+                                </div>
+                                <div class="answers">
+                                    <button class="see_comment">
+                                        <span class="hide_com">Hide all responses</span>
+                                        <span class="show_c">
+                                            <span class="line"></span> See the <span>
+                                                1
+                                            </span> answers
+                                        </span>
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+
+
+
+
+                        <div class="modal-footer">
+                            <form method="post">
+                                <div class="input">
+                                    <img src="/images/profile_img.jpg" alt="">
+                                    <input type="text" id="emoji_comment" placeholder="Add a comment..." />
+                                </div>
+
+                                <input type="submit" asp-controller="Post" asp-action="SaveComment" />
+                                <!-- <div class="emogi">
+                                    <img src="/images/emogi.png" alt="">
+                                </div> -->
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    

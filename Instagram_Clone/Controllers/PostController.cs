@@ -1,4 +1,5 @@
 ﻿using Instagram_Clone.Models.photo;
+using Instagram_Clone.Repositories.CommentRepo;
 using Instagram_Clone.Repositories.PhotoRepo;
 using Instagram_Clone.Repositories.PhotoRepo.postPhotoContainer;
 using Instagram_Clone.Repositories.PostRepo;
@@ -15,13 +16,15 @@ namespace Instagram_Clone.Controllers
         private readonly IPostRepository postRepository;
         private readonly IWebHostEnvironment webHostEnvironment;
         private readonly IpostPhotoRepository photoRepository;
+        private readonly ICommentRepository commentRepository;
 
-        public PostController(Context context,IPostRepository postRepository, IWebHostEnvironment webHostEnvironment, IpostPhotoRepository photoRepository)
+        public PostController(Context context,IPostRepository postRepository, IWebHostEnvironment webHostEnvironment, IpostPhotoRepository photoRepository , ICommentRepository commentRepository)
         {
             this.context = context;
             this.postRepository = postRepository;
             this.webHostEnvironment = webHostEnvironment;
             this.photoRepository = photoRepository;
+            this.commentRepository = commentRepository;
         } 
         public IActionResult Add()
         {
@@ -83,47 +86,96 @@ namespace Instagram_Clone.Controllers
         //posts.Add(post);   
         //List<PostViewModel> postList = new List<PostViewModel>();
         //postList.Add(postViewModel);
-        //public IActionResult Comment(int postId)
-        //{
-            
 
-        //    Post? post =  postRepository.GetPostwithUserAndCommentsAndFollowersById(postId);
-        //    List<CommentViewModel> comments = new List<CommentViewModel>();
 
-        //    if(post.Comments != null)
-        //    {
-        //        foreach (var comment in post.Comments)
-        //        {
-        //            CommentViewModel commentView = new CommentViewModel();
-        //            commentView.ProfilePicture = comment.User.ProfilePicture;
-        //            commentView.Content = comment.Content;
-        //            commentView.UserName = comment.User.UserName;
-        //            comments.Add(commentView);
-        //        }
+        public IActionResult Comment(int postId)
+        {
 
-        //        ViewBag.Comments = comments;
+
+            Post? post = postRepository.GetPostwithUserAndCommentsAndFollowersById(postId);
+            List<CommentViewModel> comments = new List<CommentViewModel>();
+
+            if (post.Comments != null)
+            {
+                foreach (var comment in post.Comments)
+                {
+                    CommentViewModel commentView = new CommentViewModel();
+                    commentView.ProfilePicture = comment.User.ProfilePicture.Name;
+                    
+                    commentView.Content = comment.Content;
+                    commentView.UserName = comment.User.UserName;
+
+                    TimeSpan TimeSincePost = DateTime.Now - comment.Date;
+                    if (TimeSincePost.TotalSeconds < 60)
+                        commentView.TimeAgo = $"{(int)TimeSincePost.TotalSeconds} second ago";
+                    else if (TimeSincePost.TotalMinutes < 60)
+                        commentView.TimeAgo = $"{(int)TimeSincePost.TotalMinutes} minute ago";
+                    else if (TimeSincePost.TotalHours < 24)
+                        commentView.TimeAgo = $"{(int)TimeSincePost.TotalHours} hour ago";
+                    else
+                        commentView.TimeAgo = $"{(int)TimeSincePost.TotalDays} day ago";
+
+                    comments.Add(commentView);
+                }
+
                 
-        //    }
 
+            }
+            //ViewBag.picture = comments[0].ProfilePicture;
+            return Json(comments);
+           
+        }
 
-        //    //PostViewModel postViewModel = new PostViewModel();
-        //    //postViewModel.UserName = post.User.UserName;
-        //    //postViewModel.ProfilePhoto = post.User.ProfilePicture;
-        //    //postViewModel.Comments = post.Comments;
-        //    //postViewModel.Followers = post.User.Followers;
+        //public IActionResult DeletePost(int postId)
+        //{
 
-        //    //List<PostViewModel> posts = new List<PostViewModel>();  
-        //    //posts.Add(postViewModel);
-
-
-        //    //return PartialView("_CommentPartial");
-        //    return View("test");
         //}
 
-
-        public IActionResult SaveComment()
+        public IActionResult SaveComment(int postId , string comment)
         {
-            return Content("success");
+
+            Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+            ApplicationUser user = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+
+            Comment commentObj = new Comment
+            {
+                Content = comment,
+                Date = DateTime.Now,
+                UserId = user.Id,
+                PostId = postId
+            };
+
+            commentRepository.Insert(commentObj);
+            commentRepository.Save();
+
+            return RedirectToAction("Index", "Home");
+            
+        }
+
+        public IActionResult Delete(int postId)
+        {
+            Post? post = postRepository.GetPostByIDWithUser(postId);
+            Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+            ApplicationUser user = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+
+            if(post != null)
+            {
+                if(post.User.Id == user.Id)
+                {
+                    post.IsDeleted = true;
+                    postRepository.Update(post);
+                    postRepository.Save();
+                    //return Json("deleted succss");
+
+                    return Json("deleted success");
+                }
+                return Json("not match");
+            }
+
+
+            return Json("deleted not succss");
+            //return View("_DeletePost");
+        
         }
     }
 }

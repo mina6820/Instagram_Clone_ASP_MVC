@@ -150,8 +150,8 @@ namespace Instagram_Clone.Repositories.UserFollowRepo
             }
 
         }
-
-        public async Task<bool> IsFollowing(string followerId, string followeeId)
+     
+        public async Task<bool> IsFollowing(string followeeId, string followerId)
         {
             return await context.UserRelationship.AnyAsync(ur => ur.FollowerId == followerId && ur.FolloweeId == followeeId && !ur.IsDeleted);
         }

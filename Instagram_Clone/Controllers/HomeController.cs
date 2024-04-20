@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Elfie.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.Intrinsics.X86;
 using System.Security.Claims;
 
@@ -42,9 +43,11 @@ namespace Instagram_Clone.Controllers
             Claim? claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
             ApplicationUser? user = context.Users.FirstOrDefault(u => u.Id == claim.Value);
 
+            List<Post> myPosts = postRepository.GetMyPosts(user.Id);
             List<Post> posts = postRepository.GetAllPostsWithPhotosAndLikes(user.Id);
             List<PostViewModel> postsViewModel = new List<PostViewModel>();
-            foreach (Post post in posts)
+            var finalPosts = posts.Concat(myPosts);
+            foreach (Post post in finalPosts)
             {
                 PostViewModel postViewModel = new PostViewModel();
                 postViewModel.Caption = post.Caption;
@@ -63,7 +66,7 @@ namespace Instagram_Clone.Controllers
                 postViewModel.Likes = post.Likes;
                 postViewModel.Comments = post.Comments;
                 postViewModel.CreatedAt = post.Date;
-                
+
                 ViewBag.CurrentUserId = user?.Id;
 
                 TimeSpan TimeSincePost = DateTime.Now - post.Date;
@@ -77,9 +80,12 @@ namespace Instagram_Clone.Controllers
                     postViewModel.TimeAgo = $"{(int)TimeSincePost.TotalDays} day ago";
 
                 postsViewModel.Add(postViewModel);
-            }
-            ViewBag.postsList = postsViewModel;
 
+            }
+            // ViewBag.postsList = postsViewModel;
+            //ViewBag.myPosts = myPosts;
+
+            ViewBag.postsList = postsViewModel.OrderByDescending(post => post.CreatedAt);
             //habeba
 
 
@@ -87,17 +93,17 @@ namespace Instagram_Clone.Controllers
             Claim claim2 = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
             ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim2.Value);
             ApplicationUser user3 = context.Users.Include(u => u.ProfilePicture).FirstOrDefault(u => u.Id == user2.Id);
-           
+
 
             List<ApplicationUser> NonFollowing = userRelationshipRepository.GetNonFollowees(user.Id);
             ViewBag.NonFollowingUsers = NonFollowing;
 
             List<ApplicationUser> applicationUsers = userRelationshipRepository.GetRandomlyTopFive(user2.Id);
             ViewBag.applicationUsers = applicationUsers;
-            
+
 
             List<ApplicationUser> AllUsers = context.Users
-                .Include(u=>u.ProfilePicture)
+                .Include(u => u.ProfilePicture)
                 .ToList();
 
 
@@ -124,6 +130,38 @@ namespace Instagram_Clone.Controllers
             List<FollowRequest_notification> notifications = notificationRepository.GetNotifications(user3.Id);
             ViewBag.notifications = notifications;
             return View();
+
+
+        }
+
+        public IActionResult Comment(int postId)
+        {
+
+
+            Post? post = postRepository.GetPostwithUserAndCommentsAndFollowersById(postId);
+            List<CommentViewModel> comments = new List<CommentViewModel>();
+
+            if (post.Comments != null)
+            {
+                foreach (var comment in post.Comments)
+                {
+                    CommentViewModel commentView = new CommentViewModel();
+                    commentView.ProfilePicture = comment.User.ProfilePicture.Path;
+                    commentView.Content = comment.Content;
+                    commentView.UserName = comment.User.UserName;
+                    comments.Add(commentView);
+                }
+
+
+
+            }
+            ViewBag.Comments = comments;
+
+
+
+            return PartialView("_CommentPartial");
+
+
 
 
         }
