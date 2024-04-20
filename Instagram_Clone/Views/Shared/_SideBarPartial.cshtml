@@ -5,9 +5,13 @@
             <div class="img">
                 <img src="/images/@ViewBag.picture" alt="">
             </div>
+          
             <div class="info">
                 <a class="name" asp-action="Index" asp-controller="Profile" style="color:black;text-decoration:none">@ViewBag.UserName</a>
             </div>
+            <a href="Home/GoToAllUsers" class="btn btn-primary">
+                Search
+            </a>
         </div>
     </div>
     <div class="suggestions">

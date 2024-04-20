@@ -22,8 +22,10 @@
     !Context.Request.Path.StartsWithSegments("/Follow/showFollowees")&&
     !Context.Request.Path.StartsWithSegments("/Account/Register")&&
     !Context.Request.Path.StartsWithSegments("/story/add")&&
-    !Context.Request.Path.StartsWithSegments("/Account/ForgetPassword")
+    !Context.Request.Path.StartsWithSegments("/Account/ForgetPassword")&&
+    !Context.Request.Path.StartsWithSegments("/Home/GoToAllUsers")
     )
+
     {
         <div class="nav_menu">
             <div class="fix_top">
@@ -43,14 +45,15 @@
                                     <span class="d-none d-lg-block">Home</span>
                                 </a>
                             </li>
-
-                            <li id="search_icon">
+                           
+                         @*    <li id="search_icon">
                                 <a href="#">
                                     <img src="/images/search.png">
-                                    <span class="d-none d-lg-block search">Search </span>
+                                    <span class="d-none d-lg-block search" href="Home/SearchUsers/Name=">Search </span>
                                 </a>
-                            </li>
+                            </li> *@
                             <li>
+                             
                                 <a href="/explore/index">
                                     <img src="/images/compass.png">
                                     <span class="d-none d-lg-block ">Explore</span>
@@ -74,7 +77,6 @@
                                     <span class="d-none d-lg-block ">Notifications</span>
                                 </a>
                             </li>
-
                             <li>
 
                             <a asp-controller="Post" asp-action="Add" >
@@ -241,6 +243,7 @@
             </div>
         </div>
         <!-- search  -->
+        @* <partial name="_DataBaseUsersPartial" /> *@
         @* <div id="search" class="search_section">
             <h2>Search</h2>
             <form method="post">

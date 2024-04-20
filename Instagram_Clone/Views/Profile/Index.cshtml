@@ -318,7 +318,7 @@
         <!--***** nav menu start ****** -->
         <!-- search  -->
         <div id="search" class="search_section">
-            <h2>Search</h2>
+          @*   <h2>Search</h2>
             <form method="post">
                 <input type="text" placeholder="Search">
             </form>
@@ -331,7 +331,7 @@
                     <div class="cart">
                         <div>
                             <div class="img">
-                                @* <img src="~/images/@Model.ProfilePicture.Name" alt=""> *@
+                           
                                 <img src="~/images/@Model.ProfilePicture?.Name" asp-append-version="true" alt="My Image" />
                             </div>
                             <div class="info">
@@ -344,7 +344,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> *@
         </div>
         <!-- search  -->
         <!-- notification -->
