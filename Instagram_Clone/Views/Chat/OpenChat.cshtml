@@ -12,9 +12,7 @@
 
     <div class="cart">
         <div>
-            @*<div class="img">
-                <img src="./images/profile_img.jpg" alt="">
-            </div> *@
+
             <div class="info">
                 <p class="name">@ViewBag.senderName</p>
             </div>
@@ -67,7 +65,16 @@
 
     connection.start().then(function () {
         console.log("SignalR Connected");
+
+        // Scroll to the bottom of the chat window when the page is loaded
+        scrollToBottom();
     });
+
+    // Function to scroll to the bottom of the chat window
+    function scrollToBottom() {
+        var chatWindow = document.getElementById("Conv");
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+    }
 
     // Receive message from the server
     connection.on("ReceiveMessage", function (messageInput, senderId, date) {
@@ -77,6 +84,9 @@
         } else {
             $("#Conv").append('<div class="response_message"><p class="p_message">' + messageInput + '</p></div>');
         }
+
+        // Scroll to the bottom of the chat window after appending the message
+        scrollToBottom();
     });
 
     // Function to send a message to the Server Basha
@@ -88,6 +98,7 @@
         connection.invoke("SendMessage", messageInput, receiverId, chatId);
     }
 </script>
+
 
 
 

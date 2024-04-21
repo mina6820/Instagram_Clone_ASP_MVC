@@ -25,14 +25,24 @@ namespace Instagram_Clone.Controllers
             this.webHost = webHost;
             this.userManager = userManager;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string UserId)
         {
             //comment
             //comment2
             ProfileUserViewModel profileUserViewModel = new ProfileUserViewModel();
-            Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
-            ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim.Value);
-            ApplicationUser user = context.Users.Include(u=>u.ProfilePicture).FirstOrDefault(u => u.Id== user2.Id);
+            ApplicationUser user = new ApplicationUser();
+            if (UserId == null)
+            {
+                Claim claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+                ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == claim.Value);
+                 user = context.Users.Include(u => u.ProfilePicture).FirstOrDefault(u => u.Id == user2.Id);
+            }
+            else
+            {
+                ApplicationUser user2 = context.Users.FirstOrDefault(u => u.Id == UserId);
+                 user = context.Users.Include(u => u.ProfilePicture).FirstOrDefault(u => u.Id == user2.Id);
+            }
+            
             profileUserViewModel.UserName = user.UserName;
             profileUserViewModel.FirstName = user.FirstName;
             profileUserViewModel.LastName = user.LastName;
