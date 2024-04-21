@@ -804,6 +804,8 @@ img {
   border-radius: 50%;
 }
 
+
+
 /* Media Queries */
 @media (max-width: 767px) {
   .header__buttons--desktop {
