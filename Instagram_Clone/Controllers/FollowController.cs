@@ -23,6 +23,7 @@ namespace Instagram_Clone.Controllers
         private IUserRelationshipRepository userRelationshipRepository;
         private readonly Context context;
 
+        private readonly IChatRepository chatRepository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly INotificationRepository notificationRepository;
         private readonly IChatRepository chatRepository;
@@ -46,6 +47,7 @@ namespace Instagram_Clone.Controllers
             this.notificationRepository = notificationRepository;
             this.chatRepository = chatRepository;
             _notificationHub = notificationHub;
+            chatRepository = _chatRepository;
             //_notificationRepository = notificationRepository;
 
 
