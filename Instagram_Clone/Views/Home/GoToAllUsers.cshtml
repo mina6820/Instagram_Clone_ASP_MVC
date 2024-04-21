@@ -1,4 +1,4 @@
-﻿@* @using Instagram_Clone.ViewModels
+﻿@using Instagram_Clone.ViewModels
 @using Instagram_Clone.Authentication
 @model List<ApplicationUser>
 
@@ -17,25 +17,25 @@
 <body>
     <form class="form-inline" id="searchForm" method="get" asp-action="GoToAllUsers" asp-controller="Home">
         <input class="form-control me-2" placeholder="Search..." id="NameSearch" name="Name" type="text">
-        <button type="submit" class="btn btn-primary">Search</button>
-    </form>
+@*         <button type="submit" class="btn btn-primary">Search</button>
+ *@    </form>
     <div class="container mt-5">
         <div class="d-flex justify-content-center row">
             <div class="col-md-6" id="searchResults">
-                @foreach (var follower in Model.)
+                @foreach (var follower in Model)
                 {
                     <div class="p-3 bg-white text-center">
                         <div class="d-flex flex-row justify-content-between align-items-center mt-2">
-                            <img class="rounded-circle" src="/images/@follower.Follower.?ProfilePicture.Name" width="55">
+                            <img class="rounded-circle" src="/images/@follower.?ProfilePicture.Name" width="55">
                             <div class="d-flex flex-column align-items-start ml-2">
-                                <a class="font-weight-bold" href="/FriendsProfile/index/@follower.FollowerId">@follower.Follower.UserName</a>
+                                <a class="font-weight-bold" href="/FriendsProfile/index/@follower.Id">@follower.UserName</a>
 
                             </div>
-                            <div class="d-flex flex-row align-items-center">
+                            @* <div class="d-flex flex-row align-items-center">
                                 <div class="d-flex flex-row align-items-center mt-2">
-                                    <a href="/Follow/RemoveFollower/@follower.FollowerId" class="btn btn-primary btn-sm" type="button">Remove</a>
+                                    <a href="/Follow/RemoveFollower/@follower.Id" class="btn btn-primary btn-sm" type="button">Remove</a>
                                 </div>
-                            </div>
+                            </div> *@
                         </div>
                     </div>
                 }
@@ -75,4 +75,3 @@
 
 </body>
 </html>
- *@

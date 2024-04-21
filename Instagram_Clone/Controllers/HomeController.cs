@@ -2,6 +2,7 @@ using Instagram_Clone.Repositories.NotificationRepo;
 using Instagram_Clone.Repositories.PostRepo;
 using Instagram_Clone.Repositories.StoryRepo;
 using Instagram_Clone.Repositories.UserFollowRepo;
+using Instagram_Clone.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -209,15 +210,20 @@ namespace Instagram_Clone.Controllers
 
             List<ApplicationUser> searchResults = AllUsers;
 
-            if (Name != null)
+            
+            if (Name == null)
+            {
+                return View("GoToAllUsers", AllUsers);
+            }
+            else
             {
                 searchResults = AllUsers
                     .Where(u => u.UserName.Contains(Name)) // Example search logic, modify according to your requirements
                     .ToList();
+                return View("GoToAllUsers", searchResults);
             }
-
-            ViewBag.UserName = user2.UserName;
-            return View("GoToAllUsers", AllUsers);
+            //ViewBag.UserName = user2.UserName;
+            //return View("GoToAllUsers", AllUsers);
         }
 
         //public IActionResult GetNonFollowees()
