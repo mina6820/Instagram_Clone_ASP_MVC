@@ -25,7 +25,7 @@
                         var currentUserId = ViewBag.SenderId;
                         var userName = currentUserId == chat.SenderId ? chat.Reciever.UserName : chat.Sender.UserName;
                         var profilepicture = currentUserId == chat.SenderId ? chat.Reciever.ProfilePicture?.Name : chat.Sender.ProfilePicture?.Name;
-                        <div class="cart">
+                        <div class="cart" style="width:190px; overflow-x:hidden;">
                             <div>
                                 <div class="img">
                                     <!-- Make sure to use proper syntax to render the profile picture -->

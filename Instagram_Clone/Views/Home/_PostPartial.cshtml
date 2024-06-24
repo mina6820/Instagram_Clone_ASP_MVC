@@ -1,51 +1,44 @@
-﻿
-
-@*
+﻿@*
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
 
-@* <style>
-    .hide_img {
-        display: none;
-    }
-</style> *@
-
 @model List<PostViewModel>
+
 
 <input type="hidden" id="hiddenID" value="@ViewBag.CurrentUserId" />
 @foreach (var post in ViewBag.postsList)@* postsListByDescending(post => post.CreatedAt) *@
 {
-    
+
     <div class="post">
         <div class="info">
             <div class="person">
-                @if(post.ProfilePhoto == null)
+                @if (post.ProfilePhoto == null)
                 {
                     <img src="https://i.ibb.co/3S1hjKR/account1.jpg">
                 }
                 else
                 {
-                    <img  src="~/images/@post.ProfilePhoto.Name"/>
+                    <img src="~/images/@post.ProfilePhoto.Name" />
                 }
-                
+
 
                 <a asp-controller="Profile" asp-action="Index" asp-route-userId="@post.UserId">@post.UserName</a>
                 <span class="circle">.</span>
                 <span>@post.TimeAgo</span>
             </div>
-           @*  <div class="more">
-                <img src="./images/show_more.png" alt="show more">
-            </div> *@
+            @*  <div class="more">
+        <img src="./images/show_more.png" alt="show more">
+        </div> *@
 
             <div class="more">
 
-                      <img src="./images/show_more.png" alt="show more" id="showMoreButton">
-                
+                <img src="./images/show_more.png" alt="show more" id="showMoreButton">
 
-                     @*  <select id="selectOptions"  style="display: none;">
-                    <option value="update">Update</option>
-                    <option value="delete" id=" deleteOption">Delete</option>
-                </select> *@
+
+                @*  <select id="selectOptions"  style="display: none;">
+            <option value="update">Update</option>
+            <option value="delete" id=" deleteOption">Delete</option>
+            </select> *@
             </div>
 
         </div>
@@ -74,15 +67,16 @@
             <div class="icons">
                 <div class="icon_left d-flex">
                     @* <div class="like">
-                        <img class="not_loved" src="./images/love.png">
-                        <img class="loved" src="./images/heart.png">
-                    </div> *@
+                <img class="not_loved" src="./images/love.png">
+                <img class="loved" src="./images/heart.png">
+                </div> *@
 
 
-                    <button style="background-color:transparent;border:none;" class="like" onclick="Like(@post.ID)">
+                    <button style="background-color:transparent;border:none;" class="like" onclick="Like('@post.ID')">
                         <img class="not-loved" id="not-Loved-@post.ID" src="./images/love.png">
                         <img class="loved" id="loved-@post.ID" src="./images/heart.png">
                     </button>
+
 
                     <div class="chat">
                         <button type="button" class="btn p-0" onclick="comment(@post.ID)" data-bs-toggle="modal" data-bs-target="#message_modal">
@@ -106,12 +100,12 @@
             <div class="post_desc">
                 <p>
                     <a class="bold" href="#">@post.UserName</a>
-                        @post.Caption
-                    </p>
-                    <p><a class="gray" href="#">View all 2 comments</a></p>
-                    <input type="text" placeholder="Add a comments...">
-                </div>
+                    @post.Caption
+                </p>
+                <p><a class="gray" href="#">View all 2 comments</a></p>
+                <input type="text" placeholder="Add a comments...">
             </div>
+        </div>
     </div>
 
 
@@ -124,9 +118,9 @@
 
 
 
-    }
+}
 
-  @* ----------------start comment --------------------- *@
+@* ----------------start comment --------------------- *@
 
 <div class="modal fade" id="message_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -145,7 +139,7 @@
                         <div class="input">
                             <img src="/images/profile_img.jpg" alt="">
                             <input type="text" id="emoji_comment" name="comment" placeholder="Add a comment..." />
-                            <input type="hidden" id="postIdInput" name="postId" /> 
+                            <input type="hidden" id="postIdInput" name="postId" />
                         </div>
 
                         <input type="submit" asp-controller="Post" asp-action="SaveComment" style="display:none;" />
@@ -158,82 +152,86 @@
         </div>
     </div>
 
-  @* ----------------end comment --------------------- *@
+    @* ----------------end comment --------------------- *@
 
 
-  @* --------------------- start delete ----------------------- *@
-   @*  <div class="modal fade" id="delete_post_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                     <h1 class="modal-title fs-5" id="exampleModalLabel">Comments</h1> 
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <h1>messi</h1>
-                <div class="modal-body">
-                    <div class="comments">
-                        <div class="comment">
-                        
-                                <div class="d-flex">
-                                    <div class="img">
-                                        <img src="/images/profile_img.jpg" alt="">
-                                    </div>
-                                    <div class="content">
-                                        <div class="person">
-                                            <span>3j</span>
-
-
-                                        </div>
-                                         <p>Wow amzing shot</p> 
-                                        <p>@comment.Content</p> 
-                                        <div class="replay">
-                                            <button class="replay">replay</button>
-                                            <button class="translation">see translation</button>
-                                        </div>
-                                        <div class="answers">
-                                            <button class="see_comment">
-                                                <span class="hide_com">Hide all responses</span>
-                                                <span class="show_c">
-                                                    <span class="line"></span> See the <span>
-                                                        1
-                                                    </span> answers
-                                                </span>
-                                            </button>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                
-
-                        
-                               
-                              
-            
-                <div class="modal-footer">
-                    <form method="post">
-                        <div class="input">
-                            <img src="/images/profile_img.jpg" alt="">
-                            <input type="text" id="emoji_comment" placeholder="Add a comment..." />
-                        </div>
-
-                        <input type="submit" asp-controller="Post" asp-action="SaveComment"/>
-                        <!-- <div class="emogi">
-                            <img src="/images/emogi.png" alt="">
-                        </div> -->
-                    </form>
-                </div>
-            </div>
-        </div>
+    @* --------------------- start delete ----------------------- *@
+    @*  <div class="modal fade" id="delete_post_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+    <div class="modal-header">
+    <h1 class="modal-title fs-5" id="exampleModalLabel">Comments</h1>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
- *@
+    <h1>messi</h1>
+    <div class="modal-body">
+    <div class="comments">
+    <div class="comment">
 
-  @* ------------------------ end delete ------------------------------- *@
+    <div class="d-flex">
+    <div class="img">
+    <img src="/images/profile_img.jpg" alt="">
+    </div>
+    <div class="content">
+    <div class="person">
+    <span>3j</span>
+
+
+    </div>
+    <p>Wow amzing shot</p>
+    <p>@comment.Content</p>
+    <div class="replay">
+    <button class="replay">replay</button>
+    <button class="translation">see translation</button>
+    </div>
+    <div class="answers">
+    <button class="see_comment">
+    <span class="hide_com">Hide all responses</span>
+    <span class="show_c">
+    <span class="line"></span> See the <span>
+    1
+    </span> answers
+    </span>
+    </button>
+    </div>
+
+    </div>
+    </div>
+
+
+
+
+
+
+    <div class="modal-footer">
+    <form method="post">
+    <div class="input">
+    <img src="/images/profile_img.jpg" alt="">
+    <input type="text" id="emoji_comment" placeholder="Add a comment..." />
+    </div>
+
+    <input type="submit" asp-controller="Post" asp-action="SaveComment"/>
+    <!-- <div class="emogi">
+    <img src="/images/emogi.png" alt="">
+    </div> -->
+    </form>
+    </div>
+    </div>
+    </div>
+    </div>
+    *@
+
+    @* ------------------------ end delete ------------------------------- *@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.12/signalr.min.js"></script>
 
+
     <script>
+
+        console.log("Post Partial");
+
         var currentUserID = document.getElementById("hiddenID").value;
-        console.log(`the ID =  ${currentUserID}`);
+        console.log(the ID = ${ currentUserID });
 
         var hub = new signalR.HubConnectionBuilder().withUrl("/PostH").build();
 
@@ -242,41 +240,31 @@
         });
 
         function Like(postID) {
-            var notLoveImg = document.getElementById(`not-Loved-${postID}`);
-            var loveImg = document.getElementById(`loved-${postID}`);
-            if (loveImg.style.display=="none") {
-                // loveImg.classList.remove("hide_img");
-                // notLoveImg.classList.add("hide_img");
-                notLoveImg.style.display = "none";
-                loveImg.style.display = "block";
-                
+            var imgElement = document.getElementById(not - Loved - ${ postID })
+            if (!imgElement.classList.contains("hide_img")) {
                 hub.invoke("AddLike", postID, currentUserID);
-                
+                console.log("Invoke")
             }
             else {
-                loveImg.style.display = "none";
-                notLoveImg.style.display = "block";
-                
                 hub.invoke("DeleteLike", postID, currentUserID);
-                
             }
 
         }
 
-    hub.on("ReceiveLikes", function (postID, likesCount) {
-        var element = document.getElementById(`likedCount-${postID}`);
-        element.textContent = likesCount + " Likes" ;
-    })
+        hub.on("ReceiveLikes", function (postID, likesCount) {
+            var element = document.getElementById(likedCount - ${ postID });
+            element.textContent = likesCount + " Likes";
+        })
 
-    // function comment(postId)
-    // {
-    //     hub.invoke("ShowComments" , postId)
-    // }
+        // function comment(postId)
+        // {
+        //     hub.invoke("ShowComments" , postId)
+        // }
 
         var postID;
 
-    function comment(postId){
-       
+        function comment(postId) {
+
             $.ajax({
                 url: "/Post/Comment",
                 data: { postId: postId },
@@ -284,9 +272,9 @@
                     console.log("comment action executed succefully", data);
                     const array = data["$values"];
                     DisplayComments(array);
-                   
 
-                    
+
+
                 },
             });
 
@@ -294,7 +282,7 @@
 
             // Set the value of the input field to the value of the variable
             inputElement.value = postId;
-    }
+        }
         function DisplayComments(comments) {
 
             console.log("----------------------start DisplayComments----------")
@@ -303,42 +291,42 @@
             //console.log("comments", comments);
             let com = "";
             comments.forEach(function (currentValue, index) {
-                 com += `<div class="comment">
-                        <div class="d-flex">
-                            <div class="img">
-                                      <img src="/images/d2acb591-f545-4e9c-981e-f76de25c655c_download.jpeg" alt="">
-                            </div>
-                            <div class="content">
-                                <div class="person">
-                                    <h5>${currentValue.userName}</h5>
-                                    <span>${currentValue.timeAgo}</span>
+                com += `<div class="comment">
+                                <div class="d-flex">
+                                    <div class="img">
+                                              <img src="/images/d2acb591-f545-4e9c-981e-f76de25c655c_download.jpeg" alt="">
+                                    </div>
+                                    <div class="content">
+                                        <div class="person">
+                                            <h5>${currentValue.userName}</h5>
+                                            <span>${currentValue.timeAgo}</span>
+                                        </div>
+                                        <p>${currentValue.content}</p>
+                                        <div class="replay">
+                                            <button class="replay">replay</button>
+                                            <button class="translation">see translation</button>
+                                        </div>
+                                        <div class="answers">
+                                            <button class="see_comment">
+                                                <span class="hide_com">Hide all responses</span>
+                                                <span class="show_c">
+                                                    <span class="line"></span> See the <span>1</span> answers
+                                                </span>
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <p>${currentValue.content}</p>
-                                <div class="replay">
-                                    <button class="replay">replay</button>
-                                    <button class="translation">see translation</button>
+                                <div class="like">
+                                    <img class="not_loved" src="/images/love.png" alt="">
+                                    <img class="loved" src="/images/heart.png" alt="">
+                                    <p>55</p>
                                 </div>
-                                <div class="answers">
-                                    <button class="see_comment">
-                                        <span class="hide_com">Hide all responses</span>
-                                        <span class="show_c">
-                                            <span class="line"></span> See the <span>1</span> answers
-                                        </span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="like">
-                            <img class="not_loved" src="/images/love.png" alt="">
-                            <img class="loved" src="/images/heart.png" alt="">
-                            <p>55</p>
-                        </div>
-                    </div>`;
+                            </div>`;
 
 
-          
+
             });
-           
+
             const commentsElement = document.getElementById("commentsId");
             commentsElement.innerHTML = com;
             console.log("----------------------end DisplayComments----------")
@@ -347,24 +335,24 @@
 
 
         // start of select statement
-        
-                document.getElementById('showMoreButton').addEventListener('click', function () {
-                var selectOptions = document.getElementById('selectOptions');
-                if (selectOptions.style.display === 'none') {
-                    selectOptions.style.display = 'block';
-                    selectOptions.focus();
-                } else {
-                    selectOptions.style.display = 'none';
-                }
-            });
 
-       
+        document.getElementById('showMoreButton').addEventListener('click', function () {
+            var selectOptions = document.getElementById('selectOptions');
+            if (selectOptions.style.display === 'none') {
+                selectOptions.style.display = 'block';
+                selectOptions.focus();
+            } else {
+                selectOptions.style.display = 'none';
+            }
+        });
+
+
 
         // document.getElementById('deleteOption').addEventListener('click', function () {
         //     // Show the delete post modal
         //     //$('#delete_post_modal').modal('show');
         //     document.getElementById('delete_post_modal').classList.add('show');
-        // }); 
+        // });
 
 
         // document.getElementById('selectOptions').addEventListener('change', function () {
@@ -407,8 +395,7 @@
 
         // end of select statement
 
-   
 
 
-</script>
 
+    </script>
